@@ -1,0 +1,14 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+.page_wrap {text-align:center; font-size:0; padding-top: 30px; padding-bottom: 30px; margin-bottom: 120px;}
+
+.page_nation {display:inline-block;}
+.page_nation .none {display:none;}
+.page_nation a {display:block; margin:0 3px; float:left; border:1px solid #e6e6e6; width:28px; height:28px; line-height:28px; text-align:center; background-color:#fff; font-size:13px; color:#999999; text-decoration:none; }
+.page_nation a.active {background-color:#42454c; color:#fff; border:1px solid #42454c;}
+
+.page_nation .arrow {text-indent: -999em; border:1px solid #ccc;}
+.page_nation .pprev {background:#f8f8f8 url('../image/page_pprev.png') no-repeat center center; margin-left:0;}
+.page_nation .prev {background:#f8f8f8 url('../image/page_prev.png') no-repeat center center; margin-right:7px; }
+.page_nation .next {background:#f8f8f8 url('../image/page_next.png') no-repeat center center; margin-left:7px;}
+.page_nation .nnext {background:#f8f8f8 url('../image/page_nnext.png') no-repeat center center; margin-right:0;}

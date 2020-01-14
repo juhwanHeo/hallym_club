@@ -1,0 +1,76 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+/* common */
+body, th, td, input, textarea, button, select {font-family:'나눔고딕','Nanum Gothic','맑은 고딕','Malgun Gothic'; font-size:15px;}
+body, form, p, h1, h2, h3, h4, h5, h6 {margin:0; padding:0;}
+body, th, td, h1, h2, h3, h4, h5, h6 {line-height:1.8;}
+textarea {line-height:1.5;}
+hr {display:none;}
+a {color:#333; text-decoration:none;}
+a:hover {color:#369; text-decoration:underline;}
+input, textarea, button, select {box-sizing:border-box; margin:0.25em 0; vertical-align:middle;}
+input[type="radio"],
+input[type="checkbox"] {margin-left:0.25em; margin-right:0.25em;}
+input[type="image"] {border-radius:0;}
+img {border:0; vertical-align:middle;}
+table {border-spacing:0;}
+
+.blind {position:absolute; overflow:hidden; width:1px; height:1px;}
+.hidden {display:none;}
+.b, b, strong, h1, h2, h3, h4, h5, h6 {font-weight:600;} /* 400, 600, 700 */
+.i {font-style:italic;}
+
+/* layout */
+html, body {height:100%;}
+
+#wrap {float:left; position:relative; overflow:hidden; width:100%; min-width:1200px; min-height:100%; text-align:center;}
+
+#header {position:relative; overflow:hidden; width:1200px; max-width:100%; height:100px; margin:0 auto; z-index:400;}
+#header h1 {position:absolute; top:25px; left:0;}
+#header h1 img {float:left;}
+#header .skip {position:absolute; top:-999px; left:-999px; overflow:hidden; width:1px; height:1px; z-index:490;}
+#header .skip:active, #header .skip:focus {top:10px; left:10px; width:auto; height:auto; padding:0.8em 1.2em; border:1px solid #999; background:#FFA;}
+
+#snb {float:right; height:30px; margin:35px 0; padding:0; list-style:none;}
+#snb li {float:left; height:14px; margin:8px 0; padding:0; border-left:1px solid #999;}
+#snb li:first-child {border:0;}
+#snb a {float:left; height:30px; margin:-8px 0; padding:0 10px;}
+#snb .txt {float:left; height:30px; margin:-8px 0; padding:0 10px;}
+
+#gnb {position:absolute; top:0; left:300px; width:600px; height:100px; margin:0; padding:0; list-style:none;}
+#gnb li {float:left; width:150px; height:100px; margin:0; padding:0;}
+#gnb a {float:left; width:150px; height:100px; font-weight:600; font-size:18px; line-height:100px; text-align:center;}
+
+#visual {position:relative; overflow:hidden; width:100%; height:400px;}
+#visual img {position:absolute; top:0; left:-960px; right:-960px; margin:0 auto;}
+
+#content {padding-bottom:12em; text-align:justify; z-index:200;}
+
+.latest {width:1200px; height:350px; margin:0 auto;}
+.notice {float:left; position:relative; width:560px; height:350px;}
+.notice h2 {height:83px; border-bottom:2px solid #797979; font-size:20px; line-height:110px;}
+.notice ul {margin:15px 0 0; padding:0; list-style:none;}
+.notice li {position:relative; overflow:hidden; height:35px; margin:0; padding:0 90px 0 0; line-height:35px; text-overflow:ellipsis; white-space:nowrap;}
+.notice li a {float:left; overflow:hidden; max-width:100%; text-overflow:ellipsis;}
+.notice .date {position:absolute; top:0; right:0; color:#888; font-style:normal;}
+.notice .more {position:absolute; top:40px; right:0;}
+.notice .more:after {margin-left:10px; content:'\002B';}
+.notice .more:hover {color:#333; text-decoration:none;}
+.banner {float:right; width:580px; height:260px; margin:45px 0;}
+.banner h2 {position:absolute; overflow:hidden; width:1px; height:1px;}
+
+.club {padding:20px 0 50px; background:#F3F3F3;}
+.club .intro {overflow:hidden; width:1200px; margin:0 auto;}
+.club h2 {position:absolute; overflow:hidden; width:1px; height:1px;}
+.club ul {width:1275px; margin:0 0 0 -75px; padding:0; list-style:none;}
+.club li {float:left; width:348px; height:132px; margin:30px 0 0 75px; padding:0; border:1px solid #B4B4B4; background:#FFF;}
+.club .thm {float:left; overflow:hidden; width:100px; height:100px; margin:16px; border-radius:30px;}
+.club .thm .logo {width:100px; height:100px;}
+.club .tit {margin-top:12px; font-weight:600; font-size:18px;}
+.club .note { padding-right:15px; line-height:1.6; height: 50px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;}
+.club .tag {font-size:13px; color:#888;}
+
+.star-btn {background-color: white; border: none; float:right; margin-right:15px;}
+
+#footer {position:absolute; left:0; bottom:0; width:100%; height:8em; background:#666; color:#FFF; z-index:300;}
+#footer address {padding:3em 0 0; font-style:normal;}

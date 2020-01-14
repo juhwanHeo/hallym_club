@@ -1,0 +1,27 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+ul {list-style: none;}
+ul li {display: inline;}
+select {border: 1px solid #dddddd; height: 30px; background: #fff; margin-right: 20px;}
+input[type="text"] {height: 30px; border: 1px solid #dddddd; width: 300px; padding-left: 10px; padding-right: 50px;}
+button{cursor: pointer;}
+/* layout */
+#content {padding-bottom:3em; z-index:200;}
+
+.info_tit{width:900px; margin:20px auto; text-align:justify;}
+
+.category {background: #F3F3F3; position: relative; overflow: hidden; width: 900px; max-width: 100%; margin: 0 auto; margin-top: -130px;}
+.category .title {font-weight: 600; font-size: 18px; margin-right: 40px;}
+.category .category-btn { position: relative; right: 53px; text-indent: -999em;	width: 50px; height: 30px; background: url(../image/btn.gif) no-repeat 50% 50%; border: 0;}
+
+.tbl-div {width: 1200px; max-width: 100%; margin: 0 auto; z-index: 400;}
+
+.tbl {width: 900px; margin: 0 auto; table-layout: fixed; }
+.tbl th {background-color: #F3F3F3; border-top: 3px solid #888; font-weight: normal;}
+.tbl td {overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 2.7; }
+.tbl th, td {border-bottom: 1px solid #DDD; line-height: 2.7; }
+
+.write-btn {float: right; position: relative; top:20px; right:150px; display: inline-block; background: #4c4c4d; border-radius: 2px; color: #fff; font-size: 15px;
+ padding: 0 15px; height: 44px; line-height: 44px; text-align: center; font-weight: 600; cursor: pointer; margin-left: -72px; z-index: 100;}
+.write-btn, .write-btn:HOVER {text-decoration: none; color: #fff;}
+#page {clear: both; width: 100%; text-align: center; margin: 10px auto;}
