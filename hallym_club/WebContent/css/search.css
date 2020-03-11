@@ -1,0 +1,36 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+ul {list-style: none;}
+ul li {display: inline;}
+select {border: 1px solid #dddddd; height: 30px; background: #fff; margin-right: 20px;}
+input[type="text"] {height: 30px; border: 1px solid #dddddd; width: 300px; padding-left: 10px; padding-right: 50px;}
+button{cursor: pointer;}
+/* layout */
+#content {text-align:justify; z-index:200;}
+
+.category {padding: 20px 5px 5px; background: #F3F3F3; position: relative; overflow: hidden; width: 1200px; max-width: 100%; margin: 0 auto;}
+.category .title {font-weight: 600; font-size: 18px; margin-right: 40px;}
+.category .category-btn { position: relative; right: 53px; text-indent: -999em;	width: 50px; height: 30px; background: url(../image/btn.gif) no-repeat 50% 50%; border: 0;}
+
+.result {width:1200px; margin:0 auto;}
+.result h4{height:50px; border-bottom:2px solid #797979; line-height: 70px;}
+
+.latest {width:1200px; height:350px; margin:0 auto; border-bottom: 1px solid #797979;}
+
+.star {position: relative; top: -26px; left:700px;}
+.star-btn {background-color: white; border: none;}
+
+.logo {float:left;  width:350px; height:180px; margin: 45px 25px;}
+.logo .img{width: 300px; height:250px;}
+
+.tbl-info {float:right; width:800px; height:260px;}
+.tbl-info h3 {line-height: 110px; height: 65px;}
+
+.tbl {width:750px; border-collapse: collapse; table-layout: fixed; color: #666666;}
+.tbl th {background-color: #F3F3F3; line-height: 2.5; font-weight: 690;}
+.tbl tr {border : 1px solid #DDD; border-left-style: none; border-right-style: none;}
+.tbl td {overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.tbl th, td {padding-left:20px;}
+
+.tbl-btn {float:right; margin-right:50px; margin-top:30px; background: #3b5998; width:120px; height:30px; color:white; border:none; border-radius: 5px; cursor: pointer;}
+

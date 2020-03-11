@@ -1,0 +1,10 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+.logo .img {margin-top: -52px;} 
+
+.num_item {display: inline-block;; width: 58px; height: 50px; position: relative; top: 0; padding-top: 2px; font-weight: 300; font-size: 26px; background: #000; color: #fff; text-align: center;}
+
+.result{border-bottom: 2px solid #797979;}
+
+#content .result ul {margin-left: -40px;}
+#content .result li {margin-right: 10px;}

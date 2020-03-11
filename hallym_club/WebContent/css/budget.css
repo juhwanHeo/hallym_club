@@ -1,0 +1,37 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+#up-btn {text-align: justify; margin-bottom: 10px;}
+
+.io-btn {margin-right:10px; margin-top:30px; background: white; width:100px; height:30px; color:black; border: 2px solid #3b5998; border-radius: 5px; cursor: pointer;}
+.io-btn-select {margin-right:10px; margin-top:30px; background: #3b5998; width:100px; height:30px; color:white; border: 2px solid #3b5998; border-radius: 5px; cursor: pointer;}
+
+#bg_table {border-collapse: collapse; border-top: 3px solid #168; max-height:550px;  display: block; overflow: auto;}
+/* #bg_table tbody {display: block; max-height:550px; overflow: auto;} */
+
+
+#bg_table th:nth-of-type(1), #bg_table td:nth-of-type(1) { width: 30px; }
+#bg_table th:nth-of-type(2), #bg_table td:nth-of-type(2) { width: 200px; }
+#bg_table th:nth-of-type(3), #bg_table td:nth-of-type(3) { width: 500px; }
+#bg_table th:last-child { width: 150px; }
+#bg_table td:last-child { width: calc( 100px - 19px );  }
+
+#bg_table input[type=text] {width:100%; line-height: 2.5; padding-left: 10px;}
+#bg_table th {background: #f0f6f9; color: #168; padding-left: 10px;}
+#bg_table th,td,tr {line-height: 3.0; border: 1px solid #dddddd;}
+
+#bg_table .del-btn {margin-right:10px; background: #3b5998; width:100px; height:30px; color:white; border: 2px solid #3b5998; border-radius: 5px; cursor: pointer;}
+#bg_table .bg {background: #f0f6f9; color: #168;}
+
+#below {float:right; margin-right: 80px; margin-top: 10px;}
+#below .save-btn {margin-right:10px; background: #3b5998; width:100px; height:30px; color:white; border: 2px solid #3b5998; border-radius: 5px; cursor: pointer;}
+
+/* total_budget */
+.search-btn {text-indent: -999em;	width: 30px; height: 30px; background: url(../image/btn.gif) no-repeat 50% 50%; border: 0; cursor: pointer;}
+
+.total-tbl {float: left; border-top: 3px solid #168; table-layout: fixed; height:400px; display: block; overflow: auto;}
+.total-tbl th {background: #f0f6f9; color: #168; border-top: 1px solid #168;}
+.total-tbl th,tr,td { padding-left: 10px;}
+.total-tbl td {overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.cont {max-width: 200px; width: 200px;}
+.price {text-align: right; max-width: 100px; width:100px; padding-right: 10px;}

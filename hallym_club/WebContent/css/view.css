@@ -1,0 +1,35 @@
+@import url('//fonts.googleapis.com/css?family=Nanum+Gothic:400,700&subset=korean');
+
+ul {list-style: none;}
+ul li {display: inline;}
+select {border: 1px solid #dddddd; height: 30px; background: #fff; margin-right: 20px;}
+input[type="text"] {height: 30px; border: 1px solid #dddddd; width: 300px; padding-left: 10px; padding-right: 50px;}
+button{cursor: pointer;}
+/* layout */
+#content {padding-bottom:3em; z-index:200;}
+
+.info_tit {width:900px; margin:20px auto; text-align:justify;}
+
+/* view */
+.view-lay {text-align:justify; width:900px; margin: 0 auto;}
+
+.view-top { background : #F3F3F3; border-top: 2px solid #888; border-bottom: 1px solid #a5adbd; padding: 20px 40px;}
+.view-top p {font-size:20px; font-weight: 500;}
+
+.view-info span {margin-right: 30px; border-left: 1px solid #ddd; padding-left: 10px;}
+.view-info strong {display: inline-block; padding: 0 10px 0 0;}
+
+.view-con { padding: 40px 40px; border-bottom: 1px solid #888; white-space:pre;}
+
+.view-btn {text-align: right; margin-top: 25px;}
+
+.list-btn {display: inline-block; background: #4c4c4d; border-radius: 2px; color: #fff; font-size: 15px; padding: 0 15px; height: 54px; line-height: 54px; text-align: center; font-weight: 600;}
+.list-btn, .list-btn:HOVER {text-decoration: none; color: #fff;}
+
+/* write */
+.write-tbl {width: 900px; border-top: 2px solid #DDD;}
+.write-tbl td {border-bottom: 1px solid #DDD; line-height: 3.0;}
+
+.write-btn {text-align: right; margin-top: 10px;}
+.input-btn {display: inline-block; background: #4c4c4d; border: none; border-radius: 5px; color: #fff; font-size: 15px; padding: 0 15px; 
+height: 54px; line-height: 54px; text-align: center; font-weight: 600; cursor: pointer; margin-left: 10px;}
