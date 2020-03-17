@@ -1,1 +1,1 @@
-# hallym_club
+# hallym_club 동아리 관리 플랫폼
