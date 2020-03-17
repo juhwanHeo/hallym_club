@@ -19,7 +19,7 @@
 </head>
 <body>
 	<jsp:useBean id="itemDAO" class="item.ItemDAO" />
-	<jsp:useBean id="dao" class="exam.jdbc.ClubDAO" />
+	<jsp:useBean id="dao" class="club.ClubDAO" />
 	<jsp:useBean id="agreeDAO" class="club_Agree.ClubAgreeDAO" />
 
 	<%

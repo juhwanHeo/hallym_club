@@ -21,7 +21,7 @@ button{cursor: pointer;}
 .tbl td {overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 2.7; }
 .tbl th, td {border-bottom: 1px solid #DDD; line-height: 2.7; }
 
-.write-btn {float: right; position: relative; top:2px; right:150px; display: inline-block; background: #4c4c4d; border-radius: 2px; color: #fff; font-size: 15px;
+.write-btn {float: right; position: relative; top:125px; right:150px; display: inline-block; background: #4c4c4d; border-radius: 2px; color: #fff; font-size: 15px;
  padding: 0 15px; height: 44px; line-height: 44px; text-align: center; font-weight: 600; cursor: pointer; margin-left: -72px; z-index: 100;}
 .write-btn, .write-btn:HOVER {text-decoration: none; color: #fff;}
 #page {clear: both; width: 100%; text-align: center; margin: 10px auto;}

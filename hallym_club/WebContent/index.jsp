@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="bbs.*"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="exam.jdbc.ClubVO"%>
+<%@page import="club.ClubVO"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,10 +17,10 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
-		}
+			String username = null;
+			if (session.getAttribute("username") != null) {
+		username = (String) session.getAttribute("username");
+			}
 	%>
 
 	<div id="wrap">
@@ -43,7 +43,7 @@
 						<jsp:useBean id="bbsDao" class="bbs.BbsDAO" />
 						<%
 							ArrayList<Bbs> bbs = bbsDao.get_intro(1, "007001");
-							for (Bbs vo : bbs) {
+											for (Bbs vo : bbs) {
 						%>
 						<li><a
 							href="view.jsp?BOARD_NO=<%=vo.getBOARD_NO()%>&club_id=1&board_cd=007001"><%=vo.getTITLE()%></a>
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 
-			<jsp:useBean id="clubDao" class="exam.jdbc.ClubDAO" />
+			<jsp:useBean id="clubDao" class="club.ClubDAO" />
 
 			<div class="club">
 				<div class="intro">
@@ -97,7 +97,7 @@
 					</ul>
 					<%
 						} else {
-										ArrayList<ClubVO> list = clubDao.getClubIntro(username);
+													ArrayList<ClubVO> list = clubDao.getClubIntro(username);
 					%>
 					<ul>
 						<%
@@ -108,7 +108,7 @@
 								<img class="logo" src="upload/club/<%=vo.getIntro_save_file_nm()%>"
 									onerror="this.src='image/error.png'" alt="">
 
-							</div> <jsp:useBean id="dao" class="exam.jdbc.ClubDAO" /> <%String star_state = dao.getStar(vo.getClub_id(), username);%>
+							</div> <jsp:useBean id="dao" class="club.ClubDAO" /> <%String star_state = dao.getStar(vo.getClub_id(), username);%>
 							<div class="tit">
 								<%-- <a href="club_search.jsp?search=<%=vo.getClub_nm()%>"><%=vo.getClub_nm()%></a> --%>
 								<a href="club_intro.jsp?club_id=<%=vo.getClub_id()%>"><%=vo.getClub_nm()%></a>

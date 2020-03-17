@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ page import = "Student.StudentDAO" %>
+<%@ page import = "student.StudentDAO" %>
 <%@ page import = "java.io.PrintWriter" %>
-<jsp:useBean id="userdata" class="Student.StudentVO" scope="page"/>
+<jsp:useBean id="userdata" class="student.StudentVO" scope="page"/>
 
 <jsp:setProperty name="userdata" property="username"/>
 <jsp:setProperty name="userdata" property="password"/>

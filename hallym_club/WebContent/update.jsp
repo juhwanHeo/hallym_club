@@ -20,48 +20,48 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-			String username = null;
-			if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
-			}
+		String username = null;
+		if (session.getAttribute("username") != null) {
+			username = (String) session.getAttribute("username");
+		}
 
-			if (username == null) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인이 필요합니다.')");
-		script.println("location.href='login.jsp'");
-		script.println("</script>");
-			}
+		if (username == null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인이 필요합니다.')");
+			script.println("location.href='login.jsp'");
+			script.println("</script>");
+		}
 
-			int club_id = 1;
-			String board_cd = "007001";
+		int club_id = 1;
+		String board_cd = "007001";
 
-			if (request.getParameter("club_id") != null) {
-		club_id = Integer.parseInt(request.getParameter("club_id"));
-			}
-			if (request.getParameter("board_cd") != null) {
-		board_cd = request.getParameter("board_cd");
-			}
-			
-			int BOARD_NO = 0;
-			if (request.getParameter("BOARD_NO") != null) {
-			    BOARD_NO = Integer.parseInt(request.getParameter("BOARD_NO"));
-			}
-		      if (BOARD_NO == 0) {
-		          PrintWriter script = response.getWriter();
-		          script.println("<script>");
-		          script.println("alert('유효하지 않은 글 입니다.')");
-		          script.println("location.href='board.jsp?club_id="+club_id+"&board_cd="+board_cd+"'");
-		          script.println("</script>");
-		       }
-		     Bbs bbs = new BbsDAO().getBbs(BOARD_NO);
-		      if (!username.equals(bbs.getINPUT_ID())) {
-		          PrintWriter script = response.getWriter();
-		          script.println("<script>");
-		          script.println("alert('권한이 없습니다.')");
-		          script.println("history.back()");
-		          script.println("</script>");            
-		       }
+		if (request.getParameter("club_id") != null) {
+			club_id = Integer.parseInt(request.getParameter("club_id"));
+		}
+		if (request.getParameter("board_cd") != null) {
+			board_cd = request.getParameter("board_cd");
+		}
+
+		int BOARD_NO = 0;
+		if (request.getParameter("BOARD_NO") != null) {
+			BOARD_NO = Integer.parseInt(request.getParameter("BOARD_NO"));
+		}
+		if (BOARD_NO == 0) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('유효하지 않은 글 입니다.')");
+			script.println("location.href='board.jsp?club_id=" + club_id + "&board_cd=" + board_cd + "'");
+			script.println("</script>");
+		}
+		Bbs bbs = new BbsDAO().getBbs(BOARD_NO);
+		if (!username.equals(bbs.getINPUT_ID())) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('권한이 없습니다.')");
+			script.println("history.back()");
+			script.println("</script>");
+		}
 	%>
 
 	<div id="wrap">
@@ -74,7 +74,8 @@
 			</div>
 
 			<div class="view-lay">
-				<form method="post" action="updateAction.jsp?BOARD_NO=<%=BOARD_NO%> ">
+				<form method="post"
+					action="updateAction.jsp?BOARD_NO=<%=BOARD_NO%> ">
 					<table class="write-tbl">
 						<tr>
 							<td>분류/제목</td>
@@ -114,13 +115,13 @@
 						<tr>
 							<td>내용</td>
 							<td><textarea name="CONTENTS" id="bbsTitle" rows="20"
-									style="width: 100%; resize: none;"><%= bbs.getCONTENTS() %></textarea></td>
+									style="width: 100%; resize: none;"><%=bbs.getCONTENTS()%></textarea></td>
 						</tr>
 					</table>
 
 					<div class="write-btn">
-						<input type="submit" class="input-btn" value="수정">
-						<input type="reset" class="input-btn" name="취소" value="취소"
+						<input type="submit" class="input-btn" value="수정"> <input
+							type="reset" class="input-btn" name="취소" value="취소"
 							onclick="history.back();">
 					</div>
 				</form>

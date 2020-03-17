@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>한림대학교 동아리</title>
-<jsp:useBean id="DAO" class="exam.jdbc.ClubDAO" />
+<jsp:useBean id="DAO" class="club.ClubDAO" />
 <link rel="stylesheet" type="text/css" href="css/club_main.css">
 </head>
 <body>

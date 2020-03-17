@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@page import="exam.jdbc.ClubVO"%>
+<%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -42,15 +42,15 @@ table.type03 td {
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		int club_id = 1;
+			int club_id = 1;
 
-		if (request.getParameter("club_id") != null) {
-			club_id = Integer.parseInt(request.getParameter("club_id"));
-		}
+			if (request.getParameter("club_id") != null) {
+		club_id = Integer.parseInt(request.getParameter("club_id"));
+			}
 	%>
 
 
-	<jsp:useBean id="CV_dao" class="exam.jdbc.ClubDAO" />
+	<jsp:useBean id="CV_dao" class="club.ClubDAO" />
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
 

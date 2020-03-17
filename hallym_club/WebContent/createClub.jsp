@@ -42,7 +42,7 @@ float: right;
 <%request.setCharacterEncoding("UTF-8");%>
 
 
-<jsp:useBean id="CV_dao" class="exam.jdbc.ClubDAO"/>
+<jsp:useBean id="CV_dao" class="club.ClubDAO"/>
 
 <h2>신규 동아리 등록</h2>
 <form method="post" action="clubCreateAction.jsp" enctype="multipart/form-data" onsubmit="return check_form();">

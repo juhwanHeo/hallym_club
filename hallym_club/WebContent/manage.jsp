@@ -2,9 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@page import="java.net.URLEncoder"%>
 
-<%@page import="exam.jdbc.ClubVO"%>
+<%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="exam.jdbc.ClubDAO"%>
+<%@page import="club.ClubDAO"%>
 
 <%@page import="clubMember.ClubMemberVo"%>
 <%@ page import="java.io.PrintWriter"%>

@@ -18,35 +18,34 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-			String username = null;
-			if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
-			}
+		String username = null;
+		if (session.getAttribute("username") != null) {
+			username = (String) session.getAttribute("username");
+		}
 
-	 		if (username == null) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인이 필요합니다.')");
-		script.println("location.href='login.jsp'");
-		script.println("</script>");
-			} 
-	 		else if (! username.equals("admin")){
-	 			PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('관리자 권환이 필요합니다.')");
-		script.println("location.href='index.jsp'");
-		script.println("</script>");
-	 		}
+		if (username == null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인이 필요합니다.')");
+			script.println("location.href='login.jsp'");
+			script.println("</script>");
+		} else if (!username.equals("admin")) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('관리자 권환이 필요합니다.')");
+			script.println("location.href='index.jsp'");
+			script.println("</script>");
+		}
 
-			int club_id = 1;
-			String board_cd = "007001";
+		int club_id = 1;
+		String board_cd = "007001";
 
-			if (request.getParameter("club_id") != null) {
-		club_id = Integer.parseInt(request.getParameter("club_id"));
-			}
-			if (request.getParameter("board_cd") != null) {
-		board_cd = request.getParameter("board_cd");
-			}
+		if (request.getParameter("club_id") != null) {
+			club_id = Integer.parseInt(request.getParameter("club_id"));
+		}
+		if (request.getParameter("board_cd") != null) {
+			board_cd = request.getParameter("board_cd");
+		}
 	%>
 
 	<div id="wrap">

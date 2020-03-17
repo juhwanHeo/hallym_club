@@ -29,29 +29,29 @@
 			script.println("alert('로그인을 하세요.')");
 			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
-		} 
+		}
 		//글이 유효한지 판별
 
 		int BOARD_NO = 0;
 		if (request.getParameter("BOARD_NO") != null) {
 			BOARD_NO = Integer.parseInt(request.getParameter("BOARD_NO"));
 		}
-		
-        int club_id = 1;
-		String board_cd = "007001";	
+
+		int club_id = 1;
+		String board_cd = "007001";
 		if (request.getParameter("club_id") != null) {
 			club_id = Integer.parseInt(request.getParameter("club_id"));
-		}		
+		}
 		if (request.getParameter("board_cd") != null) {
 			board_cd = request.getParameter("board_cd");
-		}	
+		}
 
 		if (BOARD_NO == 0) {
 
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('유효하지 않은 글 입니다.')");
-			script.println("location.href='board.jsp?club_id="+club_id+"&board_cd="+board_cd+"'");
+			script.println("location.href='board.jsp?club_id=" + club_id + "&board_cd=" + board_cd + "'");
 			script.println("</script>");
 
 		}
@@ -61,13 +61,13 @@
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권한이 없습니다.')");
-			script.println("location.href='board.jsp?club_id="+club_id+"&board_cd="+board_cd+"'");
-			script.println("</script>");				
+			script.println("location.href='board.jsp?club_id=" + club_id + "&board_cd=" + board_cd + "'");
+			script.println("</script>");
 
 		} else {
 			if (request.getParameter("TITLE") == null || request.getParameter("CONTENTS") == null
 
-					|| request.getParameter("TITLE").equals("") || request.getParameter("CONTENTS").equals("") ) {
+					|| request.getParameter("TITLE").equals("") || request.getParameter("CONTENTS").equals("")) {
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('입력이 안된 사항이 있습니다')");
@@ -86,12 +86,11 @@
 				} else {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("location.href='board.jsp?club_id="+club_id+"&board_cd="+board_cd+"'");
+					script.println("location.href='board.jsp?club_id=" + club_id + "&board_cd=" + board_cd + "'");
 					script.println("</script>");
 				}
 			}
 		}
-
 	%>
 
 </body>

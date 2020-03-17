@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="utf-8"%>
-<%@ page import="Student.StudentDAO"%>
-<%@ page import="exam.jdbc.ClubDAO"%>
+<%@ page import="student.StudentDAO"%>
+<%@ page import="club.ClubDAO"%>
 <%@ page import="java.io.PrintWriter"%>
 
-<jsp:useBean id="student_dao" class="Student.StudentDAO" />
-<jsp:useBean id="club_dao" class="exam.jdbc.ClubDAO" />
+<jsp:useBean id="student_dao" class="student.StudentDAO" />
+<jsp:useBean id="club_dao" class="club.ClubDAO" />
 
 <%
 	request.setCharacterEncoding("UTF-8");

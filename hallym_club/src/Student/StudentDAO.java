@@ -1,4 +1,4 @@
-package Student;
+package student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +8,8 @@ import util.JDBCUtil;
 
 public class StudentDAO {
 	private Connection conn = null;
-	private PreparedStatement pstmt= null;;
-	private ResultSet rs= null;
+	private PreparedStatement pstmt = null;;
+	private ResultSet rs = null;
 
 	public int login(String userID, String userPassword) {
 		String SQL = "select PASSWORD from student where STUDENT_ID= ?";
@@ -27,8 +27,8 @@ public class StudentDAO {
 			return -1;// 아이디 없음
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			JDBCUtil.closeResource(rs,pstmt, conn);
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
 		}
 		return -2;// 데이터베이스의 오류
 	}

@@ -26,8 +26,8 @@ public class ItemDAO {
 			return answer;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			JDBCUtil.closeResource(rs,pstmt, conn);
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
 		}
 		return null;
 	}

@@ -1,5 +1,6 @@
 package bbs;
 
+import java.net.Inet4Address;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,11 +18,11 @@ public class BbsDAO {
 	private ResultSet rs = null;
 
 	public int write(Bbs bbs, String INPUT_ID) {
-		String sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_date) "
-				+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'))";
+		String sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_ip,input_date) "
+				+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'))";
 		if (bbs.getStart_date() != null || bbs.getEnd_date() != null) {
-			sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_date,start_date,end_date)"
-					+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'), "
+			sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_ip,input_date,start_date,end_date)"
+					+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'), "
 					+ " TO_DATE(?,'yyyy-mm-dd'), TO_DATE(?,'yyyy-mm-dd'))";
 		}
 		java.util.Date dt = new java.util.Date();
@@ -36,7 +37,8 @@ public class BbsDAO {
 			pstmt.setString(3, bbs.getTITLE());
 			pstmt.setString(4, bbs.getCONTENTS());
 			pstmt.setString(5, INPUT_ID);
-			pstmt.setString(6, today);
+			pstmt.setString(6, Inet4Address.getLocalHost().getHostAddress());
+			pstmt.setString(7, today);
 			if (bbs.getStart_date() != null || bbs.getEnd_date() != null) {
 				pstmt.setString(7, bbs.getStart_date());
 				pstmt.setString(8, bbs.getEnd_date());
@@ -78,17 +80,17 @@ public class BbsDAO {
 		String sql = "SELECT COUNT(*) FROM BOARD "
 				+ "WHERE BBSAVAILABLE = 1 AND TITLE LIKE ? AND CLUB_ID = ? AND BOARD_CD = ? ORDER BY BOARD_NO DESC";
 		int total = 0;
-		try{
+		try {
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + condition + "%");
 			pstmt.setInt(2, club_id);
 			pstmt.setString(3, board_cd);
 			rs = pstmt.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				total = rs.getInt(1);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			JDBCUtil.closeResource(rs, pstmt, conn);
@@ -126,7 +128,7 @@ public class BbsDAO {
 				list.add(bbs);
 				hit++;
 			}
-			if(!list.isEmpty()){
+			if (!list.isEmpty()) {
 				list.get(0).setRow_count(getTotal(club_id, board_cd, condition));
 			}
 		} catch (Exception e) {
@@ -224,10 +226,10 @@ public class BbsDAO {
 		return -1;
 	}
 
-	// 추가 , 메인화면 공지사항  가져오기
+	// 추가 , 메인화면 공지사항 가져오기
 	public ArrayList<Bbs> get_intro(int club_id, String board_cd) {
-		String SQL = "SELECT * FROM (SELECT TITLE, BOARD_NO, INPUT_DATE FROM BOARD WHERE CLUB_ID = 1 AND BOARD_CD = ? " +
-				" AND BBSAVAILABLE = 1 ORDER BY BOARD_NO DESC)X WHERE ROWNUM <= 6";
+		String SQL = "SELECT * FROM (SELECT TITLE, BOARD_NO, INPUT_DATE FROM BOARD WHERE CLUB_ID = 1 AND BOARD_CD = ? "
+				+ " AND BBSAVAILABLE = 1 ORDER BY BOARD_NO DESC)X WHERE ROWNUM <= 6";
 		ArrayList<Bbs> list = null;
 		try {
 			conn = JDBCUtil.getConnection();

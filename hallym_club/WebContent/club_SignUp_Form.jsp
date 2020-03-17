@@ -80,8 +80,8 @@ font {
 		request.setCharacterEncoding("UTF-8");
 	%>
 	<jsp:useBean id="CM_dao" class="clubMember.ClubMemberDAO" />
-	<jsp:useBean id="student_dao" class="Student.StudentDAO" />
-	<jsp:useBean id="club_dao" class="exam.jdbc.ClubDAO" />
+	<jsp:useBean id="student_dao" class="student.StudentDAO" />
+	<jsp:useBean id="club_dao" class="club.ClubDAO" />
 	<%
 		String username = null;
 		if (session.getAttribute("username") != null) {

@@ -5,7 +5,7 @@
 <%@ page import="bbs.BbsDAO"%>
 <%@ page import="bbs.Bbs"%>
 <%@ page import="java.io.PrintWriter"%>
-<%@page import="exam.jdbc.ClubVO"%>
+<%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
@@ -13,9 +13,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
-<link rel="stylesheet" type="text/css" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/common.css?after">
 <link rel="stylesheet" type="text/css" href="css/page.css?after">
-<link rel="stylesheet" type="text/css" href="css/board.css?">
+<link rel="stylesheet" type="text/css" href="css/board.css?after">
 <title>한림대학교 동아리</title>
 </head>
 

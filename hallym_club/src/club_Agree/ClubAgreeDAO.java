@@ -80,7 +80,7 @@ public class ClubAgreeDAO {
 		return -1;
 	}
 
-	public ArrayList<String> getAgreeMember(int club_id,int board_no) {
+	public ArrayList<String> getAgreeMember(int club_id, int board_no) {
 		String SQL = "select STUDENT_ID from club_agree_member where CLUB_ID= ? AND board_no= ? ";
 		ArrayList<String> AgreeList = new ArrayList<String>();
 		try {
@@ -101,16 +101,14 @@ public class ClubAgreeDAO {
 		}
 
 		return null;
-		
-	}
-/*
-	public ArrayList<String[]> getAgreeMember_info(ArrayList<String> AgreeList) {
-		for (int i = 0; i < AgreeList.size(); i++) {
-			String SQL = "select STUDENT_ID from club_agree_member where CLUB_ID=" + club_id;
-		}
 
-		String SQL = "select STUDENT_ID from club_agree_member where CLUB_ID=" + club_id;
-		return null;
 	}
-*/
+	/*
+	 * public ArrayList<String[]> getAgreeMember_info(ArrayList<String> AgreeList) {
+	 * for (int i = 0; i < AgreeList.size(); i++) { String SQL =
+	 * "select STUDENT_ID from club_agree_member where CLUB_ID=" + club_id; }
+	 * 
+	 * String SQL = "select STUDENT_ID from club_agree_member where CLUB_ID=" +
+	 * club_id; return null; }
+	 */
 }

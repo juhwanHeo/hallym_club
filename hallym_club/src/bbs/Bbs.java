@@ -5,13 +5,13 @@ public class Bbs {
 
 	private int BOARD_NO;
 
-	private String TITLE; 
+	private String TITLE;
 
-	private String board_cd; 
+	private String board_cd;
 
-	private String INPUT_ID; 
+	private String INPUT_ID;
 
-	private String INPUT_DATE; 
+	private String INPUT_DATE;
 
 	private String CONTENTS;
 	private int bbsAvailable;
@@ -21,8 +21,7 @@ public class Bbs {
 
 	private String start_date;
 	private String end_date;
-	
-	
+
 	public String getStart_date() {
 		return start_date;
 	}

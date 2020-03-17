@@ -1,5 +1,5 @@
-<%@page import="exam.jdbc.ClubDAO"%>
-<%@page import="exam.jdbc.ClubVO"%>
+<%@page import="club.ClubDAO"%>
+<%@page import="club.ClubVO"%>
 <%@page import="java.util.Enumeration"%>
 <%@ page import="java.io.File"%>
 <%@ page import="java.util.Enumeration"%>

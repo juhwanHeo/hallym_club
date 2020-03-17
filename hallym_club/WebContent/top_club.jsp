@@ -2,10 +2,10 @@
 <%@page import="java.util.List"%>
 <%@page import="sun.security.krb5.internal.PAEncTSEnc"%>
 <%@page import="java.net.URLEncoder"%>
-<%@page import="exam.jdbc.ClubVO"%>
+<%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="exam.jdbc.ClubDAO"%>
-<%@page import="Student.StudentDAO"%>
+<%@page import="club.ClubDAO"%>
+<%@page import="student.StudentDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="java.sql.DriverManager,java.sql.Connection,java.sql.Statement,java.sql.ResultSet,java.sql.SQLException,java.util.Arrays"%>
@@ -28,55 +28,55 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-			String username = null;
-			if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
-			}
-
-			String club_gb_cd = ""; //클럽 구분(중앙,과)
-			String club_at_cd = ""; //클럽 속성(학술,운동)
-			String search = "";
-			int pageNumber = 1; //현재 페이지 번호
-
-			if (request.getParameter("club_gb_cd") != null) {
-		club_gb_cd = request.getParameter("club_gb_cd");
-			}
-			if (request.getParameter("club_at_cd") != null) {
-		club_at_cd = request.getParameter("club_at_cd");
-			}
-			if (request.getParameter("search") != null) {
-		search = request.getParameter("search");
-			}
-			if (request.getParameter("pageNumber") != null) {
-		try {
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		} catch (Exception e) {
-			System.out.println("검색 페이지 번호 오류");
+		String username = null;
+		if (session.getAttribute("username") != null) {
+			username = (String) session.getAttribute("username");
 		}
+
+		String club_gb_cd = ""; //클럽 구분(중앙,과)
+		String club_at_cd = ""; //클럽 속성(학술,운동)
+		String search = "";
+		int pageNumber = 1; //현재 페이지 번호
+
+		if (request.getParameter("club_gb_cd") != null) {
+			club_gb_cd = request.getParameter("club_gb_cd");
+		}
+		if (request.getParameter("club_at_cd") != null) {
+			club_at_cd = request.getParameter("club_at_cd");
+		}
+		if (request.getParameter("search") != null) {
+			search = request.getParameter("search");
+		}
+		if (request.getParameter("pageNumber") != null) {
+			try {
+		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+			} catch (Exception e) {
+		System.out.println("검색 페이지 번호 오류");
 			}
+		}
 	%>
 
 	<%
 		String title = "";
-			if (club_at_cd.equals("002001")) {
-		title = "학술 동아리 TOP3";
-			} else if (club_at_cd.equals("002002")) {
-		title = "운동 동아리 TOP3";
-			} else if (club_at_cd.equals("002003")) {
-		title = "봉사 동아리 TOP3";
-			} else if (club_at_cd.equals("002004")) {
-		title = "문화 동아리 TOP3";
-			} else if (club_at_cd.equals("002005")) {
-		title = "종교 동아리 TOP3";
-			} else if (club_at_cd.equals("002006")) {
-		title = "기타 동아리 TOP3";
-			} else if (club_gb_cd.equals("001001")) {
-		title = "중앙 동아리 TOP5";
-			} else if (club_gb_cd.equals("001002")) {
-		title = "과 동아리 TOP5";
-			} else {
-		title = "전체 동아리 TOP5";
-			}
+		if (club_at_cd.equals("002001")) {
+			title = "학술 동아리 TOP3";
+		} else if (club_at_cd.equals("002002")) {
+			title = "운동 동아리 TOP3";
+		} else if (club_at_cd.equals("002003")) {
+			title = "봉사 동아리 TOP3";
+		} else if (club_at_cd.equals("002004")) {
+			title = "문화 동아리 TOP3";
+		} else if (club_at_cd.equals("002005")) {
+			title = "종교 동아리 TOP3";
+		} else if (club_at_cd.equals("002006")) {
+			title = "기타 동아리 TOP3";
+		} else if (club_gb_cd.equals("001001")) {
+			title = "중앙 동아리 TOP5";
+		} else if (club_gb_cd.equals("001002")) {
+			title = "과 동아리 TOP5";
+		} else {
+			title = "전체 동아리 TOP5";
+		}
 	%>
 	<div id="wrap">
 		<div id="header">
@@ -120,7 +120,7 @@
 				</form>
 			</div>
 
-			<jsp:useBean id="dao" class="exam.jdbc.ClubDAO" />
+			<jsp:useBean id="dao" class="club.ClubDAO" />
 			<%
 				ArrayList<ClubVO> gb_list = dao.getTopClub(club_gb_cd, club_at_cd);
 

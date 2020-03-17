@@ -33,7 +33,7 @@ public class BudgetDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			JDBCUtil.closeResource(rs,pstmt, conn);
+			JDBCUtil.closeResource(rs, pstmt, conn);
 		}
 		return total;
 	}

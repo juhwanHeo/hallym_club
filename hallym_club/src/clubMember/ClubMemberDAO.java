@@ -54,7 +54,7 @@ public class ClubMemberDAO {
 			rs = pstmt.executeQuery();
 			rs.next();
 			staff_cd = rs.getString(1);
-//			System.out.println("[getStaff_CD]: " + staff_cd);
+			// System.out.println("[getStaff_CD]: " + staff_cd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
