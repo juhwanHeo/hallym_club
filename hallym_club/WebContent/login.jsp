@@ -40,23 +40,24 @@
 			<div class="box">
 				<div class="h">회원 로그인</div>
 				<div class="info">
-					<form method="post" action="LoginAction.jsp" style="display: block;">
+					<form method="post" action="LoginAction.jsp"
+						style="display: block;">
 						<div class="id">
 							<input type="text" name="username" placeholder="아이디 입력"
-								 onfocus="this.select()" >
+								onfocus="this.select()">
 						</div>
-						
+
 						<div class="pwd">
 							<input type="passWord" name="password" placeholder="비밀번호 입력"
-							 onfocus="this.select()">
+								onfocus="this.select()">
 						</div>
-						
+
 						<div class="ok">
 							<input type="submit" value="로그인 ">
 						</div>
-						
 
-						 <a href='#'
+
+						<a href='#'
 							onclick='javascript:window.open("signUp.jsp","name99", "width=720px,height=720px");'>회원가입</a>
 					</form>
 				</div>

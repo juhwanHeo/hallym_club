@@ -29,7 +29,7 @@
 		} else {
 			ArrayList<String[]> allClubItem = club_DAO.getItems(club_id);
 			System.out.println(allClubItem.size());
-			int join_cd = clubMem_DAO.getJoin_cd(username, club_id);
+			int staff_cd = clubMem_DAO.getStaff_CD(username, club_id);
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -54,7 +54,10 @@
 
 					<tr>
 						<%
-							if (join_cd == 0) {
+							// ^[0-9]*$
+										// /[^0-9]/g,''
+										if (staff_cd == 0) {
+											System.out.println("[club_item.jsp] 물품 수: " + allClubItem.get(index)[2]);
 						%>
 						<td style="border: 1px solid #dddddd;"><input type="text"
 							value=<%=allClubItem.get(index)[0]%>
@@ -63,9 +66,9 @@
 
 						<td style="border: 1px solid #dddddd;"><input type="text"
 							value=<%=allClubItem.get(index)[2]%>
-							style="text-align: center; width: 10%; height: 30px;"
+							style="text-align: center; width: 100%; height: 30px;"
 							name="Tot_cnt"
-							onKeyup="this.value=this.value.replace(/[^0-9]/g,''); numberWithCommas(this);"></td>
+							onKeyup="this.value=this.value.replace(/^[0-9]*$/g,''); numberWithCommas(this);"></td>
 
 						<td style="border: 1px solid #dddddd;"><input type="text"
 							value="<%=allClubItem.get(index)[1]%>"
@@ -100,7 +103,7 @@
 					%>
 				</tbody>
 				<%
-					if (join_cd == 0) {
+					if (staff_cd == 0) {
 				%>
 				<tfoot>
 					<tr>
@@ -117,10 +120,11 @@
 
 				</tfoot>
 				<%
-					}else{%>
-						<tfoot>
-						</tfoot>
-						<%
+					} else {
+				%>
+				<tfoot>
+				</tfoot>
+				<%
 					}
 				%>
 			</table>

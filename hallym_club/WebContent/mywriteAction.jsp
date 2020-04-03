@@ -10,11 +10,9 @@
 <!-- 자바 클래스 사용 -->
 
 <%
-
-   request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 
    response.setContentType("text/html; charset=UTF-8"); //set으로쓰는습관들이세오.
-
 %>
 
 

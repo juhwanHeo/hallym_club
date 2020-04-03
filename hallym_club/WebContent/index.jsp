@@ -17,10 +17,13 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-			String username = null;
-			if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
-			}
+		String username = null;
+		if (session.getAttribute("username") != null) {
+			username = (String) session.getAttribute("username");
+		}
+		if (session.getAttribute("club_id") != null) {
+			session.removeAttribute("club_id");
+		}
 	%>
 
 	<div id="wrap">

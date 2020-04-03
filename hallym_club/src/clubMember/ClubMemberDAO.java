@@ -3,7 +3,6 @@ package clubMember;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -515,7 +514,8 @@ public class ClubMemberDAO {
 
 	}
 
-	public int getJoin_cd(String username, int club_id) {
+	
+	public int getStaff_CD(String username, int club_id) {
 		String sql = "SELECT STAFF_CD FROM club_member where STUDENT_ID= ? AND CLUB_ID= ?";
 		try {
 			conn = JDBCUtil.getConnection();
@@ -537,5 +537,27 @@ public class ClubMemberDAO {
 		}
 		return -1;
 
+	}
+	public String getJoin_cd(String username, int club_id) {
+		String sql = "SELECT join_cd FROM club_member where STUDENT_ID= ? AND CLUB_ID= ?";
+		String join_cd = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			pstmt.setInt(2, club_id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				join_cd=rs.getString(1);
+			}
+			System.out.print("[ClubMemberDAO.getJoin_cd] club_id:" + club_id);
+			System.out.println(", join_cd:" + join_cd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return join_cd;
 	}
 }

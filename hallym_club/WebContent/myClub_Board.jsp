@@ -1,3 +1,4 @@
+<%@page import="clubMember.ClubMemberDAO"%>
 <%@page import="javax.security.auth.callback.ConfirmationCallback"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -19,7 +20,7 @@
 </head>
 <body>
 	<jsp:useBean id="itemDAO" class="item.ItemDAO" />
-	<jsp:useBean id="dao" class="club.ClubDAO" />
+    <%-- <jsp:useBean id="dao" class="club.ClubDAO" /> --%>
 	<jsp:useBean id="agreeDAO" class="club_Agree.ClubAgreeDAO" />
 
 	<%
@@ -61,8 +62,9 @@
 			header_title = "사진";
 		else if (board_cd.equals("007004"))
 			header_title = "일정";
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 
-		int join_cd = dao.getJoin_cd(username, dao.getClubNMs(club_id));
+		int staff_cd = clubMemberDAO.getStaff_CD(username, club_id);
 	%>
 
 
@@ -188,7 +190,7 @@
 					href="mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>">글쓰기</a>
 				<%
 						} else {
-							if (join_cd == 0) {
+							if (staff_cd == 0) {
 					%>
 				<a class="btn"
 					href="mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>">글

@@ -9,11 +9,9 @@
 <%@ page import="java.io.PrintWriter"%>
 
 <%
-
 	request.setCharacterEncoding("UTF-8");
 
 	//sresponse.setContentType("text/html; charset=UTF-8");
-
 %>
 
 <!DOCTYPE html>

@@ -22,7 +22,7 @@
 		String submit_value = request.getParameter("submit");
 			String student_id = request.getParameter("student_id");
 			int join_club = Integer.parseInt(request.getParameter("join_club"));
-			clubMember.ClubMemberDAO dao = new clubMember.ClubMemberDAO();
+			ClubMemberDAO dao = new ClubMemberDAO();
 
 			if (submit_value.equals("승인")) {
 		int result = dao.update(join_club, student_id);

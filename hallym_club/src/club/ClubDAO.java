@@ -212,7 +212,9 @@ public class ClubDAO {
 				String clubItem[] = new String[3];
 				clubItem[0] = rs.getString(1);
 				clubItem[1] = rs.getString(2);
-				clubItem[2] = rs.getString(3);
+				clubItem[2] = rs.getInt(3)+"";
+				System.out.println("[ClubDAO] getItems: " + rs.getInt(3));
+				System.out.println("[ClubDAO] getItems: " + clubItem[2]);
 				allClubItem.add(clubItem);
 			}
 			return allClubItem;
@@ -406,28 +408,28 @@ public class ClubDAO {
 		return null;
 	}
 
-	public int getJoin_cd(String username, String clubNM) {
-		String sql = "SELECT STAFF_CD FROM club_member where STUDENT_ID=" + username
-				+ " AND CLUB_ID=( SELECT CLUB_ID from club where CLUB_NM ='" + clubNM + "')";
-
-		try {
-			conn = JDBCUtil.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				if (rs.getString(1) != null) {
-					if (rs.getString(1).equals("004001") || rs.getString(1).equals("004002"))
-						return 0;
-				}
-			}
-			return 1;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			JDBCUtil.closeResource(rs, pstmt, conn);
-		}
-		return -1;
-	}
+//	public int getJoin_cd(String username, String clubNM) {
+//		String sql = "SELECT STAFF_CD FROM club_member where STUDENT_ID=" + username
+//				+ " AND CLUB_ID=( SELECT CLUB_ID from club where CLUB_NM ='" + clubNM + "')";
+//
+//		try {
+//			conn = JDBCUtil.getConnection();
+//			pstmt = conn.prepareStatement(sql);
+//			rs = pstmt.executeQuery();
+//			if (rs.next()) {
+//				if (rs.getString(1) != null) {
+//					if (rs.getString(1).equals("004001") || rs.getString(1).equals("004002"))
+//						return 0;
+//				}
+//			}
+//			return 1;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			JDBCUtil.closeResource(rs, pstmt, conn);
+//		}
+//		return -1;
+//	}
 
 	public ArrayList<ClubVO> getClubInfo(int club_id) {
 		ArrayList<ClubVO> clubList = null;

@@ -38,7 +38,7 @@
 
    String list = bbsDAO.getCalendar(club_id);
    
-   int join_cd = clubMem_DAO.getJoin_cd(username, club_id);
+   int staff_cd = clubMem_DAO.getStaff_CD(username, club_id);
 %>
 
 
@@ -109,7 +109,7 @@
    <div class="main">
       <div style="max-width: 880px; margin: 0 auto; height: 30px">
          <div style="float: right">
-         <%if(join_cd==0){ %>
+         <%if(staff_cd==0){ %>
             <button class="cal-btn"
                onclick="location.href='mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>'">일정
                등록</button>

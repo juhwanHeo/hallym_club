@@ -1,3 +1,4 @@
+<%@page import="clubMember.ClubMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -23,7 +24,8 @@
 		String open_dt = clubDAO.getOpen_Dt(club_id);
 		String masterNm = clubDAO.getMaster(club_id);
 		
-		int join_cd = clubDAO.getJoin_cd(username, club_name);
+		ClubMemberDAO clubmemberDAO = new ClubMemberDAO(); 
+		int staff_cd = clubmemberDAO.getStaff_CD(username, club_id);
 	%>
 
 	<div id="wrap">
@@ -150,7 +152,7 @@
 						<li style="margin-left: 25px;"><input type="button"
 							value="└개인 정보 동의"
 							onclick="location.href='myClub_Board.jsp?club_id=<%=club_id%>&board_cd=007004';" /></li>
-							<%if (join_cd == 0) { %>
+							<%if (staff_cd == 0) { %>
 						<li style="margin-left: 25px;"><input type="button"
 							value="└개인 정보 동의 목록"
 							onclick="location.href='club_agreeMember.jsp?club_id=<%=club_id%>&title_no=-1';" /></li>
@@ -162,7 +164,7 @@
 					<%
 						/* int join_cd = clubDAO.getJoin_cd(username, club_name); */
 
-						if (join_cd == 0) {
+						if (staff_cd == 0) {
 					%>
 					<ul style="margin-top: 10px; border-bottom: 2px solid #797979;">
 						<li style="font-size: 13px; border-bottom: 0.5px solid #797979;">동아리 관리</li>

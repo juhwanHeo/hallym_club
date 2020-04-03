@@ -40,8 +40,10 @@ public class BbsDAO {
 			pstmt.setString(6, Inet4Address.getLocalHost().getHostAddress());
 			pstmt.setString(7, today);
 			if (bbs.getStart_date() != null || bbs.getEnd_date() != null) {
-				pstmt.setString(7, bbs.getStart_date());
-				pstmt.setString(8, bbs.getEnd_date());
+				pstmt.setString(8, bbs.getStart_date());
+				pstmt.setString(9, bbs.getEnd_date());
+				System.out.println("[BbsDAO]write():" + bbs.getStart_date());
+				System.out.println("[BbsDAO]write():" + bbs.getEnd_date());
 			}
 
 			return pstmt.executeUpdate();
@@ -54,6 +56,9 @@ public class BbsDAO {
 		return -1;
 
 	}
+	
+	
+	
 
 	public int getClubIds(String club_NM) {
 		String SQL = "SELECT CLUB_ID FROM club where CLUB_NM='" + club_NM + "'";

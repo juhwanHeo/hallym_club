@@ -5,7 +5,7 @@
 
 <%
 	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html; charset=UTF-8"); 
+	response.setContentType("text/html; charset=UTF-8");
 %>
 
 <jsp:useBean id="bbs" class="bbs.Bbs" />
