@@ -18,7 +18,7 @@
 ## 개발 환경
  * 서버 : Apache Tomcat 7.0  
  * 데이터베이스 : Oracle 10g Express  
- * 사용중인 언어 : Html, CSS, JSP  
+ * 사용중인 언어 : Html, CSS, JSP, java  
  * 개발 툴 : Eclipse, Oracle SQL Developer  
   
 ## 패치 노트
