@@ -24,4 +24,6 @@
 ## 패치 노트
  * [2020-03-11]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.03.11.md )  
  * [2020-03-18]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.03.18.md )  
- 
+ * [2020-03-28]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.03.28.md )  
+ * [2020-04-03]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.04.03.md )  
+ * [2020-04-05]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.04.05.md )  
