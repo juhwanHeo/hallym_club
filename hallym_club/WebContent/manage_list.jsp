@@ -62,8 +62,15 @@ table.type04 td {
 <body>
 	<%
 		request.setCharacterEncoding("UTF-8");
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 
 		String username = null;
+		int club_id = -1;
+		
+		if (request.getParameter("club_id") != null) {
+			club_id = Integer.parseInt(request.getParameter("club_id"));
+		} 
+		
 		if (session.getAttribute("username") != null) {
 			username = (String) session.getAttribute("username");
 		}
@@ -75,6 +82,15 @@ table.type04 td {
 			script.println("location.href = 'club_search.jsp'");
 			script.println("</script>");
 		}
+		
+		if (clubMemberDAO.getStaff_CD(username, club_id) != 0) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('권환이 없습니다.')");
+			script.println("location.href='index.jsp'");
+			script.println("</script>");
+		}
+		
 
 		String category = "NM";
 		String search = "";
@@ -88,16 +104,13 @@ table.type04 td {
 		}
 		if (request.getParameter("pageNumber") != null) {
 			try {
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			} catch (Exception e) {
-		System.out.println("검색 페이지 번호 오류");
+				System.out.println("검색 페이지 번호 오류");
 			}
 		}
 
-		int club_id = 1;
-		if (request.getParameter("club_id") != null) {
-			club_id = Integer.parseInt(request.getParameter("club_id"));
-		}
+		
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -109,12 +122,13 @@ table.type04 td {
 			<%
 				int totalcount = 0;
 
-					ArrayList<clubMember.ClubMemberVo> member_list = member_dao.getMember(club_id, category, search, pageNumber);
-					try {
-						totalcount = member_list.get(0).getRow_count();
-					} catch (Exception e) {
-					}
-					if (totalcount == 0) {
+				ArrayList<clubMember.ClubMemberVo> member_list = member_dao.getMember(club_id, category, search,
+						pageNumber);
+				try {
+					totalcount = member_list.get(0).getRow_count();
+				} catch (Exception e) {
+				}
+				if (totalcount == 0) {
 			%>
 			<p>검색 결과가 없습니다.</p>
 			<%
@@ -152,7 +166,8 @@ table.type04 td {
 						<td><%=cvo.getPHONE_NO()%></td>
 						<td><%=cvo.getSTAFF_CD()%></td>
 						<td><%=cvo.getJoin_dt()%></td>
-						<input type="hidden" name="student_id" value=<%=cvo.getSTUDENT_ID()%>>
+						<input type="hidden" name="student_id"
+							value=<%=cvo.getSTUDENT_ID()%>>
 						<input type="hidden" name="join_club" value=<%=club_id%>>
 
 						<td><button value=<%=cvo.getSTUDENT_ID()%> name="update"

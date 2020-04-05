@@ -1,3 +1,4 @@
+<%@page import="clubMember.ClubMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.net.URLEncoder"%>
@@ -13,7 +14,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>한림대학교 동아리 </title>
+<title>한림대학교 동아리</title>
 <link rel="stylesheet" type="text/css" href="css/club_main.css">
 <link rel="stylesheet" type="text/css" href="css/table.css">
 
@@ -70,7 +71,7 @@ table.type02 th {
 }
 
 table.type02 td {
-	font-size:13px;
+	font-size: 13px;
 	padding: 3px;
 	vertical-align: top;
 	border-right: 1px solid #ccc;
@@ -132,29 +133,37 @@ a:hover {
 <body>
 	<%
 		String username = null;
-			if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
-			}
+		if (session.getAttribute("username") != null) {
+			username = (String) session.getAttribute("username");
+		}
 
-			if (username == null) {
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인을 하세요.')");
-		script.println("location.href = 'index.jsp'");
-		script.println("</script>");
-			}
+		if (username == null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인을 하세요.')");
+			script.println("location.href = 'index.jsp'");
+			script.println("</script>");
+		}
 
-			int row_index = 0;
+		int row_index = 0;
 
-			if (request.getParameter("row_index") != null) {
-		row_index = Integer.parseInt(request.getParameter("row_index"));
-			}
+		if (request.getParameter("row_index") != null) {
+			row_index = Integer.parseInt(request.getParameter("row_index"));
+		}
 
-			int club_id = 1;
-			if (request.getParameter("club_id") != null) {
-		club_id = Integer.parseInt(request.getParameter("club_id"));
-			}
-			request.setCharacterEncoding("UTF-8");
+		int club_id = 1;
+		if (request.getParameter("club_id") != null) {
+			club_id = Integer.parseInt(request.getParameter("club_id"));
+		}
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
+		if (clubMemberDAO.getStaff_CD(username, club_id) != 0) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('권환이 없습니다. 하세요.')");
+			script.println("location.href='index.jsp'");
+			script.println("</script>");
+		}
+		request.setCharacterEncoding("UTF-8");
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -183,7 +192,7 @@ a:hover {
 				</tr>
 				<%
 					} else {
-								for (clubMember.ClubMemberVo cvo : member_list) {
+						for (clubMember.ClubMemberVo cvo : member_list) {
 				%>
 				<tr onclick="getIndex(this);" id="club_table"
 					style="cursor: pointer">
@@ -271,7 +280,7 @@ a:hover {
 					</tr>
 
 				</table>
-				<input type="submit" value="승인" name="submit" class="manage-btn"> 
+				<input type="submit" value="승인" name="submit" class="manage-btn">
 				<input type="submit" value="거부" name="submit" class="manage-btn">
 				<%
 					}
@@ -298,8 +307,9 @@ a:hover {
 	function getIndex(x){
 		var idx = x.rowIndex-1;
 		document.getElementById("row_index").value = x.rowIndex-1;
-		location.href="manage.jsp?club_id=<%=club_id%>&row_index=" + idx;
-	}
+		location.href="manage.jsp?club_id=<%=club_id%>
+		&row_index=" + idx;
+		}
 	</script>
 
 </body>

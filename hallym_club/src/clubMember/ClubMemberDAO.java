@@ -558,6 +558,7 @@ public class ClubMemberDAO {
 		} finally {
 			JDBCUtil.closeResource(rs, pstmt, conn);
 		}
+		if(join_cd == null) return "";
 		return join_cd;
 	}
 }

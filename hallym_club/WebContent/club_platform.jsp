@@ -1,3 +1,4 @@
+<%@page import="java.io.PrintWriter"%>
 <%@page import="clubMember.ClubMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -16,16 +17,31 @@
 		if (session.getAttribute("username") != null) {
 			username = (String) session.getAttribute("username");
 		}
+		else {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인이 필요헙니다.')");
+			script.println("location.href='login.jsp'");
+			script.println("</script>");
+		}
 
 		int club_id = Integer.parseInt(request.getParameter("club_id"));
 		String club_name = clubDAO.getClubNMs(club_id);
-
-		/* club_NM = "한림특허청"; */
+		
 		String open_dt = clubDAO.getOpen_Dt(club_id);
 		String masterNm = clubDAO.getMaster(club_id);
 		
-		ClubMemberDAO clubmemberDAO = new ClubMemberDAO(); 
-		int staff_cd = clubmemberDAO.getStaff_CD(username, club_id);
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO(); 
+		if (clubMemberDAO.getJoin_cd(username, club_id).equals("008001")) {
+			session.setAttribute("club_id", club_id);
+		} else {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('가입승인이 안된 동아리 입니다.')");
+			script.println("location.href='index.jsp'");
+			script.println("</script>");
+		}
+		int staff_cd = clubMemberDAO.getStaff_CD(username, club_id);
 	%>
 
 	<div id="wrap">

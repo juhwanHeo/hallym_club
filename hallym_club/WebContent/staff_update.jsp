@@ -16,16 +16,16 @@
 
 	<%
 		String student_id = request.getParameter("student_id");
-			int club_id = Integer.parseInt(request.getParameter("club_id"));
-			String staff_cd = request.getParameter("staff");
-			String btn = request.getParameter("btn");
-			String user_name = request.getParameter("user_name");
+		int club_id = Integer.parseInt(request.getParameter("club_id"));
+		String staff_cd = request.getParameter("staff");
+		String btn = request.getParameter("btn");
+		String user_name = request.getParameter("user_name");
 
-			clubMember.ClubMemberDAO dao = new clubMember.ClubMemberDAO();
-			String url = "manage_list.jsp?club_id=" + club_id;
-			
-			if (staff_cd == "")
-		staff_cd = null;
+		clubMember.ClubMemberDAO dao = new clubMember.ClubMemberDAO();
+		String url = "manage_list.jsp?club_id=" + club_id;
+
+		if (staff_cd == "")
+			staff_cd = null;
 	%>
 
 	<%
@@ -44,12 +44,12 @@
 			}
 		} else {
 			int result = dao.update(club_id, student_id, "004001"); //다음 회장
-			
+
 			int result2 = 0;
-			if(!user_name.equals("admin")){
-				 result2 = dao.update(club_id, user_name, "004004"); //전 회장
+			if (!user_name.equals("admin")) {
+				result2 = dao.update(club_id, user_name, "004004"); //전 회장
 			}
-					
+
 			if (result == -1 || result2 == -1) {
 				out.println("<script>");
 				out.print("alert('다시 시도해주세요.');");

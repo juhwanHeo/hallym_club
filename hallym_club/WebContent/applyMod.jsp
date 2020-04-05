@@ -75,35 +75,49 @@ font {
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-			String username = null;
-			if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
-			}
+		String username = null;
+		if (session.getAttribute("username") != null) {
+			username = (String) session.getAttribute("username");
+		} else {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인이 필요헙니다.')");
+			script.println("location.href='login.jsp'");
+			script.println("</script>");
+		}
 
-			int club_id = Integer.parseInt(request.getParameter("club_id"));
-			/* String clunNM = request.getParameter("clubNM2");  */
 
-			clubMember.ClubMemberDAO clubMember = new clubMember.ClubMemberDAO();
+		int club_id = Integer.parseInt(request.getParameter("club_id"));
 
-			String myInfo[] = new String[10];
-			myInfo = clubMember.getUserForm(username, club_id);
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
+
+		if (clubMemberDAO.getJoin_cd(username, club_id).equals("008001")) {
+			session.setAttribute("club_id", club_id);
+		} else {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('가입승인이 안된 동아리 입니다.')");
+			script.println("location.href='index.jsp'");
+			script.println("</script>");
+		}
+		String myInfo[] = new String[10];
+		myInfo = clubMemberDAO.getUserForm(username, club_id);
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
-	
+
 	<div class="main">
 		<form method="post" action="applyMod_Action.jsp">
 			<h2>
 				<input type="text" name="dong_name"
 					value=<%=club_DAO.getClubNMs(club_id)%>
 					style="border: none; Outline: none; font-size: 20pt; text-align: center;"
-					readonly> 동아리 가입 정보 수정 
+					readonly> 동아리 가입 정보 수정
 			</h2>
 			<table class="type03">
 				<tr>
-					<th rowspan="6" width="20%"><br>
-					<br>
-					<br>인 적<br>사 항</th>
+					<th rowspan="6" width="20%"><br> <br> <br>인 적<br>사
+						항</th>
 					<td width="20%">학과<font>*</font></td>
 					<td width="20%"><input type="text" name="MAJOR"
 						value=<%=myInfo[1]%>></td>
@@ -113,7 +127,8 @@ font {
 				</tr>
 				<tr>
 					<td>학번<font>*</font></td>
-					<td><input type="text" name="STUDENT_ID" value=<%=username%> readOnly></td>
+					<td><input type="text" name="STUDENT_ID" value=<%=username%>
+						readOnly></td>
 					<!-- <input type="text" name="STUDENT_ID"></td>  -->
 					<td>성명<font>*</font></td>
 					<td><input type="text" style="width: 62%" name="NM"
