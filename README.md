@@ -18,12 +18,12 @@
 ## 개발 환경
  * 서버 : Apache Tomcat 7.0  
  * 데이터베이스 : Oracle 10g Express  
- * 사용중인 언어 : Html, CSS, JSP  
+ * 사용중인 언어 : Html, CSS, JSP, java  
  * 개발 툴 : Eclipse, Oracle SQL Developer  
   
 ## 패치 노트
- * [2020-03-11]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.03.11.md )  
- * [2020-03-18]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.03.18.md )  
- * [2020-03-28]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.03.28.md )  
- * [2020-04-03]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.04.03.md )  
- * [2020-04-05]( https://github.com/juhwanHeo/hallym_club/blob/master/changeLog/2020.04.05.md )  
+ * [2020-03-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.03.11.md )  
+ * [2020-03-18]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.03.18.md )  
+ * [2020-03-28]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.03.28.md )  
+ * [2020-04-03]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.04.03.md )  
+ * [2020-04-05]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.04.05.md )  
