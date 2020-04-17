@@ -22,8 +22,8 @@
  * 개발 툴 : Eclipse, Oracle SQL Developer  
   
 ## 패치 노트
- * [2020-03-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.03.11.md )  
- * [2020-03-18]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.03.18.md )  
- * [2020-03-28]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.03.28.md )  
- * [2020-04-03]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.04.03.md )  
- * [2020-04-05]( https://github.com/juhwanHeo/hallym_club/blob/master/00 관리/changeLog/2020.04.05.md )  
+ * [2020-03-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.03.11.md )  
+ * [2020-03-18]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.03.18.md )  
+ * [2020-03-28]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.03.28.md )  
+ * [2020-04-03]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.04.03.md )  
+ * [2020-04-05]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.04.05.md )  
