@@ -1,5 +1,5 @@
+<%@page import="user.UserVO"%>
 <%@page import="util.JDBCUtil"%>
-<%@page import="sun.security.krb5.internal.PAEncTSEnc"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="util.JDBCUtil"%>
 <%@page import="java.util.ArrayList"%>
@@ -26,9 +26,11 @@
 <body>
 
 	<%
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 	%>
 
@@ -55,7 +57,7 @@
 					<%
 						response.setContentType("text/html;charset=utf-8;");
 						request.setCharacterEncoding("utf-8"); //charset, Encoding 설정
-						
+
 						Connection conn = null;
 						Statement stmt = null;
 						ResultSet rs = null;
@@ -88,7 +90,7 @@
 								i++;
 							}
 
-						}  catch (Exception e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 						} finally {
 							JDBCUtil.closeResource(rs, stmt, conn);
@@ -145,7 +147,8 @@ var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니�
  
  var tmpArr4 = new Array();
  <%for (int r = 0; r < club_internet.size(); r++) {%>
- tmpArr4[<%=r%>]='<%=club_internet.get(r)%>';
+ tmpArr4[<%=r%>]='<%=club_internet.get(r)%>
+		';
 	<%}%>
 		var ad;
 		var hi;

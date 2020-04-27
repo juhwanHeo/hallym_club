@@ -45,7 +45,7 @@ html, body {height:100%;}
 #gnb li {float:left; width:150px; height:50px; margin:0; padding:0;}
 #gnb li ul {
    background: white;
-   display: none; /* ���ÿ��� ����޴��� �Ⱥ��̰� �ϱ� */
+   display: none;
    width: 25%;
    height: auto;
    padding: 0px;
@@ -59,7 +59,7 @@ html, body {height:100%;}
 #gnb li ul li{float:center; width:150px; height:23px; margin:0; padding:0; }
 
 #gnb li:hover ul {
-   display: block; /* ���콺 Ŀ�� �ø��� ����޴� ���̰� �ϱ� */
+   display: block; 
 }
 #gnb a {float:left; width:150px; height:50px; font-weight:600; font-size:15px; line-height:50px; text-align:center;}
 

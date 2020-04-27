@@ -1,4 +1,5 @@
 
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.net.URLEncoder"%>
@@ -9,7 +10,7 @@
 
 <%@page import="clubMember.ClubMemberDAO"%>
 <%@page import="clubMember.ClubMemberVo"%>
-<%@ page import="java.io.PrintWriter"%>
+<%@page import="java.io.PrintWriter"%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -64,33 +65,36 @@ table.type04 td {
 		request.setCharacterEncoding("UTF-8");
 		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 
-		String username = null;
 		int club_id = -1;
-		
+
 		if (request.getParameter("club_id") != null) {
 			club_id = Integer.parseInt(request.getParameter("club_id"));
-		} 
-		
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
 		}
 
-		if (username == null) {
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		}
+		if (userId == null) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인을 하세요.')");
 			script.println("location.href = 'club_search.jsp'");
 			script.println("</script>");
 		}
-		
-		if (clubMemberDAO.getStaff_CD(username, club_id) != 0) {
+
+		if (session.getAttribute("club_id") != null) {
+			club_id = (Integer) session.getAttribute("club_id");
+		}
+		if (clubMemberDAO.getStaff_CD(userId, club_id) != 0) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권환이 없습니다.')");
 			script.println("location.href='index.jsp'");
 			script.println("</script>");
 		}
-		
 
 		String category = "NM";
 		String search = "";
@@ -109,8 +113,8 @@ table.type04 td {
 				System.out.println("검색 페이지 번호 오류");
 			}
 		}
-
-		
+		System.out.println("[manage_list.jsp] category:" + category);
+		System.out.println("[manage_list.jsp] search:" + search);
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -122,14 +126,17 @@ table.type04 td {
 			<%
 				int totalcount = 0;
 
-				ArrayList<clubMember.ClubMemberVo> member_list = member_dao.getMember(club_id, category, search,
+				ArrayList<ClubMemberVo> member_list = member_dao.getMember(club_id, category, search,
 						pageNumber);
 				try {
 					totalcount = member_list.get(0).getRow_count();
+					System.out.println("[manage_list.jsp] totalcount: "+totalcount);
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				if (totalcount == 0) {
-			%>
+				%>
+				<%-- if (totalcount == 0) {
+			
 			<p>검색 결과가 없습니다.</p>
 			<%
 				} else {
@@ -140,7 +147,7 @@ table.type04 td {
 			</p>
 			<%
 				}
-			%>
+			%> --%>
 
 			<table id="myTable" class="type04" border="1"
 				style="table-layout: fixed;">
@@ -157,8 +164,8 @@ table.type04 td {
 				<%
 					for (clubMember.ClubMemberVo cvo : member_list) {
 				%>
-				<form name="form" method="post" action="join_cd_update.jsp">
-					<tr>
+			<form name="form" method="post" action="join_cd_update.jsp">
+				<tr>
 						<td><%=cvo.getMAJOR()%></td>
 						<td><%=cvo.getGRADE()%></td>
 						<td><%=cvo.getSTUDENT_ID()%></td>
@@ -252,7 +259,7 @@ table.type04 td {
 			</div>
 
 			<div class="category">
-				<form method="post" action="manage_list.jsp?&club_id=<%=club_id%>">
+				<form method="get" action="manage_list.jsp?&club_id=<%=club_id%>">
 					<ul>
 						<li><select name="category">
 								<option value="nm"

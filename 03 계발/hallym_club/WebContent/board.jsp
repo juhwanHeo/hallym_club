@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="javax.security.auth.callback.ConfirmationCallback"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -23,9 +24,15 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		}
+		else {
+			userId = "";
 		}
 		int pageNumber = 1; //기본 페이지 넘버
 		String condition = "";
@@ -91,7 +98,7 @@
 							href="view.jsp?BOARD_NO=<%=board_list.get(i).getBOARD_NO()%>&club_id=<%=club_id%>&board_cd=<%=board_cd%>">
 								<%=board_list.get(i).getTITLE()%></a></td>
 						<td><%=board_list.get(i).getINPUT_ID()%></td>
-						<td><%=board_list.get(i).getINPUT_DATE().substring(0,10) %></td>
+						<td><%=board_list.get(i).getINPUT_DATE().substring(0, 10)%></td>
 						<td><%=board_list.get(i).getOPEN_CNT()%></td>
 					</tr>
 					<%
@@ -102,9 +109,7 @@
 					%>
 				</table>
 
-				<a href="write.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>"
-					class="write-btn">글쓰기</a>
-
+				
 				<div class="page_wrap">
 					<div class="page_nation">
 						<%
@@ -174,6 +179,16 @@
 							<li><input type="text" name="condition" size="30"
 								value="<%=condition%>" onfocus="this.select()">
 								<button type="submit" class="category-btn">검색</button></li>
+							<li>
+							<%
+								if (userId.equals("20185280") || userId.equals("20185304")) {
+							%>
+							<a href="write.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>"
+								class="write-btn">글쓰기</a>
+							<%
+								}
+							%>
+							</li>
 						</ul>
 					</form>
 				</div>

@@ -15,27 +15,28 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-			String club_id = request.getParameter("join_club");
+		String club_id = request.getParameter("join_club");
 	%>
 
 	<%
 		String submit_value = request.getParameter("submit");
-			String student_id = request.getParameter("student_id");
-			int join_club = Integer.parseInt(request.getParameter("join_club"));
-			ClubMemberDAO dao = new ClubMemberDAO();
+		String student_id = request.getParameter("student_id");
+		int join_club = Integer.parseInt(request.getParameter("join_club"));
+		ClubMemberDAO dao = new ClubMemberDAO();
 
-			if (submit_value.equals("승인")) {
-		int result = dao.update(join_club, student_id);
-		if (result == -1) {
-			out.println("<script>");
-			out.print("alert('다시 시도해주세요.');");
-			out.println("</script>");
-		} else {
-			out.println("<script>");
-			out.print("alert('승인 처리 되었습니다.');");
-			out.println("</script>");
+		String staff_cd = dao.getStaff_CD(join_club, student_id);
+		if (submit_value.equals("승인")) {
+			int result = dao.update(join_club, student_id);
+			if (result == -1) {
+				out.println("<script>");
+				out.print("alert('다시 시도해주세요.');");
+				out.println("</script>");
+			} else {
+				out.println("<script>");
+				out.print("alert('승인 처리 되었습니다.');");
+				out.println("</script>");
 
-		}
+			}
 	%>
 	<script>
 		      location.href="manage.jsp?club_id=<%=join_club%>";
@@ -61,14 +62,22 @@
 	</script>
 	<%
 		} else if (submit_value.equals("제명")) {
-			int result = dao.delete(join_club, student_id, "2");
-			if (result == -1) {
+
+			if (!staff_cd.equals("004001")) {
+				int result = dao.delete(join_club, student_id, "2");
+				if (result == -1) {
+					out.println("<script>");
+					out.print("alert('다시 시도해주세요.');");
+					out.println("</script>");
+				} else {
+					out.println("<script>");
+					out.print("alert('제명하였습니다.');");
+					out.println("</script>");
+				}
+			}
+			else {
 				out.println("<script>");
-				out.print("alert('다시 시도해주세요.');");
-				out.println("</script>");
-			} else {
-				out.println("<script>");
-				out.print("alert('제명하였습니다.');");
+				out.print("alert('회장은 제명할수 없습니다..');");
 				out.println("</script>");
 			}
 	%>
@@ -82,7 +91,8 @@
 			out.println("</script>");
 	%>
 	<script>
-				      location.href="manage_list.jsp?club_id=<%=join_club%>";
+				      location.href="manage_list.jsp?club_id=<%=join_club%>
+		";
 	</script>
 	<%
 		}

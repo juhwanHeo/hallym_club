@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="clubMember.ClubMemberDAO"%>
 <%@page import="javax.security.auth.callback.ConfirmationCallback"%>
 
@@ -20,16 +21,17 @@
 </head>
 <body>
 	<jsp:useBean id="itemDAO" class="item.ItemDAO" />
-    <%-- <jsp:useBean id="dao" class="club.ClubDAO" /> --%>
+	<%-- <jsp:useBean id="dao" class="club.ClubDAO" /> --%>
 	<jsp:useBean id="agreeDAO" class="club_Agree.ClubAgreeDAO" />
 
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		String username = null;
-
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
 		int pageNumber = 1; //기본 페이지 넘버
@@ -64,7 +66,7 @@
 			header_title = "일정";
 		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 
-		int staff_cd = clubMemberDAO.getStaff_CD(username, club_id);
+		int staff_cd = clubMemberDAO.getStaff_CD(userId, club_id);
 	%>
 
 
@@ -113,7 +115,7 @@
 							if (board_list.isEmpty()) {
 
 							} else {
-								totalcount = board_list.get(0).getRow_count(); 
+								totalcount = board_list.get(0).getRow_count();
 								for (int i = 0; i < board_list.size(); i++) {
 						%>
 
@@ -132,7 +134,7 @@
 									href="myview.jsp?BOARD_NO=<%=board_list.get(i).getBOARD_NO()%>&club_id=<%=club_id%>&board_cd=<%=board_cd%>">
 										<%=board_list.get(i).getTITLE()%></a></td>
 								<%
-									if (agreeDAO.check_agree(club_id, board_list.get(i).getBOARD_NO(), username) == 1) {
+									if (agreeDAO.check_agree(club_id, board_list.get(i).getBOARD_NO(), userId) == 1) {
 								%>
 								<td>개인정보 사용 동의 <select name="agree_state"
 									onchange="this.form.submit()">
@@ -184,21 +186,21 @@
 					</tbody>
 				</table>
 				<%
-				if (board_cd.equals("007002")) {
-						%>
+					if (board_cd.equals("007002")) {
+				%>
 				<a class="btn"
 					href="mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>">글쓰기</a>
 				<%
-						} else {
-							if (staff_cd == 0) {
-					%>
+					} else {
+						if (staff_cd == 0) {
+				%>
 				<a class="btn"
 					href="mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>">글
 					쓰기</a>
 				<%
-						}
-						}
-					%>
+					}
+					}
+				%>
 				<!-- 페이지 넘기기 -->
 				<div class="page_wrap">
 					<div class="page_nation">

@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="clubMember.ClubMemberDAO"%>
@@ -75,9 +76,11 @@ font {
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		} else {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -91,7 +94,7 @@ font {
 
 		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 
-		if (clubMemberDAO.getJoin_cd(username, club_id).equals("008001")) {
+		if (clubMemberDAO.getJoin_cd(userId, club_id).equals("008001")) {
 			session.setAttribute("club_id", club_id);
 		} else {
 			PrintWriter script = response.getWriter();
@@ -101,7 +104,7 @@ font {
 			script.println("</script>");
 		}
 		String myInfo[] = new String[10];
-		myInfo = clubMemberDAO.getUserForm(username, club_id);
+		myInfo = clubMemberDAO.getUserForm(userId, club_id);
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -120,20 +123,20 @@ font {
 						항</th>
 					<td width="20%">학과<font>*</font></td>
 					<td width="20%"><input type="text" name="MAJOR"
-						value=<%=myInfo[1]%>></td>
+						value=<%=userVO.getMajor()%> readOnly></td>
 					<td width="20%">학년<font>*</font></td>
 					<td width="20%"><input type="text" name="GRADE"
-						value=<%=myInfo[2]%>></td>
+						value=<%=userVO.getGrade()%> readOnly></td>
 				</tr>
 				<tr>
 					<td>학번<font>*</font></td>
-					<td><input type="text" name="STUDENT_ID" value=<%=username%>
+					<td><input type="text" name="STUDENT_ID" value=<%=userId%>
 						readOnly></td>
 					<!-- <input type="text" name="STUDENT_ID"></td>  -->
 					<td>성명<font>*</font></td>
 					<td><input type="text" style="width: 62%" name="NM"
-						value=<%=myInfo[0]%>> <select name="GENDER_CD">
-							<%-- <%myInfo[3]%> --%>
+						value=<%=myInfo[0]%> readOnly> <%-- <select name="GENDER_CD">
+							<%myInfo[3]%>
 							<%
 								if (myInfo[3].equals("003001")) {
 							%>
@@ -147,28 +150,28 @@ font {
 							<%
 								}
 							%>
-					</select></td>
+					</select> --%></td>
 				</tr>
 				<tr>
 					<td>생년월일</td>
 					<td colspan="3"><input type="text" style="width: 99%"
-						name="BIRTH_DT" placeholder="  ex)  19951212" value=<%=myInfo[7]%>></td>
+						name="BIRTH_DT" value=<%=myInfo[7]%> readOnly></td>
 				</tr>
 				<tr>
 					<td>전화번호<font>*</font></td>
 					<td colspan="3"><input type="text" style="width: 99%"
-						name="PHONE_NO" placeholder="  ex)  01012345678"
-						value=<%=myInfo[4]%>></td>
+						name="PHONE_NO" 
+						value=<%=userVO.getPhoneNumber()%> readOnly></td>
 				</tr>
 				<tr>
 					<td>주소</td>
 					<td colspan="3"><input type="text" style="width: 99%"
-						name="ADDRESS" value=<%=myInfo[5]%>></td>
+						name="ADDRESS" value="<%=myInfo[5]%>"></td>
 				</tr>
 				<tr>
 					<td>E-mail</td>
 					<td colspan="3"><input type="text" style="width: 99%"
-						name="EMAIL" value=<%=myInfo[6]%>></td>
+						name="EMAIL" value=<%=userVO.getE_mail()%> readOnly></td>
 				</tr>
 
 				<tr>

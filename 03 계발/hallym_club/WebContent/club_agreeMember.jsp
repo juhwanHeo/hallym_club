@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList"%>
@@ -115,14 +116,12 @@ a:hover {
 </head>
 <body>
 	<%
-		String userID = null;
-
-		if (session.getAttribute("username") != null) {
-
-			userID = (String) session.getAttribute("username");
-
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
-
 		int club_id = Integer.parseInt(request.getParameter("club_id"));
 
 		int title_no = Integer.parseInt(request.getParameter("title_no"));
@@ -166,25 +165,30 @@ a:hover {
 		</div>
 
 		<div class="mainRight">
-			<table class="type04" style="border-top:0px;">
+			<table class="type04" style="border-top: 0px;">
 				<tr>
 					<th style="font-size: 15px; width: 40%;">학번</th>
-					</tr>
-					<tr>
-					
-						<%
-							if (!Title.isEmpty()) {
-								if (title_no == -1)
-									title_no = Integer.parseInt(Title.get(0)[1]);
-								
-									ArrayList<String> AgreeMember = agreeDAO.getAgreeMember(club_id, title_no);
-									if (AgreeMember != null) {
-										for (int i = 0; i < AgreeMember.size(); i++) {%>
-											<tr><td><%=AgreeMember.get(i)%></td></tr>
-										<%}
-									}
-								}
-						%>
+				</tr>
+				<tr>
+
+					<%
+						if (!Title.isEmpty()) {
+							if (title_no == -1)
+								title_no = Integer.parseInt(Title.get(0)[1]);
+
+							ArrayList<String> AgreeMember = agreeDAO.getAgreeMember(club_id, title_no);
+							if (AgreeMember != null) {
+								for (int i = 0; i < AgreeMember.size(); i++) {
+					%>
+				
+				<tr>
+					<td><%=AgreeMember.get(i)%></td>
+				</tr>
+				<%
+					}
+						}
+					}
+				%>
 
 			</table>
 		</div>

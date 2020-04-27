@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -17,9 +18,11 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
 		int club_id = Integer.parseInt(request.getParameter("club_id"));
@@ -29,7 +32,7 @@
 		} else {
 			ArrayList<String[]> allClubItem = club_DAO.getItems(club_id);
 			System.out.println(allClubItem.size());
-			int staff_cd = clubMem_DAO.getStaff_CD(username, club_id);
+			int staff_cd = clubMem_DAO.getStaff_CD(userId, club_id);
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>

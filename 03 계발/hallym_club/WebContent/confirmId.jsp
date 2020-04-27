@@ -26,17 +26,18 @@
 </head>
 <body>
 
+
+<!-- 이 페이지는 사용하지 않는 페이지  -->
 <%request.setCharacterEncoding("UTF-8");%>
- 
     <jsp:useBean id="vo" class="student.StudentVO" />
     <jsp:setProperty property="*" name="vo"/>
     <jsp:useBean id="dao" class="student.StudentJoinDAO"/>
     
     
  <%
- 	
- 	String id = (String)request.getParameter("username");
- 	if(dao.check(id)){%>
+         	String id = (String)request.getParameter("username");
+         	if (dao.check(id)) {
+         %>
  		<center>
  		<h4>이미 사용중인 ID 입니다.</h4>
  				

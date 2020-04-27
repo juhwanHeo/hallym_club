@@ -1,5 +1,6 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 
 <%@ page import="bbs.BbsDAO"%>
 
@@ -12,14 +13,14 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 
-   response.setContentType("text/html; charset=UTF-8"); //set으로쓰는습관들이세오.
+	response.setContentType("text/html; charset=UTF-8"); //set으로쓰는습관들이세오.
 %>
 
 
-   <jsp:useBean id="bbs" class="bbs.Bbs" />
-   <jsp:setProperty property="*" name="bbs" />
-   <jsp:useBean id="bbs_dao" class="bbs.BbsDAO" />
-   
+<jsp:useBean id="bbs" class="bbs.Bbs" />
+<jsp:setProperty property="*" name="bbs" />
+<jsp:useBean id="bbs_dao" class="bbs.BbsDAO" />
+
 
 <!DOCTYPE html>
 
@@ -31,73 +32,64 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>jsp 게시판 웹사이트</title>
+<title>한림대학교 동아리</title>
 
 </head>
 
 <body>
-   <jsp:useBean id="itemDAO" class="item.ItemDAO" />
-   <%
-   
-   String userID = null;
-   
-      if (session.getAttribute("username") != null) {//유저아이디이름으로 세션이 존재하는 회원들은 
+	<jsp:useBean id="itemDAO" class="item.ItemDAO" />
+	<%
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		}
 
-         userID = (String) session.getAttribute("username");//유저아이디에 해당 세션값을 넣어준다.
+		if (bbs.getTITLE() == null || bbs.getCONTENTS() == null) {
 
-      }
- {
+			PrintWriter script = response.getWriter();
 
+			script.println("<script>");
 
+			script.println("alert('입력이 안된 사항이 있습니다')");
 
-         if (bbs.getTITLE() == null || bbs.getCONTENTS() == null) {
+			script.println("history.back()");
 
-            PrintWriter script = response.getWriter();
+			script.println("</script>");
 
-            script.println("<script>");
+		} else {
 
-            script.println("alert('입력이 안된 사항이 있습니다')");
+			BbsDAO BbsDAO = new BbsDAO();
 
-            script.println("history.back()");
+			int result = BbsDAO.write(bbs, userId);
 
-            script.println("</script>");
+			if (result == -1) {
 
-         } else {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('글쓰기에 실패했습니다')");
+				script.println("history.back()");
+				script.println("</script>");
 
-            BbsDAO BbsDAO = new BbsDAO();
+			} else {
 
-            int result = BbsDAO.write(bbs, userID);
-            
-             if (result == -1) {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('글을 작성하였습니다.')");
+				if (bbs.getBoard_cd().equals("007004")) {
+					script.println("location.href='club_calendar.jsp?club_id=" + bbs.getClub_id() + "&board_cd="
+							+ bbs.getBoard_cd() + "'");
+				} else {
+					script.println("location.href='myClub_Board.jsp?club_id=" + bbs.getClub_id() + "&board_cd="
+							+ bbs.getBoard_cd() + "'");
+				}
+				script.println("</script>");
 
-               PrintWriter script = response.getWriter();
-               script.println("<script>");
-               script.println("alert('글쓰기에 실패했습니다')");
-               script.println("history.back()");
-               script.println("</script>");
+			}
 
-            }
-            else { 
-
-               PrintWriter script = response.getWriter();
-               script.println("<script>");
-               script.println("alert('글을 작성하였습니다.')");
-               if(bbs.getBoard_cd().equals("007004")){
-                  script.println("location.href='club_calendar.jsp?club_id="+bbs.getClub_id()+"&board_cd="+bbs.getBoard_cd()+"'");
-               }else{
-                  script.println("location.href='myClub_Board.jsp?club_id="+bbs.getClub_id()+"&board_cd="+bbs.getBoard_cd()+"'");
-               }
-               script.println("</script>");
-
-            }
-
-         }
-      }
-
-
-      
-
-   %>
+		}
+	%>
 
 </body>
 

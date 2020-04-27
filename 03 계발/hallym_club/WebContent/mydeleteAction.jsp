@@ -1,5 +1,5 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-
 	pageEncoding="UTF-8"%>
 
 <%@ page import="bbs.BbsDAO"%>
@@ -9,11 +9,9 @@
 <%@ page import="java.io.PrintWriter"%>
 
 <%
-
 	request.setCharacterEncoding("UTF-8");
 
 	//response.setContentType("text/html; charset=UTF-8");
-
 %>
 
 <!DOCTYPE html>
@@ -24,37 +22,34 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>jsp 게시판 웹사이트</title>
+<title>한림대학교 동아리</title>
 
 </head>
 
 <body>
 
 	<%
-	 int club_id = 1;
-	String board_cd = "007001";
-	
-	if (request.getParameter("club_id") != null) {
+		int club_id = 1;
+		String board_cd = "007001";
 
-		club_id = Integer.parseInt(request.getParameter("club_id"));
+		if (request.getParameter("club_id") != null) {
 
-	}
-	
-	if (request.getParameter("board_cd") != null) {
-		board_cd = request.getParameter("board_cd");
-	}
- 	
- 	 
-
-		String userID = null;
-
-		if (session.getAttribute("username") != null) {//유저아이디이름으로 세션이 존재하는 회원들은 
-
-			userID = (String) session.getAttribute("username");//유저아이디에 해당 세션값을 넣어준다.
+			club_id = Integer.parseInt(request.getParameter("club_id"));
 
 		}
 
-		if (userID == null) {
+		if (request.getParameter("board_cd") != null) {
+			board_cd = request.getParameter("board_cd");
+		}
+
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		}
+
+		if (userId == null) {
 
 			PrintWriter script = response.getWriter();
 
@@ -66,25 +61,25 @@
 
 			script.println("</script>");
 
-		} 
+		}
 
 		int BOARD_NO = 0;
 
-		if(request.getParameter("BOARD_NO") != null){
+		if (request.getParameter("BOARD_NO") != null) {
 
 			BOARD_NO = Integer.parseInt(request.getParameter("BOARD_NO"));
 
 		}
-		
-String bbscd="";
-		
+
+		String bbscd = "";
+
 		if (request.getParameter("BOARD_CD") != null) {
 
 			bbscd = request.getParameter("BOARD_CD");
 
 		}
 
-		if(BOARD_NO == 0) {
+		if (BOARD_NO == 0) {
 
 			PrintWriter script = response.getWriter();
 
@@ -100,7 +95,7 @@ String bbscd="";
 
 		Bbs bbs = new BbsDAO().getBbs(BOARD_NO);
 
-		if(!userID.equals(bbs.getINPUT_ID())) {
+		if (!userId.equals(bbs.getINPUT_ID())) {
 
 			PrintWriter script = response.getWriter();
 
@@ -110,11 +105,11 @@ String bbscd="";
 
 			script.println("location.href='index.jsp'");
 
-			script.println("</script>");			
+			script.println("</script>");
 
 		}
 
-		else{
+		else {
 
 			BbsDAO bbsDAO = new BbsDAO();
 
@@ -137,19 +132,20 @@ String bbscd="";
 				PrintWriter script = response.getWriter();
 
 				script.println("<script>");
-				script.println("alert('삭제되었습니다.')"); 
-				
-				if(board_cd.equals("007004")){
-					script.println("location.href='club_calendar.jsp?club_id="+club_id+"&board_cd="+board_cd+"'");
-				}else{
-					script.println("location.href='myClub_Board.jsp?club_id="+club_id+"&board_cd="+board_cd+"'");
+				script.println("alert('삭제되었습니다.')");
+
+				if (board_cd.equals("007004")) {
+					script.println(
+							"location.href='club_calendar.jsp?club_id=" + club_id + "&board_cd=" + board_cd + "'");
+				} else {
+					script.println(
+							"location.href='myClub_Board.jsp?club_id=" + club_id + "&board_cd=" + board_cd + "'");
 				}
 				script.println("</script>");
 
 			}
 
 		}
-
 	%>
 
 </body>

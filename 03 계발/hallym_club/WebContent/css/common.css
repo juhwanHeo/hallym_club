@@ -37,8 +37,12 @@ html, body {height:100%;}
 #snb a {float:left; height:30px; margin:-8px 0; padding:0 10px;}
 #snb .txt {float:left; height:30px; margin:-8px 0; padding:0 10px;}
 
+
 #gnb {position:absolute; top:0; left:300px; width:600px; height:100px; margin:0; padding:0; list-style:none;}
 #gnb li {float:left; width:150px; height:100px; margin:0; padding:0;}
 #gnb a {float:left; width:150px; height:100px; font-weight:600; font-size:18px; line-height:100px; text-align:center;}
+
+
+
 
 .latest {width:1200px; margin:0 auto;}

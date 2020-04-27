@@ -43,24 +43,32 @@
 				out.print("</script>");
 			}
 		} else {
-			int result = dao.update(club_id, student_id, "004001"); //다음 회장
+			if (!student_id.equals(user_name)) {
+				int result = dao.update(club_id, student_id, "004001"); //다음 회장
 
-			int result2 = 0;
-			if (!user_name.equals("admin")) {
-				result2 = dao.update(club_id, user_name, "004004"); //전 회장
+				int result2 = 0;
+				if (!user_name.equals("admin")) {
+					result2 = dao.update(club_id, user_name, "004004"); //전 회장
+				}
+
+				if (result == -1 || result2 == -1) {
+					out.println("<script>");
+					out.print("alert('다시 시도해주세요.');");
+					out.println("</script>");
+				} else {
+					out.print("<script>");
+					out.print("alert('변경되었습니다.');");
+					//out.print("parent.location.href='" + url + "';");
+					out.print("opener.document.location.reload();");
+					out.print("window.close();");
+					out.print("</script>");
+				}
 			}
-
-			if (result == -1 || result2 == -1) {
+			else {
 				out.println("<script>");
 				out.print("alert('다시 시도해주세요.');");
-				out.println("</script>");
-			} else {
-				out.print("<script>");
-				out.print("alert('변경되었습니다.');");
-				//out.print("parent.location.href='" + url + "';");
-				out.print("opener.document.location.reload();");
 				out.print("window.close();");
-				out.print("</script>");
+				out.println("</script>");
 			}
 		}
 	%>

@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="clubMember.ClubMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -132,12 +133,14 @@ a:hover {
 </head>
 <body>
 	<%
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
-		if (username == null) {
+		if (userId == null) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인을 하세요.')");
@@ -156,7 +159,7 @@ a:hover {
 			club_id = Integer.parseInt(request.getParameter("club_id"));
 		}
 		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
-		if (clubMemberDAO.getStaff_CD(username, club_id) != 0) {
+		if (clubMemberDAO.getStaff_CD(userId, club_id) != 0) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권환이 없습니다. 하세요.')");
@@ -176,7 +179,7 @@ a:hover {
 
 			<jsp:useBean id="member_dao" class="clubMember.ClubMemberDAO" />
 			<%
-				ArrayList<clubMember.ClubMemberVo> member_list = member_dao.club_getMember(club_id, "008003");
+				ArrayList<ClubMemberVo> member_list = member_dao.club_getMember(club_id, "008003");
 			%>
 			<table class="type04" border="1">
 				<tr>
@@ -230,15 +233,15 @@ a:hover {
 							value=<%=member_list.get(row_index).getSTUDENT_ID()%>></td>
 
 						<td>성명<font>*</font></td>
-						<td><input type="text" style="width: 62%" name="NM" id="NM"
+						<td><input type="text" style="width: 80%" name="NM" id="NM"
 							value=<%=member_list.get(row_index).getNM()%> readonly="readonly">
-							<%
+							<%-- <%
 								if (member_list.get(row_index).getGENDER_CD().equals("003001")) {
 										out.println("남성");
 									} else {
 										out.println("여성");
 									}
-							%></td>
+							%> --%></td>
 					</tr>
 					<tr>
 						<td>생년월일</td>
@@ -256,7 +259,8 @@ a:hover {
 						<td>주소</td>
 						<td colspan="3"><input type="text" style="width: 99%"
 							name="ADDRESS" readonly="readonly"
-							value=<%=member_list.get(row_index).getADDRESS()%>></td>
+							value="<%=member_list.get(row_index).getADDRESS()%>"></td>
+
 					</tr>
 					<tr>
 						<td>E-mail</td>

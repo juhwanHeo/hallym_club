@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="bbs.*"%>
@@ -17,12 +18,19 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
+
 		if (session.getAttribute("club_id") != null) {
 			session.removeAttribute("club_id");
+		}
+		
+		if(session.getAttribute("staff_cd") != null) {
+			session.removeAttribute("staff_cd");
 		}
 	%>
 
@@ -30,7 +38,7 @@
 		<div id="header">
 			<jsp:include page="header.jsp"></jsp:include>
 		</div>
-		
+
 		<hr>
 		<div id="visual">
 			<img src="image/visual.jpg" alt="">
@@ -46,12 +54,14 @@
 						<jsp:useBean id="bbsDao" class="bbs.BbsDAO" />
 						<%
 							ArrayList<Bbs> bbs = bbsDao.get_intro(1, "007001");
-											for (Bbs vo : bbs) {
+							if (bbs != null) {
+								for (Bbs vo : bbs) {
 						%>
 						<li><a
 							href="view.jsp?BOARD_NO=<%=vo.getBOARD_NO()%>&club_id=1&board_cd=007001"><%=vo.getTITLE()%></a>
 							<span class="date"><%=vo.getINPUT_DATE()%></span></li>
 						<%
+							}
 							}
 						%>
 					</ul>
@@ -71,18 +81,20 @@
 				<div class="intro">
 					<h2>동아리</h2>
 					<%
-						if (username == null) {
+						if (userId == null) {
 					%>
 					<%
 						ArrayList<ClubVO> list = clubDao.getClubIntro("");
 					%>
 					<ul>
 						<%
-							for (ClubVO vo : list) {
+							if (list != null) {
+									for (ClubVO vo : list) {
 						%>
 						<li>
 							<div class="thm">
-								<img class="logo" src="upload/club/<%=vo.getIntro_save_file_nm()%>"
+								<img class="logo"
+									src="upload/club/<%=vo.getIntro_save_file_nm()%>"
 									onerror="this.src='image/error.png'" alt="">
 							</div>
 							<div class="tit">
@@ -96,11 +108,12 @@
 						</li>
 						<%
 							}
+								}
 						%>
 					</ul>
 					<%
 						} else {
-													ArrayList<ClubVO> list = clubDao.getClubIntro(username);
+							ArrayList<ClubVO> list = clubDao.getClubIntro(userId);
 					%>
 					<ul>
 						<%
@@ -108,31 +121,37 @@
 						%>
 						<li>
 							<div class="thm">
-								<img class="logo" src="upload/club/<%=vo.getIntro_save_file_nm()%>"
+								<img class="logo"
+									src="upload/club/<%=vo.getIntro_save_file_nm()%>"
 									onerror="this.src='image/error.png'" alt="">
 
-							</div> <jsp:useBean id="dao" class="club.ClubDAO" /> <%String star_state = dao.getStar(vo.getClub_id(), username);%>
+							</div> <jsp:useBean id="dao" class="club.ClubDAO" /> <%
+ 	String star_state = dao.getStar(vo.getClub_id(), userId);
+ %>
 							<div class="tit">
 								<%-- <a href="club_search.jsp?search=<%=vo.getClub_nm()%>"><%=vo.getClub_nm()%></a> --%>
 								<a href="club_intro.jsp?club_id=<%=vo.getClub_id()%>"><%=vo.getClub_nm()%></a>
 								<!--여기-->
-								<%if (star_state.equals("Y")) { %>
+								<%
+									if (star_state.equals("Y")) {
+								%>
 								<button type="button" class="star-btn"
 									onclick="location.href='likeAction.jsp?club_id=<%=vo.getClub_id()%>&state=1'">
 									<img src="image/star1.png" width="23" height="23">
 								</button>
 								<%
-							} else if (star_state.equals("N")) {
-							%>
+									} else if (star_state.equals("N")) {
+								%>
 								<button type="button" class="star-btn"
 									onclick="location.href='likeAction.jsp?club_id=<%=vo.getClub_id()%>&state=0'">
 									<img src="image/star0.png" width="23" height="23">
 								</button>
 								<%
-							}%>
+									}
+								%>
 
 							</div>
-							<div class="note"><%=vo.getStaff_cd() %></div>
+							<div class="note"><%=vo.getStaff_cd()%></div>
 							<div class="tag">
 								#<%=vo.getClub_gb_cd()%>
 								#<%=vo.getClub_at_cd()%></div>

@@ -1,7 +1,8 @@
+<%@page import="user.UserVO"%>
 <%@ page import="bbs.BbsDAO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,109 +15,114 @@
 
 <jsp:useBean id="clubMem_DAO" class="clubMember.ClubMemberDAO" />
 <%
-   request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
 
-   int club_id = 1;
-   String board_cd = "";
-   
-   String username = null;
-   if (session.getAttribute("username") != null) {
-      username = (String) session.getAttribute("username");
-   }
-   
-   if (request.getParameter("club_id") != null) {
+	int club_id = 1;
+	String board_cd = "";
 
-      club_id = Integer.parseInt(request.getParameter("club_id"));
+	UserVO userVO = null;
+	String userId = null;
+	if (session.getAttribute("userVO") != null) {
+		userVO = ((UserVO) session.getAttribute("userVO"));
+		userId = userVO.getId();
+	}
 
-   }
+	if (request.getParameter("club_id") != null) {
 
-   if (request.getParameter("board_cd") != null) {
-      board_cd = request.getParameter("board_cd");
-   }
+		club_id = Integer.parseInt(request.getParameter("club_id"));
 
-   BbsDAO bbsDAO = new BbsDAO();
+	}
 
-   String list = bbsDAO.getCalendar(club_id);
-   
-   int staff_cd = clubMem_DAO.getStaff_CD(username, club_id);
+	if (request.getParameter("board_cd") != null) {
+		board_cd = request.getParameter("board_cd");
+	}
+
+	BbsDAO bbsDAO = new BbsDAO();
+
+	String list = bbsDAO.getCalendar(club_id);
+
+	int staff_cd = clubMem_DAO.getStaff_CD(userId, club_id);
 %>
 
 
 <script>
-   /* var arr = new Array();
+	/* var arr = new Array();
 
-    var arrInfo = new Object();
+	 var arrInfo = new Object();
 
-    arrInfo.title = 'zzz22';
-    arrInfo.start = '2019-10-03';
-    arrInfo.end= '2019-10-07';
-    arr.push(arrInfo);
+	 arrInfo.title = 'zzz22';
+	 arrInfo.start = '2019-10-03';
+	 arrInfo.end= '2019-10-07';
+	 arr.push(arrInfo);
 
-    arrInfo = new Object();
-    arrInfo.title = 'zzz';
-    arrInfo.start = '2019-10-01';
-    arrInfo.end= '2019-10-07';
-    arr.push(arrInfo); */
+	 arrInfo = new Object();
+	 arrInfo.title = 'zzz';
+	 arrInfo.start = '2019-10-01';
+	 arrInfo.end= '2019-10-07';
+	 arr.push(arrInfo); */
 
-   /* var jsonInfo = JSON.stringify([{"title":"김as","start":"2019-10-18","end":"2019-10-18"}]); */
-   var jsonInfo = JSON.stringify(
+	/* var jsonInfo = JSON.stringify([{"title":"김as","start":"2019-10-18","end":"2019-10-18"}]); */
+	var jsonInfo = JSON.stringify(
 <%=list%>
-   );
+	);
 </script>
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
+	document.addEventListener('DOMContentLoaded', function() {
+		var calendarEl = document.getElementById('calendar');
 
-      var today = new Date();
-      var yyyy = today.getFullYear();
-      var mm = today.getMonth() + 1;
-      var dd = today.getDate();
+		var today = new Date();
+		var yyyy = today.getFullYear();
+		var mm = today.getMonth() + 1;
+		var dd = today.getDate();
 
-      if (dd < 10) {
-         dd = '0' + dd
-      }
+		if (dd < 10) {
+			dd = '0' + dd
+		}
 
-      if (mm < 10) {
-         mm = '0' + mm
-      }
+		if (mm < 10) {
+			mm = '0' + mm
+		}
 
-      today = yyyy + '-' + mm + '-' + dd;
+		today = yyyy + '-' + mm + '-' + dd;
 
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-         plugins : [ 'interaction', 'dayGrid' ],
-         defaultDate : today,
-         locale : 'ko',
-         displayEventTime : false, //시간 제거
-         eventLimit : 4, // allow "more" link when too many events
-         events : eval(jsonInfo)
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			plugins : [ 'interaction', 'dayGrid' ],
+			defaultDate : today,
+			locale : 'ko',
+			displayEventTime : false, //시간 제거
+			eventLimit : 4, // allow "more" link when too many events
+			events : eval(jsonInfo)
 
-      });
+		});
 
-      calendar.render();
-   });
+		calendar.render();
+	});
 </script>
 <style>
-
 #calendar {
-   max-width: 900px;
-   margin: 0 auto;
+	max-width: 900px;
+	margin: 0 auto;
 }
 </style>
 </head>
 <body>
-   <jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
-   
-   <div class="main">
-      <div style="max-width: 880px; margin: 0 auto; height: 30px">
-         <div style="float: right">
-         <%if(staff_cd==0){ %>
-            <button class="cal-btn"
-               onclick="location.href='mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>'">일정
-               등록</button>
-               <%} %>
-         </div>
-      </div>
-      <div id='calendar' style="max-width: 880px; margin: 0 auto;"></div>
-   </div>
+	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
+
+	<div class="main">
+		<div style="max-width: 880px; margin: 0 auto; height: 30px">
+			<div style="float: right">
+				<%
+					if (staff_cd == 0) {
+				%>
+				<button class="cal-btn"
+					onclick="location.href='mywrite.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>'">일정
+					등록</button>
+				<%
+					}
+				%>
+			</div>
+		</div>
+		<div id='calendar' style="max-width: 880px; margin: 0 auto;"></div>
+	</div>
 </body>
 </html>

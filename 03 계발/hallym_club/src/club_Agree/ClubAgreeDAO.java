@@ -11,7 +11,7 @@ public class ClubAgreeDAO {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 
-	public int agree_save(int club_id, int board_no, String student_id) {
+	public int agree_save(int club_id, int board_no, String user_id) {
 		java.util.Date dt = new java.util.Date();
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 
@@ -24,7 +24,7 @@ public class ClubAgreeDAO {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, club_id);
 			pstmt.setInt(2, board_no);
-			pstmt.setString(3, student_id);
+			pstmt.setString(3, user_id);
 			pstmt.setString(4, currentTime);
 			pstmt.executeUpdate();
 			return 1;
@@ -36,7 +36,7 @@ public class ClubAgreeDAO {
 		return -1; // 데이터베이스 오류
 	}
 
-	public int disagree_save(int club_id, int board_no, String student_id) {
+	public int disagree_save(int club_id, int board_no, String user_id) {
 
 		String SQL = "Delete from club_agree_member where CLUB_ID= ? AND BOARD_NO= ? AND STUDENT_ID= ? ";
 
@@ -45,7 +45,7 @@ public class ClubAgreeDAO {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, club_id);
 			pstmt.setInt(2, board_no);
-			pstmt.setString(3, student_id);
+			pstmt.setString(3, user_id);
 			pstmt.executeUpdate();
 			return 1;
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class ClubAgreeDAO {
 		return -1;
 	}
 
-	public int check_agree(int club_id, int board_no, String student_id) {
+	public int check_agree(int club_id, int board_no, String user_id) {
 		String SQL = "select * from club_agree_member where CLUB_ID= ? AND BOARD_NO=? AND STUDENT_ID= ? ";
 
 		try {
@@ -64,7 +64,7 @@ public class ClubAgreeDAO {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, club_id);
 			pstmt.setInt(2, board_no);
-			pstmt.setString(3, student_id);
+			pstmt.setString(3, user_id);
 			rs = pstmt.executeQuery();
 			if (rs.next())
 				return 1;

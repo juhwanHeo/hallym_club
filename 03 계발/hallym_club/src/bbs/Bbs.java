@@ -2,23 +2,15 @@ package bbs;
 
 public class Bbs {
 	private int club_id;
-
 	private int BOARD_NO;
-
 	private String TITLE;
-
 	private String board_cd;
-
 	private String INPUT_ID;
-
 	private String INPUT_DATE;
-
 	private String CONTENTS;
 	private int bbsAvailable;
-
 	private int OPEN_CNT;
 	private int row_count;
-
 	private String start_date;
 	private String end_date;
 
@@ -111,13 +103,10 @@ public class Bbs {
 	}
 
 	public int getBbsAvailable() {
-
 		return bbsAvailable;
-
 	}
 
 	public void setBbsAvailable(int bbsAvailable) {
-
 		this.bbsAvailable = bbsAvailable;
 	}
 

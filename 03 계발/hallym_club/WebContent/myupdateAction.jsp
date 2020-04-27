@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 
 	pageEncoding="UTF-8"%>
@@ -24,7 +25,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>jsp 게시판 웹사이트</title>
+<title>한림대학교 동아리</title>
 
 </head>
 
@@ -45,16 +46,14 @@
 	  	 }
   	 
   	 
-
-		String userID = null;
-
-		if (session.getAttribute("username") != null) {//유저아이디이름으로 세션이 존재하는 회원들은 
-
-			userID = (String) session.getAttribute("username");//유저아이디에 해당 세션값을 넣어준다.
-
+	  	UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
-		if (userID == null) {
+		if (userId == null) {
 
 			PrintWriter script = response.getWriter();
 
@@ -105,7 +104,7 @@
 
 		Bbs bbs = new BbsDAO().getBbs(BOARD_NO);
 		
-		if (!userID.equals(bbs.getINPUT_ID())) {
+		if (!userId.equals(bbs.getINPUT_ID())) {
 
 			PrintWriter script = response.getWriter();
 

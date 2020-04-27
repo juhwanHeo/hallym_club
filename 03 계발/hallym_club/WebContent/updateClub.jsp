@@ -89,25 +89,29 @@ table.type03 td {
 
 				<tr>
 					<th>분야</th>
-					<td><input type="radio" name="club_at_cd" value="002001"
-						<%if (list.get(0).getClub_at_cd().equals("002001"))
-				out.println("checked='checked'");%> />
-						학술 <input type="radio" name="club_at_cd" value="002002"
-						<%if (list.get(0).getClub_at_cd().equals("002002"))
-				out.println("checked='checked'");%> />
-						운동 <input type="radio" name="club_at_cd" value="002003"
-						<%if (list.get(0).getClub_at_cd().equals("002003"))
-				out.println("checked='checked'");%> />
-						봉사 <input type="radio" name="club_at_cd" value="002004"
-						<%if (list.get(0).getClub_at_cd().equals("002004"))
-				out.println("checked='checked'");%> />
-						문화 <input type="radio" name="club_at_cd" value="002005"
-						<%if (list.get(0).getClub_at_cd().equals("002005"))
-				out.println("checked='checked'");%> />
-						종교 <input type="radio" name="club_at_cd" value="002006"
-						<%if (list.get(0).getClub_at_cd().equals("002006"))
-				out.println("checked='checked'");%> />
-						기타</td>
+					<td>
+						<input type="radio" name="club_at_cd" value="002001"
+							<%if (list.get(0).getClub_at_cd().equals("002001"))
+								out.println("checked='checked'");%> /> 공연
+						<input type="radio" name="club_at_cd" value="002002"
+							<%if (list.get(0).getClub_at_cd().equals("002002"))
+								out.println("checked='checked'");%> /> 학술
+						<input type="radio" name="club_at_cd" value="002003"
+							<%if (list.get(0).getClub_at_cd().equals("002003"))
+								out.println("checked='checked'");%> /> 취미예술
+						<input type="radio" name="club_at_cd" value="002004"
+							<%if (list.get(0).getClub_at_cd().equals("002004"))
+								out.println("checked='checked'");%> /> 종교
+						<input type="radio" name="club_at_cd" value="002005"
+							<%if (list.get(0).getClub_at_cd().equals("002005"))
+								out.println("checked='checked'");%> /> 체육
+						<input type="radio" name="club_at_cd" value="002006"
+							<%if (list.get(0).getClub_at_cd().equals("002006"))
+								out.println("checked='checked'");%> /> 봉사
+						<input type="radio" name="club_at_cd" value="002007"
+							<%if (list.get(0).getClub_at_cd().equals("002007"))
+								out.println("checked='checked'");%> /> 기타
+					</td>
 				</tr>
 
 				<tr>

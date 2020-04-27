@@ -17,6 +17,7 @@
        성공하면 memberSelect.jsp 이동 실패하면 뒤로 이동 시킨다.
  -->
 
+<!-- 이 페이지는 사용하지 않는 페이지  -->
 <%request.setCharacterEncoding("UTF-8");%>
  
     <jsp:useBean id="vo" class="student.StudentVO" />

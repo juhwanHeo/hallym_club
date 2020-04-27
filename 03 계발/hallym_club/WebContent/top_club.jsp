@@ -1,7 +1,6 @@
 
+<%@page import="user.UserVO"%>
 <%@page import="java.util.List"%>
-<%@page import="sun.security.krb5.internal.PAEncTSEnc"%>
-<%@page import="java.net.URLEncoder"%>
 <%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="club.ClubDAO"%>
@@ -28,9 +27,11 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
 		String club_gb_cd = ""; //클럽 구분(중앙,과)
@@ -49,33 +50,46 @@
 		}
 		if (request.getParameter("pageNumber") != null) {
 			try {
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			} catch (Exception e) {
-		System.out.println("검색 페이지 번호 오류");
+				System.out.println("검색 페이지 번호 오류");
 			}
 		}
 	%>
 
 	<%
 		String title = "";
-		if (club_at_cd.equals("002001")) {
-			title = "학술 동아리 TOP3";
-		} else if (club_at_cd.equals("002002")) {
-			title = "운동 동아리 TOP3";
-		} else if (club_at_cd.equals("002003")) {
-			title = "봉사 동아리 TOP3";
-		} else if (club_at_cd.equals("002004")) {
-			title = "문화 동아리 TOP3";
-		} else if (club_at_cd.equals("002005")) {
-			title = "종교 동아리 TOP3";
-		} else if (club_at_cd.equals("002006")) {
-			title = "기타 동아리 TOP3";
-		} else if (club_gb_cd.equals("001001")) {
-			title = "중앙 동아리 TOP5";
-		} else if (club_gb_cd.equals("001002")) {
-			title = "과 동아리 TOP5";
-		} else {
-			title = "전체 동아리 TOP5";
+		switch(club_at_cd) {
+			case "001001":
+				title = "중앙 동아리 TOP5";
+				break;
+			case "001002":
+				title = "과 동아리 TOP5";
+				break;
+			case "002001":
+				title = "공연 동아리 TOP3";
+				break;
+			case "002002":
+				title = "학술 동아리 TOP3";
+				break;
+			case "002003":
+				title = "취미예술 동아리 TOP3";
+				break;
+			case "002004":
+				title = "종교 동아리 TOP3";
+				break;
+			case "002005":
+				title = "체육 동아리 TOP3";
+				break;
+			case "002006":
+				title = "봉사 동아리 TOP3";
+				break;
+			case "002007":
+				title = "기타 동아리 TOP3";
+				break;
+			default:
+				title = "전체 동아리 TOP5";
+				break;
 		}
 	%>
 	<div id="wrap">
@@ -86,40 +100,21 @@
 		<div id="content">
 			<div class="result">
 				<form method="get" action="top_club.jsp" id="frm">
-					<h2><%=title%></h2>
+				    <h2><%=title%></h2>
 					<ul>
-						<!-- 						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="">전체</button></li>
-						<li><button name="club_gb_cd" onclick="this.form.submit()"
-								value="001001">중앙</button></li>
-						<li><button name="club_gb_cd" onclick="this.form.submit()"
-								value="001002">과</button></li>
-
-						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="002001">학술</button></li>
-						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="002002">운동</button></li>
-						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="002003">봉사</button></li>
-						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="002004">문화</button></li>
-						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="002005">종교</button></li>
-						<li><button name="club_at_cd" onclick="this.form.submit()"
-								value="002006">기타</button></li> -->
 						<li class="on"><a href="top_club.jsp?">전체</a></li>
 						<li><a href="top_club.jsp?club_gb_cd=001001 ">중앙</a></li>
 						<li><a href="top_club.jsp?club_gb_cd=001002 ">과</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002001 ">학술</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002002 ">운동</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002003 ">봉사</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002004 ">문화</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002005 ">종교</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002006 ">기타</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002001 ">공연</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002002 ">학술</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002003 ">취미예술</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002004 ">종교</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002005 ">체육</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002006 ">봉사</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002007 ">기타</a></li>
 					</ul>
 				</form>
 			</div>
-
 			<jsp:useBean id="dao" class="club.ClubDAO" />
 			<%
 				ArrayList<ClubVO> gb_list = dao.getTopClub(club_gb_cd, club_at_cd);
@@ -142,14 +137,14 @@
 					<h3><%=vo.getClub_nm()%></h3>
 					<div class="star">
 						<%
-							if (username == null) {
+							if (userId == null) {
 						%>
 						<button type="button" class="star-btn" onclick="postPopUp();">
 							<img src="image/star0.png" width="23" height="23">
 						</button>
 						<%
 							} else {
-									star_state = dao.getStar(vo.getClub_id(), username);
+									star_state = dao.getStar(vo.getClub_id(), userId);
 									if (star_state.equals("Y")) {
 						%>
 						<button type="button" class="star-btn"
@@ -170,7 +165,7 @@
 						<%=dao.getStarCnt(vo.getClub_id())%>
 					</div>
 					<table class="tbl">
-						<tr>
+						<%-- <tr>
 							<th>회원수</th>
 							<td><%=vo.getCnt()%></td>
 							<th>결성년도</th>
@@ -189,15 +184,28 @@
 							<td><%=vo.getStaff_nm()%></td>
 							<th>지도교수</th>
 							<td><%=dao.getProfessor(vo.getClub_id())%></td>
-						</tr>
+						</tr> 
 						<tr>
-							<th>설립 목적</th>
-							<td colspan="3"><%=vo.getClub_aim()%></td>
+						 	<th>설립 목적</th>
+							<td colspan="3"><%=vo.getClub_aim()%></td> 
+						</tr> --%>
+						<% if(vo.getClub_active() == null) {%>
+						
+						<tr style="height: 145px;">
+							<th style="width: 20%">연력</th>
+							<td style="width: 80%">	</td>
 						</tr>
-						<tr>
-							<th>주요 활동</th>
-							<td colspan="3"><%=vo.getClub_active()%></td>
+						
+						<% } else {%>
+						<tr style="height: 145px;">
+							<th style="width: 20%">연력</th>
+							<td style="width: 80%">
+							
+							<%=vo.getClub_active().replace("\r\n", "<br>")%>
+							
+							</td>
 						</tr>
+						<%} %>
 					</table>
 				</div>
 
@@ -218,9 +226,9 @@
 			<%
 				}
 			%>
-
 		</div>
-		<hr>
+	
+ 		<hr>
 		<div id="footer" style="position: relative;">
 			<jsp:include page="footer.jsp"></jsp:include>
 		</div>
@@ -228,7 +236,7 @@
 	</div>
 	<script>
 		function postPopUp() {
-	<%if (username == null) {%>
+	<%if (userId == null) {%>
 		alert("로그인이 필요합니다.");
 			return false;
 	<%} else {%>

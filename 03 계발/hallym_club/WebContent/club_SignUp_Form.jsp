@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
 	import="java.sql.DriverManager,
@@ -83,9 +84,21 @@ font {
 	<jsp:useBean id="student_dao" class="student.StudentDAO" />
 	<jsp:useBean id="club_dao" class="club.ClubDAO" />
 	<%
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		String userName = null;
+		String userPhoneNumber = null;
+		String userEmail = null;
+		String userGrade = null;
+		String userMajor = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+			userName = userVO.getName();
+			userPhoneNumber = userVO.getPhoneNumber();
+			userEmail = userVO.getE_mail();
+			userGrade = userVO.getGrade();
+			userMajor = userVO.getMajor();
 		}
 
 		String club_nm = "";
@@ -97,7 +110,7 @@ font {
 			club_id = Integer.parseInt(request.getParameter("club_id"));
 		}
 
-		int check = CM_dao.overlapCheck(username, club_id);
+		int check = CM_dao.overlapCheck(userId, club_id);
 
 		if (check == 0) {
 			out.print("<script>");
@@ -125,33 +138,36 @@ font {
 				<th rowspan="6" width="20%"><br> <br> <br>인 적<br>사
 					항</th>
 				<td width="20%">학과<font>*</font></td>
-				<td width="20%"><input type="text" name="MAJOR" id="MAJOR"></td>
+				<td width="20%"><input type="text" name="MAJOR" id="MAJOR"
+					readonly="readonly" value=<%=userVO.getMajor()%>></td>
 				<td width="20%">학년<font>*</font></td>
 				<td width="20%"><input type="text" name="GRADE" id="GRADE"
-					placeholder=" ex) 1"></td>
+					readonly="readonly" value=<%=userVO.getGrade()%>></td>
 			</tr>
 			<tr>
 				<td>학번<font>*</font></td>
 				<td><input type="text" name="STUDENT_ID" readonly="readonly"
-					value=<%=username%>></td>
+					value=<%=userId%>></td>
 				<!-- <input type="text" name="STUDENT_ID"></td>  -->
 				<td>성명<font>*</font></td>
-				<td><input type="text" style="width: 62%" name="NM" id="NM">
-					<select name="GENDER_CD" id="GENDER">
+				<td><input type="text" style="width: 100%" name="NM" id="NM"
+					value=<%=userName%> readonly="readonly"></td>
+				<!--<select name="GENDER_CD" id="GENDER">
 						<option value="">성별*</option>
 						<option value="003001">남성</option>
 						<option value="003002">여성</option>
-				</select></td>
+				</select></td> -->
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>생년월일</td>
 				<td colspan="3"><input type="text" style="width: 99%"
 					name="BIRTH_DT" id="BIRTH_DT" placeholder="  ex)  19951212"></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>전화번호<font>*</font></td>
-				<td colspan="3"><input type="text" style="width: 99%"
-					name="PHONE_NO" id="PHONE_NO" placeholder="  ex)  01012345678"></td>
+				<td colspan="3"><input type="text" name="PHONE_NO"
+					id="PHONE_NO" style="width: 99%" readonly="readonly"
+					value=<%=userPhoneNumber%>></td>
 			</tr>
 			<tr>
 				<td>주소</td>
@@ -161,7 +177,7 @@ font {
 			<tr>
 				<td>E-mail</td>
 				<td colspan="3"><input type="text" style="width: 99%"
-					name="EMAIL"></td>
+					name="EMAIL" readonly="readonly" value=<%=userVO.getE_mail()%>></td>
 			</tr>
 
 			<tr>
@@ -177,7 +193,7 @@ font {
 			</tr>
 		</table>
 
-		<div class="bottom">위의 기재한 내용이 틀림없음을 확인하며 가입을 신청합니다.</div>
+		<div class="bottom">다음과 같은 개인정보를 해당 신청한 동아리 회장이 볼 수 있습니다. 이를 동의하며 위의 기재한 내용이 틀림없음을 확인하며 가입을 신청합니다.</div>
 
 		<div class="apply">
 			신청자(학번)<font>*</font> ( <input type="text" style="width: 30%;"
@@ -196,10 +212,10 @@ font {
 			var ck_major = document.getElementById("MAJOR").value;
 			var ck_grade = document.getElementById("GRADE").value;
 			var ck_nm = document.getElementById("NM").value;
-			var ck_gender = document.getElementById("GENDER").value;
+			//var ck_gender = document.getElementById("GENDER").value;
 			var ck_phone = document.getElementById("PHONE_NO").value;
 			var ck_apply = document.getElementById("apply").value;
-			var ck_birth = document.getElementById("BIRTH_DT").value;
+			//var ck_birth = document.getElementById("BIRTH_DT").value;
 
 			var exp = /^[0-9]{1}$/; //숫자만, 글자수 1
 			var exp1 = /^[0-9]{9,13}$/; //숫자만, 전화번호 검증
@@ -220,38 +236,38 @@ font {
 				document.getElementById("NM").focus();
 				return false;
 			}
-			if (ck_gender == "") {
+			/* if (ck_gender == "") {
 				alert("성별을 선택해주세요");
 				document.getElementById("GENDER").focus();
 				return false;
-			}
+			} */
 			if (ck_phone.trim() == "") {
 				alert("전화번호를 입력해주세요.");
 				document.getElementById("PHONE_NO").focus();
 				return false;
 			}
-			if (!ck_phone.match(exp1)) {
+			/* if (!ck_phone.match(exp1)) {
 				alert("전화번호는 -를 제외하고 입력해주세요");
 				document.getElementById("PHONE_NO").focus();
 				return false;
-			}
+			} */
 			if (ck_apply.trim() == "") {
 				alert("서명해주세요.");
 				document.getElementById("apply").focus();
 				return false;
 			}
 			if (ck_apply !=
-	<%=username%>
+	<%=userId%>
 		) {
 				alert("학번을 정확하게 서명해주세요.");
 				document.getElementById("apply").focus();
 				return false;
 			}
-			if (ck_birth.trim() != "" && !ck_birth.match(exp2)) {
+			/* if (ck_birth.trim() != "" && !ck_birth.match(exp2)) {
 				alert("생년월일 순으로 입력해주세요. \n 입력예) 19950101");
 				document.getElementById("BIRTH_DT").focus();
 				return false;
-			}
+			} */
 
 		}
 	</script>

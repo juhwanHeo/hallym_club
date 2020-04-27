@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import club.ClubVO;
+import user.UserDAO;
+import user.UserVO;
 import util.JDBCUtil;
 
 public class ClubDAO {
@@ -16,7 +18,7 @@ public class ClubDAO {
 	private ResultSet rs = null;
 
 	public int getTotal(String gb_cd, String search, String at_cd) {
-		String sql = "SELECT COUNT(*) FROM CLUB WHERE CLUB_ID <> 1 AND CLUB_GB_CD LIKE ? AND CLUB_NM LIKE ? AND CLUB_AT_CD LIKE ?";
+		String sql = "SELECT COUNT(*) FROM CLUB WHERE CLUB_ID <> 1 AND CLUB_GB_CD LIKE ? AND CLUB_NM LIKE ? AND CLUB_AT_CD LIKE ? AND REGISTER_CD='008001'";
 		int total = 0;
 		try {
 			conn = JDBCUtil.getConnection();
@@ -54,7 +56,7 @@ public class ClubDAO {
 
 			sql = "SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY CLUB_NM) AS RK, A.*, NVL(B.NM, ' ') AS STAFF_NM, NVL(B.PHONE_NO, ' ') AS STAFF_NO "
 					+ "FROM CLUB A LEFT OUTER JOIN(SELECT CLUB_ID, NM , PHONE_NO FROM CLUB_MEMBER WHERE STAFF_CD = '004001')B"
-					+ " ON A.CLUB_ID = B.CLUB_ID	WHERE A.CLUB_ID <> 1 AND A.CLUB_GB_CD LIKE ? AND A.CLUB_NM LIKE ? AND A.CLUB_AT_CD LIKE ? "
+					+ " ON A.CLUB_ID = B.CLUB_ID 	WHERE A.CLUB_ID <> 1 AND A.CLUB_GB_CD LIKE ? AND A.CLUB_NM LIKE ? AND A.CLUB_AT_CD LIKE ? AND A.REGISTER_CD='008001' "
 					+ "ORDER BY A.CLUB_NM) WHERE RK > ? AND RK <= ?";
 
 			conn = JDBCUtil.getConnection();
@@ -212,7 +214,7 @@ public class ClubDAO {
 				String clubItem[] = new String[3];
 				clubItem[0] = rs.getString(1);
 				clubItem[1] = rs.getString(2);
-				clubItem[2] = rs.getInt(3)+"";
+				clubItem[2] = rs.getInt(3) + "";
 				System.out.println("[ClubDAO] getItems: " + rs.getInt(3));
 				System.out.println("[ClubDAO] getItems: " + clubItem[2]);
 				allClubItem.add(clubItem);
@@ -227,13 +229,13 @@ public class ClubDAO {
 	}
 
 	// intro, 동아리 조회
-	public ArrayList<ClubVO> getClubIntro(String student_id) {
+	public ArrayList<ClubVO> getClubIntro(String user_id) {
 		ArrayList<ClubVO> clubList = null;
 		String sql = "";
 		try {
-			if (student_id == "") {
+			if (user_id == "") {
 				sql = "SELECT * FROM (SELECT C.CLUB_ID, C.CLUB_NM, C.INTRO_SAVE_FILE_NM, C.CLUB_AIM, C.CLUB_ACTIVE, S.SO_NM AS GB_CD, D.SO_NM AS AT_CD, C.CLUB_CNT "
-						+ "FROM CLUB C, SO_CD S, SO_CD D WHERE C.CLUB_GB_CD = S.SO_CD AND C.CLUB_AT_CD = D.SO_CD "
+						+ "FROM CLUB C, SO_CD S, SO_CD D WHERE C.CLUB_GB_CD = S.SO_CD AND C.CLUB_AT_CD = D.SO_CD AND C.REGISTER_CD='008001'"
 						+ " ORDER BY C.CLUB_CNT DESC) WHERE ROWNUM <= 6";
 				conn = JDBCUtil.getConnection();
 				pstmt = conn.prepareStatement(sql);
@@ -256,10 +258,10 @@ public class ClubDAO {
 				sql = "SELECT S.SO_NM AS GB_CD, D.SO_NM AS AT_CD, T.* FROM SO_CD S, SO_CD D, (SELECT C.CLUB_ID, C.CLUB_NM, C.INTRO_SAVE_FILE_NM, C.CLUB_AIM, C.CLUB_ACTIVE, C.CLUB_GB_CD, C.CLUB_AT_CD, ZZ.STAFF "
 						+ " FROM CLUB C RIGHT OUTER JOIN (SELECT M.CLUB_ID, M.STAFF_CD, S.SO_NM AS STAFF FROM CLUB_MEMBER M, SO_CD S "
 						+ " WHERE M.STAFF_CD = S.SO_CD AND M.STUDENT_ID =? AND M.JOIN_CD = '008001' ORDER BY M.STAFF_CD)ZZ "
-						+ " ON C.CLUB_ID = ZZ.CLUB_ID)T WHERE S.SO_CD = T.CLUB_GB_CD AND D.SO_CD = T.CLUB_AT_CD";
+						+ " ON C.CLUB_ID = ZZ.CLUB_ID AND C.REGISTER_CD='008001')T WHERE S.SO_CD = T.CLUB_GB_CD AND D.SO_CD = T.CLUB_AT_CD";
 				conn = JDBCUtil.getConnection();
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, student_id);
+				pstmt.setString(1, user_id);
 				rs = pstmt.executeQuery();
 				clubList = new ArrayList<ClubVO>();
 				while (rs.next()) {
@@ -342,6 +344,29 @@ public class ClubDAO {
 		return null;
 	}
 
+	public String getClubName(String clubName) {
+
+		String club_name = null;
+		String SQL = "SELECT CLUB_NM FROM club where club_nm=?";
+
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, clubName);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				club_name = rs.getString(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return club_name;
+	}
+
 	public int getClubIds(String club_NM) {
 		String SQL = "SELECT CLUB_ID FROM club where CLUB_NM='" + club_NM + "'";
 		int answer = -1;
@@ -408,28 +433,28 @@ public class ClubDAO {
 		return null;
 	}
 
-//	public int getJoin_cd(String username, String clubNM) {
-//		String sql = "SELECT STAFF_CD FROM club_member where STUDENT_ID=" + username
-//				+ " AND CLUB_ID=( SELECT CLUB_ID from club where CLUB_NM ='" + clubNM + "')";
-//
-//		try {
-//			conn = JDBCUtil.getConnection();
-//			pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			if (rs.next()) {
-//				if (rs.getString(1) != null) {
-//					if (rs.getString(1).equals("004001") || rs.getString(1).equals("004002"))
-//						return 0;
-//				}
-//			}
-//			return 1;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			JDBCUtil.closeResource(rs, pstmt, conn);
-//		}
-//		return -1;
-//	}
+	// public int getJoin_cd(String username, String clubNM) {
+	// String sql = "SELECT STAFF_CD FROM club_member where STUDENT_ID=" + username
+	// + " AND CLUB_ID=( SELECT CLUB_ID from club where CLUB_NM ='" + clubNM + "')";
+	//
+	// try {
+	// conn = JDBCUtil.getConnection();
+	// pstmt = conn.prepareStatement(sql);
+	// rs = pstmt.executeQuery();
+	// if (rs.next()) {
+	// if (rs.getString(1) != null) {
+	// if (rs.getString(1).equals("004001") || rs.getString(1).equals("004002"))
+	// return 0;
+	// }
+	// }
+	// return 1;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// } finally {
+	// JDBCUtil.closeResource(rs, pstmt, conn);
+	// }
+	// return -1;
+	// }
 
 	public ArrayList<ClubVO> getClubInfo(int club_id) {
 		ArrayList<ClubVO> clubList = null;
@@ -463,14 +488,19 @@ public class ClubDAO {
 		return clubList;
 	}
 
-	public int createClub(ClubVO CV, String student_id) {
+	public int createClub(ClubVO CV, String user_id) {
 		String sql = "INSERT INTO CLUB(CLUB_ID, CLUB_NM, CLUB_GB_CD, CLUB_AT_CD, CLUB_CNT, CLUB_AIM, CLUB_ACTIVE, CLUB_ROOM,"
-				+ " OPEN_DT, INTRO_FILE_NM, INTRO_SAVE_FILE_NM, POSTER_FILE_NM, POSTER_SAVE_FILE_NM)"
-				+ " VALUES ((SELECT NVL(MAX(CLUB_ID),0)+1 FROM CLUB),?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " OPEN_DT, INTRO_FILE_NM, INTRO_SAVE_FILE_NM, POSTER_FILE_NM, POSTER_SAVE_FILE_NM, REGISTER_CD)"
+				+ " VALUES ((SELECT NVL(MAX(CLUB_ID),0)+1 FROM CLUB),?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-		String sql2 = "INSERT INTO CLUB_MEMBER(CLUB_ID, STUDENT_ID, STAFF_CD, JOIN_DT, JOIN_CD) VALUES "
-				+ "((SELECT NVL(MAX(CLUB_ID),0) FROM CLUB),?,'004001',TO_DATE(?,'yyyymmdd'),'008001')";
+		String sql2 = "INSERT INTO CLUB_MEMBER(CLUB_ID, STUDENT_ID, STAFF_CD, JOIN_DT, JOIN_CD, NM, MAJOR, GRADE, GENDER_CD,PHONE_NO,EMAIL,BIRTH_DT) VALUES "
+				+ "((SELECT NVL(MAX(CLUB_ID),0) FROM CLUB),?,'004001',TO_DATE(?,'yyyymmdd'),'008001',?,?,?,?,?,?,?)";
 		try {
+
+			if (CV.getClub_nm().equals(getClubName(CV.getClub_nm()))) {
+				throw new ClubExistException("ClubExistException: " + "이미" + CV.getClub_nm() + " 은(는) 존재 합니다.");
+
+			}
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, CV.getClub_nm());
@@ -485,15 +515,29 @@ public class ClubDAO {
 			pstmt.setString(10, CV.getIntro_save_file_nm());
 			pstmt.setString(11, CV.getPoster_file_nm());
 			pstmt.setString(12, CV.getPoster_save_file_nm());
+			pstmt.setString(13, CV.getRegister_cd());
 			pstmt.executeUpdate();
 			pstmt.close();
 
 			pstmt = conn.prepareStatement(sql2);
-			pstmt.setString(1, student_id);
+			pstmt.setString(1, user_id);
 			java.util.Date dt = new java.util.Date();
 			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyyMMdd");
 			String today = sdf.format(dt);
 			pstmt.setString(2, today);
+
+			UserDAO userDAO = new UserDAO();
+			UserVO userVO = userDAO.getUser(user_id);
+			if (userVO.getName() == null) {
+				throw new NullPointerException();
+			}
+			pstmt.setString(3, userVO.getName());
+			pstmt.setString(4, userVO.getMajor());
+			pstmt.setString(5, userVO.getGender());
+			pstmt.setString(6, userVO.getGender());
+			pstmt.setString(7, userVO.getPhoneNumber());
+			pstmt.setString(8, userVO.getE_mail());
+			pstmt.setString(9, userVO.getBirthday());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -536,13 +580,13 @@ public class ClubDAO {
 		return -1;
 	}
 
-	public int addStar(int club_id, String student_id) {
+	public int addStar(int club_id, String user_id) {
 		String sql = "UPDATE CLUB_MEMBER SET STAR = 'Y' WHERE CLUB_ID = ? AND STUDENT_ID = ? ";
 		try {
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, club_id);
-			pstmt.setString(2, student_id);
+			pstmt.setString(2, user_id);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -552,13 +596,13 @@ public class ClubDAO {
 		return -1;
 	}
 
-	public int deleteStar(int club_id, String student_id) {
+	public int deleteStar(int club_id, String user_id) {
 		String sql = "UPDATE CLUB_MEMBER SET STAR = 'N' WHERE CLUB_ID = ? AND STUDENT_ID = ? ";
 		try {
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, club_id);
-			pstmt.setString(2, student_id);
+			pstmt.setString(2, user_id);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -568,14 +612,14 @@ public class ClubDAO {
 		return -1;
 	}
 
-	public String getStar(int club_id, String student_id) {
+	public String getStar(int club_id, String user_id) {
 		String sql = "SELECT STAR FROM CLUB_MEMBER WHERE CLUB_ID = ? AND STUDENT_ID = ? ";
 		String str = "N";
 		try {
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, club_id);
-			pstmt.setString(2, student_id);
+			pstmt.setString(2, user_id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				str = rs.getString(1);
@@ -613,12 +657,100 @@ public class ClubDAO {
 		return -1;
 	}
 
+	public ArrayList<ClubVO> getRegisteredClub() {
+		String sql = "SELECT * FROM CLUB WHERE register_cd ='008001'";
+		ArrayList<ClubVO> clublist = new ArrayList<>();
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ClubVO vo = new ClubVO();
+				vo.setClub_id(rs.getInt("CLUB_ID"));
+				vo.setClub_nm(rs.getString("CLUB_NM"));
+				vo.setClub_gb_cd(rs.getString("CLUB_GB_CD"));
+				vo.setClub_at_cd(rs.getString("CLUB_AT_CD"));
+				vo.setCnt(rs.getInt("CLUB_CNT"));
+				vo.setClub_aim(rs.getString("CLUB_AIM"));
+				vo.setClub_active(rs.getString("CLUB_ACTIVE"));
+				vo.setClub_room(rs.getString("CLUB_ROOM"));
+				vo.setOpen_dt(rs.getString("OPEN_DT"));
+				vo.setIntro_file_nm(rs.getString("INTRO_FILE_NM"));
+				vo.setIntro_save_file_nm(rs.getString("INTRO_SAVE_FILE_NM"));
+				vo.setPoster_file_nm(rs.getString("POSTER_FILE_NM"));
+				vo.setPoster_save_file_nm(rs.getString("POSTER_SAVE_FILE_NM"));
+				vo.setInput_id(rs.getString("INPUT_ID"));
+				vo.setInput_ip(rs.getString("INPUT_IP"));
+				vo.setInput_date(rs.getString("INPUT_DATE"));
+				clublist.add(vo);
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return clublist;
+	}
+
+	public ArrayList<ClubVO> getNotRegisteredClub() {
+		String sql = "SELECT * FROM CLUB WHERE register_cd ='008003'";
+		ArrayList<ClubVO> clublist = new ArrayList<>();
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ClubVO vo = new ClubVO();
+				vo.setClub_id(rs.getInt("CLUB_ID"));
+				vo.setClub_nm(rs.getString("CLUB_NM"));
+				vo.setClub_gb_cd(rs.getString("CLUB_GB_CD"));
+				vo.setClub_at_cd(rs.getString("CLUB_AT_CD"));
+				vo.setCnt(rs.getInt("CLUB_CNT"));
+				vo.setClub_aim(rs.getString("CLUB_AIM"));
+				vo.setClub_active(rs.getString("CLUB_ACTIVE"));
+				vo.setClub_room(rs.getString("CLUB_ROOM"));
+				vo.setOpen_dt(rs.getString("OPEN_DT"));
+				vo.setIntro_file_nm(rs.getString("INTRO_FILE_NM"));
+				vo.setIntro_save_file_nm(rs.getString("INTRO_SAVE_FILE_NM"));
+				vo.setPoster_file_nm(rs.getString("POSTER_FILE_NM"));
+				vo.setPoster_save_file_nm(rs.getString("POSTER_SAVE_FILE_NM"));
+				vo.setInput_id(rs.getString("INPUT_ID"));
+				vo.setInput_ip(rs.getString("INPUT_IP"));
+				vo.setInput_date(rs.getString("INPUT_DATE"));
+				clublist.add(vo);
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return clublist;
+	}
+	
+
+	public int setRegister_cd(int club_id, String register_cd) {
+		String sql = "UPDATE club SET register_cd=? WHERE club_id = ?";
+		System.out.println("[setRegister_cd]: club_id: " + club_id);
+		
+		try {
+			conn=JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, register_cd);
+			pstmt.setInt(2, club_id);
+			pstmt.executeUpdate();
+			
+			return 1;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 	/*
-	 * public ArrayList<ClubVO> getboardwriteClub(String student_id) {
+	 * public ArrayList<ClubVO> getboardwriteClub(String user_id) {
 	 * ArrayList<ClubVO> clubList = null; String SQL = ""; try { SQL =
 	 * "SELECT * FROM CLUB WHERE CLUB_ID = ANY(SELECT CLUB_ID FROM CLUB_MEMBER WHERE STUDENT_ID = ? AND JOIN_CD = 008001)"
 	 * ; conn = JDBCUtil.getConnection(); pstmt = conn.prepareStatement(SQL);
-	 * pstmt.setString(1, student_id); rs = pstmt.executeQuery(); clubList = new
+	 * pstmt.setString(1, user_id); rs = pstmt.executeQuery(); clubList = new
 	 * ArrayList<ClubVO>(); while (rs.next()) { ClubVO vo = new ClubVO();
 	 * vo.setClub_id(rs.getInt(1)); vo.setClub_nm(rs.getString(2));
 	 * clubList.add(vo); } } catch (Exception e) { e.printStackTrace(); } finally {

@@ -23,6 +23,16 @@ public class ClubVO {
 	private String staff_cd;
 	private String staff_nm;
 	private String staff_phone;
+	private String register_cd;
+	
+
+	public String getRegister_cd() {
+		return register_cd;
+	}
+
+	public void setRegister_cd(String register_cd) {
+		this.register_cd = register_cd;
+	}
 
 	public ClubVO() {
 	}

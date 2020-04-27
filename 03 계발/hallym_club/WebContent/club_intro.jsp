@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="java.io.PrintWriter"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -14,7 +15,14 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 		int club_id = Integer.parseInt(request.getParameter("club_id"));
-		String username = (String) session.getAttribute("username");
+		
+		
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		}
 		String club_poster = DAO.getIntro_FilePath(club_id);
 
 	%>

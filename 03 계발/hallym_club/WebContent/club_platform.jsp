@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="clubMember.ClubMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -13,11 +14,12 @@
 </head>
 <body>
 	<%
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
-		}
-		else {
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		} else {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인이 필요헙니다.')");
@@ -25,15 +27,23 @@
 			script.println("</script>");
 		}
 
-		int club_id = Integer.parseInt(request.getParameter("club_id"));
+		int club_id = -1;
+		if (session.getAttribute("club_id") == null) {
+			club_id = Integer.parseInt(request.getParameter("club_id"));
+		} else {
+			club_id = (Integer) session.getAttribute("club_id");
+			System.out.println("[club_platform.jsp] club_id: " + club_id);
+		}
 		String club_name = clubDAO.getClubNMs(club_id);
-		
+
 		String open_dt = clubDAO.getOpen_Dt(club_id);
 		String masterNm = clubDAO.getMaster(club_id);
+
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 		
-		ClubMemberDAO clubMemberDAO = new ClubMemberDAO(); 
-		if (clubMemberDAO.getJoin_cd(username, club_id).equals("008001")) {
+		if (clubMemberDAO.getJoin_cd(userId, club_id).equals("008001")) {
 			session.setAttribute("club_id", club_id);
+			session.setAttribute("staff_cd", clubMemberDAO.getStaff_CD(userId, club_id));
 		} else {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -41,7 +51,7 @@
 			script.println("location.href='index.jsp'");
 			script.println("</script>");
 		}
-		int staff_cd = clubMemberDAO.getStaff_CD(username, club_id);
+		int staff_cd = (Integer) session.getAttribute("staff_cd");
 	%>
 
 	<div id="wrap">
@@ -60,7 +70,7 @@
 				<li><a href="">가입 동아리</a>
 					<ul>
 						<%
-							ArrayList<String> joinMyClub = clubDAO.getMyJoinClubList(username);
+							ArrayList<String> joinMyClub = clubDAO.getMyJoinClubList(userId);
 							int totalNum = joinMyClub.size();
 							if (totalNum > 0) {
 								for (int index = 0; index < totalNum; index++) {
@@ -79,7 +89,7 @@
 				<li><a href="">가입 승인 중 동아리</a>
 					<ul>
 						<%
-							ArrayList<String> WaitMyClub = clubDAO.getMyWaitClubList(username);
+							ArrayList<String> WaitMyClub = clubDAO.getMyWaitClubList(userId);
 							totalNum = WaitMyClub.size();
 							if (totalNum > 0) {
 								for (int index = 0; index < totalNum; index++) {
@@ -117,16 +127,18 @@
 		<div class="latest">
 			<form method="post" name="form">
 				<div class="notice">
-					<h4>카페
-						정보&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="button" value="나의정보" style="background-color:transparent;  border:0px transparent solid;"
-					onclick="location.href ='applyMod.jsp?club_id=<%=club_id%>';" /></h4>
+					<h4>
+						카페 정보&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" value="나의정보"
+							style="background-color: transparent; border: 0px transparent solid;"
+							onclick="location.href ='applyMod.jsp?club_id=<%=club_id%>';" />
+					</h4>
 					<ul>
 						<div class="icon">
 							<img src="image/thm_clubEx.gif" alt="">
 						</div>
-						<li><input type="text" name="club_name" value=<%=club_name%> size=16
-							readonly></li>
+						<li><input type="text" name="club_name" value=<%=club_name%>
+							size=16 readonly></li>
 						<li>회장 : <%=masterNm%></li>
 						<li style="border-bottom: 2px solid #797979;">개설일 : <%=open_dt%></li>
 					</ul>
@@ -168,28 +180,36 @@
 						<li style="margin-left: 25px;"><input type="button"
 							value="└개인 정보 동의"
 							onclick="location.href='myClub_Board.jsp?club_id=<%=club_id%>&board_cd=007004';" /></li>
-							<%if (staff_cd == 0) { %>
+						<%
+							if (staff_cd == 0) {
+						%>
 						<li style="margin-left: 25px;"><input type="button"
 							value="└개인 정보 동의 목록"
 							onclick="location.href='club_agreeMember.jsp?club_id=<%=club_id%>&title_no=-1';" /></li>
-							<%} %>
+						<%
+							}
+						%>
 					</ul>
 					<hr>
 
 
 					<%
-						/* int join_cd = clubDAO.getJoin_cd(username, club_name); */
+						/* int join_cd = clubDAO.getJoin_cd(userId, club_name); */
 
 						if (staff_cd == 0) {
 					%>
 					<ul style="margin-top: 10px; border-bottom: 2px solid #797979;">
-						<li style="font-size: 13px; border-bottom: 0.5px solid #797979;">동아리 관리</li>
-						<li style="margin-left: 15px;"><input type="button" value="동아리 회원 승인"
-					onclick="location.href='manage.jsp?club_id=<%=club_id%>';" /></li>
-						<li style="margin-left: 15px;"><input type="button" value="동아리 회원 관리"
-					onclick="location.href='manage_list.jsp?club_id=<%=club_id%>';" /></li>
-						<li style="margin-left: 15px;"><input type="button" value="동아리 정보 수정"
-					onclick="location.href='updateClub.jsp?club_id=<%=club_id%>';" /></li>
+						<li style="font-size: 13px; border-bottom: 0.5px solid #797979;">동아리
+							관리</li>
+						<li style="margin-left: 15px;"><input type="button"
+							value="동아리 회원 승인"
+							onclick="location.href='manage.jsp?club_id=<%=club_id%>';" /></li>
+						<li style="margin-left: 15px;"><input type="button"
+							value="동아리 회원 관리"
+							onclick="location.href='manage_list.jsp?club_id=<%=club_id%>';" /></li>
+						<li style="margin-left: 15px;"><input type="button"
+							value="동아리 정보 수정"
+							onclick="location.href='updateClub.jsp?club_id=<%=club_id%>';" /></li>
 					</ul>
 					<hr>
 					<%
@@ -197,7 +217,7 @@
 					%>
 				
 			</form>
-			
+
 			<ul style="margin-top: 10px; border-bottom: 2px solid #797979;">
 				<form method="post" action="applyDeleteAction.jsp"
 					onSubmit="return confirm('탈퇴 신청을 하시겠습니까?');">

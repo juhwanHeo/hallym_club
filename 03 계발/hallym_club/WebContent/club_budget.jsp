@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="budget.BudgetVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -21,9 +22,11 @@
 
 		String io_gb_cd = "009001";
 
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
 		if (request.getParameter("io_gb_cd") != null) {
@@ -36,7 +39,7 @@
 			club_id = Integer.parseInt(request.getParameter("club_id"));
 		}
 
-		int staff_cd = clubMem_DAO.getStaff_CD(username, club_id);
+		int staff_cd = clubMem_DAO.getStaff_CD(userId, club_id);
 	%>
 
 	<jsp:useBean id="budget_dao" class="budget.BudgetDAO" />

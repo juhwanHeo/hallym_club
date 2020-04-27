@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="javax.security.auth.callback.ConfirmationCallback"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -18,18 +19,20 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
-		if (username == null) {
+		if (userId == null) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인이 필요합니다.')");
 			script.println("location.href='login.jsp'");
 			script.println("</script>");
-		} else if (!username.equals("admin")) {
+		} else if (!(userId.equals("20185280") || userId.equals("20185304"))) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('관리자 권환이 필요합니다.')");

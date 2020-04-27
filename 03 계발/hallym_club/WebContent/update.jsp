@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@page import="javax.security.auth.callback.ConfirmationCallback"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -20,12 +21,13 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
-
-		if (username == null) {
+		else {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인이 필요합니다.')");
@@ -55,7 +57,7 @@
 			script.println("</script>");
 		}
 		Bbs bbs = new BbsDAO().getBbs(BOARD_NO);
-		if (!username.equals(bbs.getINPUT_ID())) {
+		if (!userId.equals(bbs.getINPUT_ID())) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권한이 없습니다.')");

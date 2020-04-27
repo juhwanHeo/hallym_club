@@ -2,6 +2,8 @@ package student;
 
 public class StudentVO {
 
+	private String id;
+	private String usergroup;
 	private String username;
 	private String password;
 	private String input_date;
@@ -17,6 +19,19 @@ public class StudentVO {
 		this.input_ip = input_ip;
 	}
 
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getUsergroup() {
+		return usergroup;
+	}
+	public void setUsergroup(String usergroup) {
+		this.usergroup = usergroup;
+	}
 	public String getUsername() {
 		return username;
 	}

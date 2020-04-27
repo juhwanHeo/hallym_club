@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
@@ -67,14 +68,12 @@
 <body>
 
 	<%
-		//로긴한사람이라면    userID라는 변수에 해당 아이디가 담기고 그렇지 않으면 null값
-
-		String userID = null;
-
-		if (session.getAttribute("username") != null) {
-
-			userID = (String) session.getAttribute("username");
-
+		
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
 		int bbsID = 0;
@@ -233,7 +232,7 @@
 					<%
 						//글작성자 본인일시 수정 삭제 가능 
 
-						if (userID != null && userID.equals(bbs.getINPUT_ID())) {
+						if (userId != null && userId.equals(bbs.getINPUT_ID())) {
 					%>
 
 					<a class="input-btn"

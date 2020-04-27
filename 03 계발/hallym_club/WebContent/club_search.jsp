@@ -1,6 +1,6 @@
 
+<%@page import="user.UserVO"%>
 <%@page import="java.util.List"%>
-<%@page import="sun.security.krb5.internal.PAEncTSEnc"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
@@ -23,16 +23,17 @@
 </head>
 
 <body>
-
-	<%
-		String username = null;
-		if (session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
-		}
-	%>
-
 	<%
 		request.setCharacterEncoding("UTF-8");
+
+		UserVO userVO = null;
+		String userId = null;
+		
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
+		}
+
 		String club_gb_cd = ""; //클럽 구분(중앙,과)
 		String club_at_cd = ""; //클럽 속성(학술,운동)
 		String search = "";
@@ -49,30 +50,42 @@
 		}
 		if (request.getParameter("pageNumber") != null) {
 			try {
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 			} catch (Exception e) {
-		System.out.println("검색 페이지 번호 오류");
+				System.out.println("검색 페이지 번호 오류");
 			}
 		}
 	%>
 
 	<%
 		String title = "";
-		if (club_at_cd.equals("002001")) {
-			title = "학술 동아리";
-		} else if (club_at_cd.equals("002002")) {
-			title = "운동 동아리";
-		} else if (club_at_cd.equals("002003")) {
-			title = "봉사 동아리";
-		} else if (club_at_cd.equals("002004")) {
-			title = "문화 동아리";
-		} else if (club_at_cd.equals("002005")) {
-			title = "종교 동아리";
-		} else if (club_at_cd.equals("002006")) {
-			title = "기타 동아리";
-		} else {
-			title = "전체 동아리";
+		switch(club_at_cd) {
+			case "002001":
+				title = "공연";
+				break;
+			case "002002":
+				title = "학술";
+				break;
+			case "002003":
+				title = "취미예술";
+				break;
+			case "002004":
+				title = "종교";
+				break;
+			case "002005":
+				title = "체육";
+				break;
+			case "002006":
+				title = "봉사";
+				break;
+			case "002007":
+				title = "기타";
+				break;
+			default:
+				title = "전체";
+				break;
 		}
+		title += " 동아리";
 	%>
 	<div id="wrap">
 		<div id="header">
@@ -106,17 +119,19 @@
 					<li><button name="club_at_cd" onclick="this.form.submit()"
 							value="">전체</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
-							value="002001">학술</button></li>
+							value="002001">공연</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
-							value="002002">운동</button></li>
+							value="002002">학술</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
-							value="002003">봉사</button></li>
+							value="002003">취미예술</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
-							value="002004">문화</button></li>
+							value="002004">종교</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
-							value="002005">종교</button></li>
+							value="002005">체육</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
-							value="002006">기타</button></li>
+							value="002006">봉사</button></li>
+					<li><button name="club_at_cd" onclick="this.form.submit()"
+							value="002007">기타</button></li>
 				</ul>
 			</form>
 		</div>
@@ -139,7 +154,7 @@
 					} else {
 				%>
 				<h4>
-					검색 결과는<%=totalcount%>개 입니다.
+					검색 결과는 <%=totalcount%>개 입니다.
 				</h4>
 				<%
 					}
@@ -150,23 +165,24 @@
 				for (ClubVO vo : gb_list) {
 					String star_state = "";
 			%>
-			
+
 			<div class="latest">
 				<div class="logo">
-					<img class="img" src="upload/club/<%=vo.getIntro_save_file_nm()%>" onerror="this.src='image/error.png'"></img>
+					<img class="img" src="upload/club/<%=vo.getIntro_save_file_nm()%>"
+						onerror="this.src='image/error.png'"></img>
 				</div>
 				<div class="tbl-info">
 					<h3><%=vo.getClub_nm()%></h3>
 					<div class="star">
 						<%
-							if (username == null) {
+							if (userId == null) {
 						%>
 						<button type="button" class="star-btn" onclick="postPopUp();">
 							<img src="image/star0.png" width="23" height="23">
 						</button>
 						<%
 							} else {
-									star_state = dao.getStar(vo.getClub_id(), username);
+									star_state = dao.getStar(vo.getClub_id(), userId);
 									if (star_state.equals("Y")) {
 						%>
 						<button type="button" class="star-btn"
@@ -213,19 +229,29 @@
 						</tr>
 						<tr>
 							<th>설립 목적</th>
-							<td colspan="3"><%=vo.getClub_aim()%></td>
+							<td colspan="3"><%=vo.getClub_aim()%></td> <!-- vo.getClub_aim().replace("\r\n", "<br>") -->
 						</tr>
 						<tr>
+						<% if(vo.getClub_active() != null) { %>
 							<th>주요 활동</th>
 							<td colspan="3"><%=vo.getClub_active()%></td>
+						<%} else { 	%>
+						 
+							
+						 <th>주요 활동</th>
+							<td colspan="3">  </td>
+						<%
+							}
+						%>
+							
 						</tr>
 					</table>
 				</div>
 
 				<form method="post" action="club_SignUp_Form.jsp" target="w"
 					onsubmit="return postPopUp();">
-					<input type="hidden" name="club_id" value="<%=vo.getClub_id()%>" >
-					<input type="hidden" name="club_nm" value="<%=vo.getClub_nm()%>" >
+					<input type="hidden" name="club_id" value="<%=vo.getClub_id()%>">
+					<input type="hidden" name="club_nm" value="<%=vo.getClub_nm()%>">
 					<ul>
 						<li><input type="submit" value="가입 신청" class="tbl-btn"></li>
 						<li><button type="button" class="tbl-btn">더보기</button></li>
@@ -317,7 +343,7 @@
 
 	<script>
 		function postPopUp() {
-	<%if (username == null) {%>
+	<%if (userId == null) {%>
 		alert("로그인이 필요합니다.");
 			return false;
 	<%} else {%>

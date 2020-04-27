@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -13,7 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- <link rel="stylesheet" type="text/css" href="css/club_main.css"> -->
 <title>한림대학교 동아리</title>
-
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="css/club_main.css">
 <style>
 
 /*datepicker에서 사용한 이미지 버튼 style적용*/
@@ -119,17 +122,16 @@ img.ui-datepicker-trigger {
 
 		//로긴한사람이라면    userID라는 변수에 해당 아이디가 담기고 그렇지 않으면 null값
 
-		String userID = null;
-
-		if (session.getAttribute("username") != null) {
-
-			userID = (String) session.getAttribute("username");
-
+		UserVO userVO = null;
+		String userId = null;
+		if (session.getAttribute("userVO") != null) {
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		}
 
 		//로그인 안한 경우
 
-		if (userID == null) {
+		if (userId == null) {
 
 			PrintWriter script = response.getWriter();
 
@@ -175,7 +177,7 @@ img.ui-datepicker-trigger {
 
 		Bbs bbs = new BbsDAO().getBbs(BOARD_NO);
 
-		if (!userID.equals(bbs.getINPUT_ID())) {
+		if (!userId.equals(bbs.getINPUT_ID())) {
 
 			PrintWriter script = response.getWriter();
 

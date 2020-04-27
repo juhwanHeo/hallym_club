@@ -54,11 +54,7 @@ public class BbsDAO {
 		}
 
 		return -1;
-
 	}
-	
-	
-	
 
 	public int getClubIds(String club_NM) {
 		String SQL = "SELECT CLUB_ID FROM club where CLUB_NM='" + club_NM + "'";

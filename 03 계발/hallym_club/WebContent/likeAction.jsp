@@ -1,3 +1,4 @@
+<%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="utf-8"%>
 <%@ page import="student.StudentDAO"%>
@@ -9,10 +10,11 @@
 
 <%
 	request.setCharacterEncoding("UTF-8");
-
-	String username = null;
-	if (session.getAttribute("username") != null) {
-		username = (String) session.getAttribute("username");
+	UserVO userVO = null;
+	String userId = null;
+	if (session.getAttribute("userVO") != null) {
+		userVO = ((UserVO) session.getAttribute("userVO"));
+		userId = userVO.getId();
 	}
 	int result = 1;
 	int club_id = 1;
@@ -28,12 +30,12 @@
 		state = request.getParameter("state");
 	}
 
-	if(state.equals("0")){
-		result = club_dao.addStar(club_id, username);
-	}else if(state.equals("1")){
-		result = club_dao.deleteStar(club_id, username);
+	if (state.equals("0")) {
+		result = club_dao.addStar(club_id, userId);
+	} else if (state.equals("1")) {
+		result = club_dao.deleteStar(club_id, userId);
 	}
-	
+
 	if (result == 1) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
@@ -50,6 +52,4 @@
 		script.close();
 		return;
 	}
-	
-	
 %>
