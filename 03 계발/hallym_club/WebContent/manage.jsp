@@ -135,6 +135,8 @@ a:hover {
 	<%
 		UserVO userVO = null;
 		String userId = null;
+
+		request.setCharacterEncoding("UTF-8");
 		if (session.getAttribute("userVO") != null) {
 			userVO = ((UserVO) session.getAttribute("userVO"));
 			userId = userVO.getId();
@@ -162,11 +164,10 @@ a:hover {
 		if (clubMemberDAO.getStaff_CD(userId, club_id) != 0) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('권환이 없습니다. 하세요.')");
+			script.println("alert('권환이 없습니다.')");
 			script.println("location.href='index.jsp'");
 			script.println("</script>");
-		}
-		request.setCharacterEncoding("UTF-8");
+		}else {
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -292,6 +293,9 @@ a:hover {
 			</form>
 		</div>
 	</div>
+	
+	
+	<%} %>
 	<script>
 	
 	var a = document.getElementById("club_table").parentNode;

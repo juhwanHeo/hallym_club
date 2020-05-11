@@ -70,30 +70,52 @@ ul li {
 
 		UserVO userVO = null;
 		String userId = null;
+		String staff_cd = null;
 		if (session.getAttribute("userVO") != null) {
 			userVO = ((UserVO) session.getAttribute("userVO"));
 			userId = userVO.getId();
+		} else {
+			out.println("<script>");
+			out.print("alert('로그인이 필요합니다.');");
+			out.print("window.close();");
+			out.println("</script>");
 		}
 
+		
 
 		System.out.println("[memberInfo.jsp] userId: " + userId);
-		String student_id = "";
-		int club_id;
-
-		student_id = request.getParameter("update");
-		club_id = Integer.parseInt(request.getParameter("join_club"));
-	   	if (student_id.equals(userId)) {
-			PrintWriter script = response.getWriter();
+		String student_id = request.getParameter("update");
+		int club_id = Integer.parseInt(request.getParameter("join_club"));
+		
+		
+		
+		if (! member_dao.getJoin_cd(userId, club_id).equals("008001")) {
+			
 			out.println("<script>");
-			out.print("alert('자신을 수정 할수 없습니다..');");
+			out.println("alert('가입승인이 안된 동아리 입니다.')");
+			out.print("window.close();");
+			out.println("</script>");
+		}
+		
+	   	if (student_id.equals(userId)) {
+			out.println("<script>");
+			out.print("alert('자신을 수정 할 수 없습니다..');");
 			out.print("window.close();");
 			out.println("</script>");
 
 		} 
-	%>
-
-	<%
-		ArrayList<clubMember.ClubMemberVo> member_list = member_dao.getMemberInfo(club_id, student_id);
+	   	
+	   	
+	   	
+		ArrayList<ClubMemberVo> member_list = member_dao.getMemberInfo(club_id, student_id);
+		
+		staff_cd = member_dao.getStaff_CD(club_id, member_list.get(0).getSTUDENT_ID());
+	   	if(staff_cd.equals("004001")) {
+	   		out.println("<script>");
+			out.print("alert('회장을 수정 할 수 없습니다.');");
+			out.print("window.close();");
+			out.println("</script>");
+	   	}
 	%>
 
 	<ul>
@@ -109,19 +131,21 @@ ul li {
 					<option value="004004"
 						<%if (member_list.get(0).getSTAFF_CD().equals("회원"))
 				out.println("selected");%>>회원</option>
-					<option value="004001"
+					<%-- <option value="004001"
 						<%if (member_list.get(0).getSTAFF_CD().equals("회장"))
-				out.println("selected");%>>회장</option>
+				out.println("selected");%>>회장</option> --%>
 					<option value="004002"
 						<%if (member_list.get(0).getSTAFF_CD().equals("부회장"))
 				out.println("selected");%>>부회장</option>
 					<option value="004003"
 						<%if (member_list.get(0).getSTAFF_CD().equals("총무"))
 				out.println("selected");%>>총무</option>
-			</select> <%
- 	if (userId.equals("admin")) {
- %> <input class="button" type="submit" name="btn" value="회장등록"
-				style="margin-left: 50px;" /></li>
+			</select> 
+			<%
+			 	if (userId.equals("admin")) {
+			 %> 
+			 <input class="button" type="submit" name="btn" value="회장등록"
+							style="margin-left: 50px;" /></li>
 
 			<%
 				} else if (member_dao.getMemberInfo(club_id, userId).get(0).getSTAFF_CD().equals("회장")) {

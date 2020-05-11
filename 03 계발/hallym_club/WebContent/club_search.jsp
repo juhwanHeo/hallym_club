@@ -118,6 +118,10 @@
 				<ul>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
 							value="">전체</button></li>
+							
+					<li><button>동연</button></li>
+					
+					
 					<li><button name="club_at_cd" onclick="this.form.submit()"
 							value="002001">공연</button></li>
 					<li><button name="club_at_cd" onclick="this.form.submit()"
@@ -254,7 +258,7 @@
 					<input type="hidden" name="club_nm" value="<%=vo.getClub_nm()%>">
 					<ul>
 						<li><input type="submit" value="가입 신청" class="tbl-btn"></li>
-						<li><button type="button" class="tbl-btn">더보기</button></li>
+						<!-- <li><button type="button" class="tbl-btn">더보기</button></li> -->
 						<li><button type="button" class="tbl-btn"
 								onclick="window.open('upload/club/<%=vo.getPoster_save_file_nm()%>','new img', 'width=750,height=850')">동아리
 								포스터</button></li>

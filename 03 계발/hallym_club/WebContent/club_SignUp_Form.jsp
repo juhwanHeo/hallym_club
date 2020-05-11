@@ -99,8 +99,7 @@ font {
 			userEmail = userVO.getE_mail();
 			userGrade = userVO.getGrade();
 			userMajor = userVO.getMajor();
-		}
-
+		} 
 		String club_nm = "";
 		if (request.getParameter("club_nm") != null)
 			club_nm = request.getParameter("club_nm");
@@ -169,11 +168,11 @@ font {
 					id="PHONE_NO" style="width: 99%" readonly="readonly"
 					value=<%=userPhoneNumber%>></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td>주소</td>
 				<td colspan="3"><input type="text" style="width: 99%"
 					name="ADDRESS"></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td>E-mail</td>
 				<td colspan="3"><input type="text" style="width: 99%"
@@ -181,9 +180,9 @@ font {
 			</tr>
 
 			<tr>
-				<th><br>차 후<br>활동계획</th>
+				<th><br>차 후<br>활동계획 <font>*</font></th>
 				<td colspan="4" height="100px"><textarea
-						style="width: 99%; height: 99%; resize: none" name="plan"></textarea></td>
+						style="width: 99%; height: 99%; resize: none" name="plan" id="plan"></textarea></td>
 			</tr>
 
 			<tr>
@@ -215,6 +214,7 @@ font {
 			//var ck_gender = document.getElementById("GENDER").value;
 			var ck_phone = document.getElementById("PHONE_NO").value;
 			var ck_apply = document.getElementById("apply").value;
+			var ck_plan = document.getElementById("plan").value
 			//var ck_birth = document.getElementById("BIRTH_DT").value;
 
 			var exp = /^[0-9]{1}$/; //숫자만, 글자수 1
@@ -251,14 +251,17 @@ font {
 				document.getElementById("PHONE_NO").focus();
 				return false;
 			} */
+			if (ck_plan.trim() == "") {
+				alert("차후 활동계획을 입력해주세요");
+				document.getElementById("plan").focus();
+				return false;
+			}
 			if (ck_apply.trim() == "") {
 				alert("서명해주세요.");
 				document.getElementById("apply").focus();
 				return false;
 			}
-			if (ck_apply !=
-	<%=userId%>
-		) {
+			if (ck_apply !=	<%=userId%>) {
 				alert("학번을 정확하게 서명해주세요.");
 				document.getElementById("apply").focus();
 				return false;

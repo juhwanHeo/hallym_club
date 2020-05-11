@@ -185,10 +185,14 @@
 							<th>지도교수</th>
 							<td><%=dao.getProfessor(vo.getClub_id())%></td>
 						</tr> 
-						<tr>
-						 	<th>설립 목적</th>
-							<td colspan="3"><%=vo.getClub_aim()%></td> 
-						</tr> --%>
+						<tr> --%>
+					 	<tr>
+						 	<th style="width: 20%">설립 목적</th>
+							<td style="width: 80%">
+							<%=vo.getClub_aim().replace("\r\n", "<br>")%>
+							</td>  
+							
+						</tr> 
 						<% if(vo.getClub_active() == null) {%>
 						
 						<tr style="height: 145px;">
@@ -215,7 +219,7 @@
 					<input type="hidden" name="club_nm" value="<%=vo.getClub_nm()%>">
 					<ul>
 						<li><input type="submit" value="가입 신청" class="tbl-btn"></li>
-						<li><button type="button" class="tbl-btn">더보기</button></li>
+						<!-- <li><button type="button" class="tbl-btn">더보기</button></li> -->
 						<li><button type="button" class="tbl-btn"
 								onclick="window.open('upload/club/<%=vo.getPoster_save_file_nm()%>','new img', 'width=750,height=850')">동아리
 								포스터</button></li>

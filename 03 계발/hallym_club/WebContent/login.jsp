@@ -24,7 +24,15 @@
 		if (session.getAttribute("userVO") != null) {
 			userVO = ((UserVO) session.getAttribute("userVO"));
 			userId = userVO.getId();
-		}
+			if(userId != null) {
+				out.println("<script>");
+				out.println("alert('이미 로그인 되어 있습니다.')");
+				out.println("location.href='index.jsp'");
+				out.println("</script>");
+			}
+		} 
+		else {
+		
 	%>
 
 	<div id="wrap">
@@ -83,5 +91,6 @@
 			<jsp:include page="footer.jsp"></jsp:include>
 		</div>
 	</div>
+	<%} %>
 </body>
 </html>

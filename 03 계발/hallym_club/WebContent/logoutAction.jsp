@@ -8,7 +8,21 @@
 </head>
 <body>
 	<%
+
+	System.out.println("[logoutAction.jsp]: before " + session.getAttribute("userVO"));
 	session.invalidate();
+	/* if(session.getAttribute("uesrVO") != null){
+		session.removeAttribute("userVO");
+	}
+	if (session.getAttribute("club_id") != null) {
+		session.removeAttribute("club_id");
+	}
+	
+	if(session.getAttribute("staff_cd") != null) {
+		session.removeAttribute("staff_cd");
+	}
+	 */
+	//System.out.println("[logoutAction.jsp]: after " + session.getAttribute("userVO"));
 	%>
 <script>
 	location.href="index.jsp";

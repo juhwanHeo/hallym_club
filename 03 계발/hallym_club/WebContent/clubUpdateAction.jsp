@@ -19,91 +19,90 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-			String directory = application.getRealPath("/upload/club/");
-			// String directory = application.getRealPath("C:/JSP/upload/"); 보안코딩 
-			int maxSize = 1024 * 1024 * 100;
-			String encoding = "UTF-8";
-			
-			File upDir = new File(directory);
-			if (!upDir.exists()) {
-		upDir.mkdirs();
-			}
-			
-			MultipartRequest multipartRequest = new MultipartRequest(request, directory, maxSize, encoding,
-			new DefaultFileRenamePolicy());
+		String directory = application.getRealPath("/upload/club/");
+		// String directory = application.getRealPath("C:/JSP/upload/"); 보안코딩 
+		int maxSize = 1024 * 1024 * 100;
+		String encoding = "UTF-8";
 
-			ClubVO CV = new ClubVO();
-			CV.setClub_nm(multipartRequest.getParameter("club_nm"));
-			CV.setClub_gb_cd(multipartRequest.getParameter("club_gb_cd"));
-			CV.setClub_at_cd(multipartRequest.getParameter("club_at_cd"));
-			CV.setCnt(1);
-			CV.setClub_aim(multipartRequest.getParameter("club_aim"));
-			CV.setClub_active(multipartRequest.getParameter("club_active"));
-			CV.setClub_room(multipartRequest.getParameter("club_room"));
-			CV.setOpen_dt(multipartRequest.getParameter("open_dt"));
-			CV.setClub_id(Integer.parseInt(multipartRequest.getParameter("club_id")));
-			String student_id = multipartRequest.getParameter("student_id");
-			
+		File upDir = new File(directory);
+		if (!upDir.exists()) {
+			upDir.mkdirs();
+		}
 
-			// 다중 업로드
-			Enumeration fileNames = multipartRequest.getFileNames();
+		MultipartRequest multipartRequest = new MultipartRequest(request, directory, maxSize, encoding,
+				new DefaultFileRenamePolicy());
 
-			String parameter = (String) fileNames.nextElement();
-			String fileName = multipartRequest.getOriginalFileName(parameter);
-			String fileSaveName = multipartRequest.getFilesystemName(parameter);
+		ClubVO CV = new ClubVO();
+		CV.setClub_nm(multipartRequest.getParameter("club_nm"));
+		CV.setClub_gb_cd(multipartRequest.getParameter("club_gb_cd"));
+		CV.setClub_at_cd(multipartRequest.getParameter("club_at_cd"));
+		CV.setCnt(1);
+		CV.setClub_aim(multipartRequest.getParameter("club_aim"));
+		CV.setClub_active(multipartRequest.getParameter("club_active"));
+		CV.setClub_room(multipartRequest.getParameter("club_room"));
+		CV.setOpen_dt(multipartRequest.getParameter("open_dt"));
+		CV.setClub_id(Integer.parseInt(multipartRequest.getParameter("club_id")));
+		String student_id = multipartRequest.getParameter("student_id");
 
-			if (fileName == null) {
-		CV.setPoster_file_nm(fileName);
-		CV.setPoster_save_file_nm(fileSaveName);
-			} else {
-		if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
-				&& !fileName.endsWith(".bmp")) {
-			File file = new File(directory + fileSaveName);
-			file.delete();
-			out.write("<script>");
-			out.write("alert('업로드할 수 없는 확장자입니다.');");
-			out.write("history.back();");
-			out.write("</script>");
-		} else {
+		// 다중 업로드
+		Enumeration fileNames = multipartRequest.getFileNames();
+
+		String parameter = (String) fileNames.nextElement();
+		String fileName = multipartRequest.getOriginalFileName(parameter);
+		String fileSaveName = multipartRequest.getFilesystemName(parameter);
+
+		if (fileName == null) {
 			CV.setPoster_file_nm(fileName);
 			CV.setPoster_save_file_nm(fileSaveName);
-		}
-			}
-
-			parameter = (String) fileNames.nextElement();
-			fileName = multipartRequest.getOriginalFileName(parameter);
-			fileSaveName = multipartRequest.getFilesystemName(parameter);
-
-			if (fileName == null) {
-		CV.setIntro_file_nm(fileName);
-		CV.setIntro_save_file_nm(fileSaveName);
-			} else {
-		if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
-				&& !fileName.endsWith(".bmp")) {
-			File file = new File(directory + fileSaveName);
-			file.delete();
-			out.write("<script>");
-			out.write("alert('업로드할 수 없는 확장자입니다.');");
-			out.write("history.back();");
-			out.write("</script>");
 		} else {
+			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
+					&& !fileName.endsWith(".bmp")) {
+				File file = new File(directory + fileSaveName);
+				file.delete();
+				out.write("<script>");
+				out.write("alert('업로드할 수 없는 확장자입니다.');");
+				out.write("history.back();");
+				out.write("</script>");
+			} else {
+				CV.setPoster_file_nm(fileName);
+				CV.setPoster_save_file_nm(fileSaveName);
+			}
+		}
+
+		parameter = (String) fileNames.nextElement();
+		fileName = multipartRequest.getOriginalFileName(parameter);
+		fileSaveName = multipartRequest.getFilesystemName(parameter);
+
+		if (fileName == null) {
 			CV.setIntro_file_nm(fileName);
 			CV.setIntro_save_file_nm(fileSaveName);
-		}
-			}
-
-			int result = new ClubDAO().updateClub(CV);
-			if (result == -1) {
-		out.print("<script>");
-		out.print("alert('정상적으로 완료되지 않았습니다.');");
-		out.print("history.back();");
-		out.print("</script>");
+		} else {
+			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
+					&& !fileName.endsWith(".bmp")) {
+				File file = new File(directory + fileSaveName);
+				file.delete();
+				out.write("<script>");
+				out.write("alert('업로드할 수 없는 확장자입니다.');");
+				out.write("history.back();");
+				out.write("</script>");
 			} else {
-		out.print("<script>");
-		out.print("alert('수정을 완료했습니다.');");
-		out.print("window.location = document.referrer;");
-		out.print("</script>");
+				CV.setIntro_file_nm(fileName);
+				CV.setIntro_save_file_nm(fileSaveName);
 			}
+		}
+
+		int result = new ClubDAO().updateClub(CV);
+		if (result == -1) {
+			out.print("<script>");
+			out.print("alert('정상적으로 완료되지 않았습니다.');");
+			out.print("history.back();");
+			out.print("</script>");
+		} else {
+			out.print("<script>");
+			out.print("alert('수정을 완료했습니다.');");
+			out.print("window.location = document.referrer;");
+			out.print("</script>");
+		}
 	%>
 
 </body>

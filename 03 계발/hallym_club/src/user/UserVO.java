@@ -2,6 +2,14 @@ package user;
 
 public class UserVO {
 
+	/*
+	 * 		
+	 * 
+	 * 
+	 * 
+	 * IDNO, NAME, MAJORNAME, GRADE, GENDER, PHONENUMBER, E_MAIL, RESIDENTNO
+	 * 
+	 */
 	private String id;
 	private String name;
 	private String major;

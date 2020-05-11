@@ -15,14 +15,6 @@
 	<%
 		request.setCharacterEncoding("UTF-8");
 		int club_id = Integer.parseInt(request.getParameter("club_id"));
-		
-		
-		UserVO userVO = null;
-		String userId = null;
-		if (session.getAttribute("userVO") != null) {
-			userVO = ((UserVO) session.getAttribute("userVO"));
-			userId = userVO.getId();
-		}
 		String club_poster = DAO.getIntro_FilePath(club_id);
 
 	%>

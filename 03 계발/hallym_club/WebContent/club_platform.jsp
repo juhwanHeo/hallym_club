@@ -1,3 +1,4 @@
+<%@page import="club.ClubVO"%>
 <%@page import="user.UserVO"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="clubMember.ClubMemberDAO"%>
@@ -16,42 +17,54 @@
 	<%
 		UserVO userVO = null;
 		String userId = null;
-		if (session.getAttribute("userVO") != null) {
-			userVO = ((UserVO) session.getAttribute("userVO"));
-			userId = userVO.getId();
-		} else {
+		int staff_cd = -1;
+		if(session.getAttribute("userVO") == null) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('로그인이 필요헙니다.')");
+			script.println("alert('로그인이 필요합니다.')");
 			script.println("location.href='login.jsp'");
 			script.println("</script>");
-		}
-
-		int club_id = -1;
-		if (session.getAttribute("club_id") == null) {
-			club_id = Integer.parseInt(request.getParameter("club_id"));
 		} else {
-			club_id = (Integer) session.getAttribute("club_id");
-			System.out.println("[club_platform.jsp] club_id: " + club_id);
-		}
-		String club_name = clubDAO.getClubNMs(club_id);
-
-		String open_dt = clubDAO.getOpen_Dt(club_id);
-		String masterNm = clubDAO.getMaster(club_id);
-
-		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
+			userVO = ((UserVO) session.getAttribute("userVO"));
+			userId = userVO.getId();
 		
-		if (clubMemberDAO.getJoin_cd(userId, club_id).equals("008001")) {
-			session.setAttribute("club_id", club_id);
-			session.setAttribute("staff_cd", clubMemberDAO.getStaff_CD(userId, club_id));
-		} else {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('가입승인이 안된 동아리 입니다.')");
-			script.println("location.href='index.jsp'");
-			script.println("</script>");
-		}
-		int staff_cd = (Integer) session.getAttribute("staff_cd");
+			
+			int club_id = Integer.parseInt(request.getParameter("club_id"));
+			
+			
+			String club_name = clubDAO.getClubNMs(club_id);
+			String open_dt = clubDAO.getOpen_Dt(club_id);
+			String masterNm = clubDAO.getMaster(club_id);
+			System.out.println("[club_platform.jsp] club_id: " + club_id);
+			System.out.println("[club_platform.jsp] club_name: " + club_name);
+			System.out.println("[club_platform.jsp] masterNm: " + masterNm);
+			System.out.println("[club_platform.jsp] open_dt: " + open_dt);
+	
+			ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
+			
+			/*	
+		 	if (clubMemberDAO.getJoin_cd(userId, club_id).equals("008001")) {
+				staff_cd = clubMemberDAO.getStaff_CD(userId, club_id);
+			} else {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('가입승인이 안된 동아리 입니다.')");
+				script.println("location.href='index.jsp'");
+				script.println("</script>");
+			} */
+				
+			if (! clubMemberDAO.getJoin_cd(userId, club_id).equals("008001")) {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('가입승인이 안된 동아리 입니다.')");
+				script.println("location.href='index.jsp'");
+				script.println("</script>");
+			} else {
+						
+				staff_cd = clubMemberDAO.getStaff_CD(userId, club_id);
+				System.out.println("[club_platform.jsp] staff_cd: " + staff_cd);
+				
+			
 	%>
 
 	<div id="wrap">
@@ -89,8 +102,8 @@
 				<li><a href="">가입 승인 중 동아리</a>
 					<ul>
 						<%
-							ArrayList<String> WaitMyClub = clubDAO.getMyWaitClubList(userId);
-							totalNum = WaitMyClub.size();
+						ArrayList<ClubVO> waitMyClub = clubDAO.getMyWaitClubList(userId);
+							totalNum = waitMyClub.size();
 							if (totalNum > 0) {
 								for (int index = 0; index < totalNum; index++) {
 						%>
@@ -98,7 +111,7 @@
 							<form method="post" action="applyDeleteAction.jsp"
 								onSubmit="return confirm('가입 신청을 취소하시겠습니까?');" align="center">
 								<input type="text" name="clubNM" readOnly
-									value=<%=WaitMyClub.get(index)%>
+									value=<%=waitMyClub.get(index).getClub_nm()%>
 									style="width: 70px; height: auto;"> <input
 									type="submit" value="신청 취소">
 							</form> <script>
@@ -241,5 +254,14 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<%
+	
+			}
+		
+		} 
+	
+	%>
 </body>
 </html>

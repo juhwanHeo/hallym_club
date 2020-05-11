@@ -73,48 +73,46 @@ table.type04 td {
 
 		UserVO userVO = null;
 		String userId = null;
-		if (session.getAttribute("userVO") != null) {
+		int staff_cd = -1;
+		if(session.getAttribute("userVO") == null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인이 필요합니다.')");
+			script.println("location.href='login.jsp'");
+			script.println("</script>");
+		} else {
 			userVO = ((UserVO) session.getAttribute("userVO"));
 			userId = userVO.getId();
-		}
-		if (userId == null) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('로그인을 하세요.')");
-			script.println("location.href = 'club_search.jsp'");
-			script.println("</script>");
-		}
 
-		if (session.getAttribute("club_id") != null) {
-			club_id = (Integer) session.getAttribute("club_id");
-		}
-		if (clubMemberDAO.getStaff_CD(userId, club_id) != 0) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('권환이 없습니다.')");
-			script.println("location.href='index.jsp'");
-			script.println("</script>");
-		}
-
-		String category = "NM";
-		String search = "";
-		int pageNumber = 1; //현재 페이지 번호
-
-		if (request.getParameter("category") != null) {
-			category = request.getParameter("category");
-		}
-		if (request.getParameter("search") != null) {
-			search = request.getParameter("search");
-		}
-		if (request.getParameter("pageNumber") != null) {
-			try {
-				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-			} catch (Exception e) {
-				System.out.println("검색 페이지 번호 오류");
+			if (clubMemberDAO.getStaff_CD(userId, club_id) != 0) {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('권환이 없습니다.')");
+				script.println("location.href='index.jsp'");
+				script.println("</script>");
+			} else {
+	
+			String category = "NM";
+			String search = "";
+			int pageNumber = 1; //현재 페이지 번호
+	
+			if (request.getParameter("category") != null) {
+				category = request.getParameter("category");
 			}
-		}
-		System.out.println("[manage_list.jsp] category:" + category);
-		System.out.println("[manage_list.jsp] search:" + search);
+			if (request.getParameter("search") != null) {
+				search = request.getParameter("search");
+			}
+			if (request.getParameter("pageNumber") != null) {
+				try {
+					pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+				} catch (Exception e) {
+					System.out.println("검색 페이지 번호 오류");
+				}
+			}
+			System.out.println("[manage_list.jsp] category:" + category);
+			System.out.println("[manage_list.jsp] search:" + search);
+		
+		
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
@@ -280,6 +278,15 @@ table.type04 td {
 			</div>
 		</div>
 	</div>
+	
+	
+	<%	
+	
+			}
+	
+		}
+		
+		%>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 	<script>

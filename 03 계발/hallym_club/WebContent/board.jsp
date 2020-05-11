@@ -181,7 +181,7 @@
 								<button type="submit" class="category-btn">검색</button></li>
 							<li>
 							<%
-								if (userId.equals("20185280") || userId.equals("20185304")) {
+								if (userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")) {
 							%>
 							<a href="write.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>"
 								class="write-btn">글쓰기</a>

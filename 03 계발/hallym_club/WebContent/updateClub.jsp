@@ -42,11 +42,11 @@ table.type03 td {
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-			int club_id = 1;
+		int club_id = 1;
 
-			if (request.getParameter("club_id") != null) {
-		club_id = Integer.parseInt(request.getParameter("club_id"));
-			}
+		if (request.getParameter("club_id") != null) {
+			club_id = Integer.parseInt(request.getParameter("club_id"));
+		}
 	%>
 
 
@@ -75,20 +75,24 @@ table.type03 td {
 						style="font-size: 20px; text-align: right;" size="4"
 						value=<%=list.get(0).getCnt()%>>명</td> --%>
 				</tr>
-
-				<tr>
+				<input type="hidden" name="club_gb_cd" value=<%=list.get(0).getClub_gb_cd()%> />
+				<%-- <tr>
 					<th>구분</th>
-					<td><input type="radio" name="club_gb_cd" value="001001"
+					
+					
+					
+					 <td><input type="radio" name="club_gb_cd" value="001001"
 						<%if (list.get(0).getClub_gb_cd().equals("001001"))
 				out.println("checked='checked'");%> />
 						중앙동아리 <input type="radio" name="club_gb_cd" value="001002"
 						<%if (list.get(0).getClub_gb_cd().equals("001002"))
 				out.println("checked='checked'");%> />
-						과동아리</td>
-				</tr>
-
-				<tr>
+						과동아리</td> 
+				</tr> --%>
+				<input type="hidden" name="club_at_cd" value=<%=list.get(0).getClub_at_cd()%> />
+				<%-- <tr>
 					<th>분야</th>
+					
 					<td>
 						<input type="radio" name="club_at_cd" value="002001"
 							<%if (list.get(0).getClub_at_cd().equals("002001"))
@@ -112,7 +116,7 @@ table.type03 td {
 							<%if (list.get(0).getClub_at_cd().equals("002007"))
 								out.println("checked='checked'");%> /> 기타
 					</td>
-				</tr>
+				</tr> --%>
 
 				<tr>
 					<th>목적</th>

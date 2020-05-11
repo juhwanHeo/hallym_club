@@ -27,6 +27,13 @@
 		}
 		String dong_name = request.getParameter("dong_name");
 		System.out.println("[applyMod_Atction.jsp] dong_name: " + dong_name);
+		
+		
+		if (userVO.getGender().equals("1")) {
+			CM.setGENDER_CD("003001");
+		} else {
+			CM.setGENDER_CD("003002");
+		}
 		int result = CM_dao.modMember(CM, userId, dong_name);
 
 		if (result == -1) {

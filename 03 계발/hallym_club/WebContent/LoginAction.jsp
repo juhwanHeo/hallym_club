@@ -35,13 +35,22 @@
 		
 		if (result == 1) {
 			UserVO userVO = userDAO.getUser(username);
-			session.setAttribute("userVO", userVO);
-			System.out.println("[LoginAtion.jsp] userdata.getUsername(): " + username);
-			System.out.println("[LoginAtion.jsp] userVO: " + userVO);
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href='index.jsp'");
-			script.println("</script>");
+			
+			if(userVO.getId() != null) {
+				session.setAttribute("userVO", userVO);
+				System.out.println("[LoginAtion.jsp] userdata.getUsername(): " + username);
+				System.out.println("[LoginAtion.jsp] userVO: " + userVO);
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("location.href='index.jsp'");
+				script.println("</script>");
+			} else {
+				PrintWriter script = response.getWriter();
+				script.println("<script>");
+				script.println("alert('DB ERROR \n 다시 로그인을 시도해 주세요!!')");
+				script.println("location.href='index.jsp'");
+				script.println("</script>");
+			}
 		} else if (result == 0 || result == -1) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");

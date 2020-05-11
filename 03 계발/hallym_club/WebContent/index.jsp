@@ -1,3 +1,4 @@
+<%@page import="club.ClubDAO"%>
 <%@page import="user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -14,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="css/default.css?">
 
 </head>
+
 <body>
 
 	<%
@@ -67,13 +69,112 @@
 					</ul>
 					<a href="board.jsp" class="more">더보기</a>
 				</div>
+				
+				<%-- <%if(userId == null) { %> --%>
+				
+				
 				<div class="banner">
 					<h2>배너</h2>
 					<p>
 						<img src="image/banner.gif" alt="지금 로그인하고 다양한 동아리를 만나세요!">
 					</p>
 				</div>
-			</div>
+				
+				<%-- <% } else { 
+					
+					ClubDAO clubDAO = new ClubDAO();
+					ArrayList<String> WaitMyClub = clubDAO.getMyWaitClubList(userId);
+					int totalNum = WaitMyClub.size();
+					
+					%>
+				
+				
+				<div class="banner">	
+					<li> 가입 승인 중 동아리 </li>
+				<% 
+					if (totalNum > 0) {
+						for (int index = 0; index < totalNum; index++) {
+						
+				
+					
+				%>
+					<ul>
+						<li>
+							<form method="post" action="applyDeleteAction.jsp"
+								onSubmit="return confirm('가입 신청을 취소하시겠습니까?');" align="center">
+								<input type="text" name="clubNM" readOnly
+									value=<%=WaitMyClub.get(index)%>
+									style="width: 70px; height: auto;"> <input
+									type="submit" value="신청 취소">
+							</form> <script>
+								function postPopUp() {
+									window.open('', 'w',
+													'width=900,height=650,location=no,status=no');
+									return true;
+								}
+							</script>
+						</li>
+					</ul>
+					
+				
+				<% 		} 
+				
+					} else {
+				%>
+					
+					<p> 없음 </p>
+					
+				<% } %>
+					
+				
+					<li> 동아리 등록 현황 </li>
+				<% 
+				
+				
+					ArrayList<String> WaitRegisteredMyClub = clubDAO.getMyWaitRegisteredClubList(userId);
+					totalNum = WaitRegisteredMyClub.size();
+				
+					
+					if (totalNum > 0) {
+						for (int index = 0; index < totalNum; index++) {
+						
+				
+					
+				%>
+					<ul>
+						<li>
+							<form method="post" action="applyClubRegisterDeleteAction.jsp"
+								onSubmit="return confirm('동아리 등록을 취소하시겠습니까?');" align="center">
+								<input type="text" name="clubNM" readOnly
+									value=<%=WaitRegisteredMyClub.get(index)%>									
+									style="width: 70px; height: auto;"> 
+									
+									<input type="submit" value="신청 취소">
+							</form> <script>
+								function postPopUp() {
+									window.open('', 'w',
+													'width=900,height=650,location=no,status=no');
+									return true;
+								}
+							</script>
+						</li>
+					</ul>
+					
+				
+				<% 		} 
+				
+					} else {
+					
+				%>
+					<p> 없음 </p>
+					
+				<% } %>
+					
+				
+				</div>
+				
+				<% } %>--%>
+			</div> 
 
 			<jsp:useBean id="clubDao" class="club.ClubDAO" />
 
@@ -102,7 +203,7 @@
 							</div>
 							<div class="note"><%=vo.getClub_aim()%></div>
 							<div class="tag">
-								#<%=vo.getClub_active()%>
+								<%-- #<%=vo.getClub_active()%> --%>
 								#<%=vo.getClub_gb_cd()%>
 								#<%=vo.getClub_at_cd()%></div>
 						</li>
@@ -125,9 +226,9 @@
 									src="upload/club/<%=vo.getIntro_save_file_nm()%>"
 									onerror="this.src='image/error.png'" alt="">
 
-							</div> <jsp:useBean id="dao" class="club.ClubDAO" /> <%
- 	String star_state = dao.getStar(vo.getClub_id(), userId);
- %>
+							</div> 
+							<jsp:useBean id="dao" class="club.ClubDAO" /> 
+							<%	String star_state = dao.getStar(vo.getClub_id(), userId);%>
 							<div class="tit">
 								<%-- <a href="club_search.jsp?search=<%=vo.getClub_nm()%>"><%=vo.getClub_nm()%></a> --%>
 								<a href="club_intro.jsp?club_id=<%=vo.getClub_id()%>"><%=vo.getClub_nm()%></a>

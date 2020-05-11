@@ -32,7 +32,7 @@
 			script.println("alert('로그인이 필요합니다.')");
 			script.println("location.href='login.jsp'");
 			script.println("</script>");
-		} else if (!(userId.equals("20185280") || userId.equals("20185304"))) {
+		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('관리자 권환이 필요합니다.')");

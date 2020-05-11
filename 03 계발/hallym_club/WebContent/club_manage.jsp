@@ -1,7 +1,6 @@
 
 
-<%@page import="clubMember.ClubMemberDAO"%>
-<%@page import="club.ClubDAO"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="java.net.URLEncoder"%>
@@ -9,6 +8,8 @@
 <%@page import="club.ClubVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.io.PrintWriter"%>
+<%@page import="clubMember.ClubMemberDAO"%>
+<%@page import="club.ClubDAO"%>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,6 +20,14 @@
 <link rel="stylesheet" type="text/css" href="css/club_main.css">
 <link rel="stylesheet" type="text/css" href="css/page.css">
 <style>
+.main {
+	float: left;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin-left: 20px;
+}
+
 table.type04 {
 	border-collapse: collapse;
 	text-align: center;
@@ -56,6 +65,16 @@ table.type04 td {
 	/*width: 100%; */
 	overflow: auto;
 }
+
+.club_manage {
+	text-decoration: none;
+	color: black;
+}
+
+.club_manage:hover {
+	text-decoration: underline;
+	color: blue;
+}
 </style>
 </head>
 <body>
@@ -76,15 +95,15 @@ table.type04 td {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('로그인을 하세요.')");
-			script.println("location.href = 'club_search.jsp'");
+			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
-		} else if(!(userId.equals("20185280") || userId.equals("20185304"))) {
+		} else if(!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
 			out.println("<script>");
 			out.println("alert('관리자 권환이 필요헙니다.')");
 			out.println("location.href='index.jsp'");
 			out.println("</script>");
 		}
-				String category = "NM";
+		String category = "NM";
 		String search = "";
 		int pageNumber = 1; //현재 페이지 번호
 
@@ -102,10 +121,6 @@ table.type04 td {
 			}
 		}
 		
-		
-		
-		// System.out.println("[manage_list.jsp] category:" + category);
-		// System.out.println("[manage_list.jsp] search:" + search);
 	%>
 
 
@@ -122,15 +137,15 @@ table.type04 td {
 				ArrayList<ClubVO> notRegisteredClubList = clubDAO.getNotRegisteredClub();%>
 				
 				
-				<%--
-				try {
-					totalcount = member_list.get(0).getRow_count();
-					System.out.println("[manage_list.jsp] totalcount: "+totalcount);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				 if (totalcount == 0) {
+			<%--
+			try {
+				totalcount = member_list.get(0).getRow_count();
+				System.out.println("[manage_list.jsp] totalcount: "+totalcount);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			 if (totalcount == 0) {
 			
 			<p>검색 결과가 없습니다.</p>
 			<%
@@ -166,7 +181,7 @@ table.type04 td {
 						
 						
 				%>
-				<form name="form" method="post" action="register_cd_update.jsp">
+			<form name="form" method="post" action="register_cd_update.jsp">
 				<tr>
 						<%
 						String title = "";
@@ -201,7 +216,6 @@ table.type04 td {
 						<td><%=vo.getClub_aim() %></td>
 						<td><%=vo.getClub_active() %></td>
 						<td><%=vo.getOpen_dt() %></td>
-						<td><%=vo.getClub_room() %></td>
 						<td><%=vo.getClub_room() %></td>
 						<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
 						<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
@@ -247,7 +261,7 @@ table.type04 td {
 						
 						
 				%>
-			<form name="form" method="post" action="join_cd_update.jsp">
+			
 				<tr>
 				
 						<%
@@ -274,11 +288,17 @@ table.type04 td {
 							case "002007":
 								title = "기타";
 								break;
-							
+								
+								
+								
+								
 							}
 							
 							%>
-						<td><%=vo.getClub_nm() %></td>
+					<form name="form" method="post" action="club_info.jsp">
+						<td class="club_manage" onclick="popup(<%=vo.getClub_id()%>)"><%=vo.getClub_nm() %></td>
+						<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
+					</form>
 						<td><%=title%></td>
 						<td><%=vo.getClub_aim() %></td>
 						<td><%=vo.getClub_active() %></td>
@@ -286,16 +306,16 @@ table.type04 td {
 						<td><%=vo.getClub_room() %></td>
 						<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
 						<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
-						<%-- <input type="hidden" name="student_id"
-							value=<%=vo.getClub_id()%>>
-						<input type="hidden" name="join_club" value=<%=vo.getClub_id() %>> --%>
-
-						<td><%-- <button value=<%=vo.getClub_id()%> name="update"
-								class="manage-btn" onclick="popup(this.form);">수정</button> 
-							<input type="submit" value="제명" name="submit" class="manage-btn"
-							onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 제명하시겠습니까?');"> --%></td>
+						
+					<form name="form" method="post" action="clubDeleteAction.jsp">
+						<td>
+							<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
+							<input type="submit" value="삭제" name="submit" class="manage-btn"
+							onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 삭제하겠습니까?');"> 
+						</td>
+					</form>
 					</tr>
-				</form>
+				
 				<%
 					}
 				%>
@@ -307,8 +327,8 @@ table.type04 td {
 			
 			<!-- <p>
 			<button id="export" onclick="data_export();">Excel다운</button>
-		오류
-		</p> -->
+				오류
+			</p> -->
 			<div class="page_wrap">
 				<div class="page_nation">
 					<%
@@ -374,37 +394,18 @@ table.type04 td {
 					%>
 				</div>
 			</div>
-
-			<%-- <div class="category">
-				<form method="get" action="manage_list.jsp?&club_id=<%=club_id%>">
-					<ul>
-						<li><select name="category">
-								<option value="nm"
-									<%if (category.equals("nm"))
-				out.println("selected");%>>이름</option>
-								<option value="major"
-									<%if (category.equals("major"))
-				out.println("selected");%>>전공</option>
-								<option value="student_id"
-									<%if (category.equals("student_id"))
-				out.println("selected");%>>학번</option>
-						</select></li>
-						<li><input type="text" id="search" name="search" size="30"
-							value="<%=search%>" onfocus="this.select()"></li>
-						<li><button type="submit" class="category-btn">검색</button></li>
-					</ul>
-				</form>
-			</div> --%>
+			
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-<!-- 	<script>
+	<script>
 		function popup(frm) {
-			var url = "memberInfo.jsp";
+			var url = "club_info.jsp?club_id="+frm;
 			var title = "testpop";
-			var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=800, height=500, top=50,left=20";
-			window.open("", title, status); //window.open(url,title,status); window.open 함수에 url을 앞에와 같이
+			var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=950, height=500, top=50,left=20";
+			window.open(url, title, status); 
+			//window.open(url,title,status); window.open 함수에 url을 앞에와 같이
 			//인수로  넣어도 동작에는 지장이 없으나 form.action에서 적용하므로 생략
 			//가능합니다.
 			frm.target = title; //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
@@ -412,7 +413,7 @@ table.type04 td {
 			frm.method = "post";
 			frm.submit();
 		}
-	</script> -->
+	</script>
 
 	<div id="footer">
 			<jsp:include page="footer.jsp"></jsp:include>

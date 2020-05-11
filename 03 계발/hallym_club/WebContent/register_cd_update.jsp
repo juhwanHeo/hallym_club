@@ -1,4 +1,5 @@
 
+<%@page import="clubMember.ClubMemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -42,9 +43,28 @@
  
  		
 		} else if (submit.equals("거절")) {
+			ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 			
+			if(clubMemberDAO.deleteClubMemberAll(club_id) != -1) {
+				
+				if(clubDAO.deleteClub(club_id) != -1) {
+					out.println("<script>");
+					out.println("alert('성공적으로 처리 되었습니다.')");
+					out.println("</script>");
+				}
+				else {
+					out.println("<script>");
+					out.println("alert('CLUB ERROR')");
+					out.println("</script>");
+				}
+				
+			} else {
+				out.println("<script>");
+				out.println("alert('CLUBMEMBER ERROR')");
+				out.println("</script>");
+			}
 			System.out.println("[register_cd_update.jsp] 거절");
-			int result = clubDAO.setRegister_cd(club_id, "008002");
+			/* int result = clubDAO.setRegister_cd(club_id, "008002");
 			if (result == -1) {
 				out.println("<script>");
 				out.print("alert('다시 시도해주세요.');");
@@ -53,7 +73,7 @@
 				out.println("<script>");
 				out.print("alert('승인 거부 하였습니다.');");
 				out.println("</script>");
-			}
+			} */
 		} 
 		
 		out.println("<script>");

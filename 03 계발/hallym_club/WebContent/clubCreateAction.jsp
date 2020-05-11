@@ -1,3 +1,4 @@
+<%@page import="user.UserDAO"%>
 <%@page import="club.ClubDAO"%>
 <%@page import="club.ClubVO"%>
 <%@page import="java.util.Enumeration"%>
@@ -46,6 +47,9 @@
 		CV.setRegister_cd("008003");
 		String student_id = multipartRequest.getParameter("student_id");
 
+		
+		UserDAO userDAO = new UserDAO();
+		
 		// 다중 업로드
 		Enumeration fileNames = multipartRequest.getFileNames();
 
@@ -94,6 +98,8 @@
 		}
 
 		try {
+			System.out.println("[clubCreateAction.jsp] getUser(): " + userDAO.getUser(student_id));
+			
 			int result = new ClubDAO().createClub(CV, student_id);
 			if (result == -1) {
 				out.print("<script>");
@@ -105,7 +111,10 @@
 				out.print("alert('등록을 완료했습니다.');");
 				out.println("location.href='index.jsp'");
 				out.print("</script>");
+			
 			}
+			
+			
 		} catch (Exception e) {
 			out.print("<script>");
 			out.print("alert('등록된 학생이 아닙니다. \n등록이 정상적으로 완료되지 않았습니다');");

@@ -13,6 +13,34 @@
 <title>한림대학교 동아리</title>
 <link rel="stylesheet" type="text/css" href="css/common.css">
 </head>
+
+<style>
+
+#ggnb {position:absolute; top:0; left:300px; width:600px; height:50px; margin:0; padding:0; list-style:none;}
+#ggnb li {float:left; width:150px; height:50px; margin:0; padding:0;}
+#ggnb li ul {
+   background: white;
+   display: none;
+   width: 25%;
+   height: auto;
+   padding: 0px;
+   margin: 0px;
+   border: 0px;
+   position: absolute;
+   top:50px;
+   z-index: 200;
+   font-size:13px;
+}
+#ggnb li ul li{float:center; width:150px; height:23px; margin:0; padding:0; }
+
+#ggnb li:hover ul {
+   display: block; 
+}
+#ggnb a {float:left; width:150px; height:50px; font-weight:600; font-size:15px; line-height:50px; text-align:center;}
+
+
+
+</style>
 <body>
 
 	<%
@@ -40,30 +68,34 @@
 	</ul>
 	<%
 		} else {
+			
+			
 	%>
 	<ul id="snb">
-		<li><span class="txt"> <%
- 	out.print(username + " 님 환영합니다.");
-	 %>				
-		</span></li>
+		<li><span class="txt" onclick="location.href='myPage.jsp'" style="cursor:pointer;"><%out.print(username + " 님 환영합니다.");%></span></li>
 		<li><a href='logoutAction.jsp'>로그아웃</a></li>
 		<%
-			if (userId.equals("20185289") || userId.equals("20185304") || userId.equals("20185280")) {
+			if (userId.equals("20185289") || userId.equals("20185304") || userId.equals("20185280") || userId.equals("20765")) {
 		%>
 		<li><a href="club_manage.jsp">동아리 관리</a></li>
 		<%
 			}
 		%>
+		<!-- <li><a href="myPage.jsp">myPage</a></li> -->
 	</ul>
+	
 	<%
 		}
 	%>
 
-	<ul id="gnb">
-		<li><a href="club_search.jsp">동아리조회</a></li>
-		<li><a href="top_club.jsp">우수동아리</a></li>
-		<li><a href="board.jsp">공지사항</a></li>
-		<li><a href="createClub.jsp">동아리 등록</a></li>
-	</ul>
+
+	
+
+		<ul id="gnb">
+			<li><a href="club_search.jsp">조회 및 가입</a></li>
+			<li><a href="top_club.jsp">우수동아리</a></li>
+			<li><a href="board.jsp">공지사항</a></li>
+			<li><a href="createClub.jsp">개설</a></li>
+		</ul>
 </body>
 </html>

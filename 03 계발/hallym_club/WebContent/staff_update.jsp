@@ -44,7 +44,7 @@
 			}
 		} else {
 			if (!student_id.equals(user_name)) {
-				int result = dao.update(club_id, student_id, "004001"); //다음 회장
+				int result = dao.clubMemberUpdate(club_id, student_id, "004001"); //다음 회장
 
 				int result2 = 0;
 				if (!user_name.equals("admin")) {
