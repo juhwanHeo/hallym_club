@@ -29,3 +29,4 @@
  * [2020-04-05]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.04.05.md )  
  * [2020-04-27]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.04.27.md ) 
  * [2020-05-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.05.11.md ) 
+ * [2020-05-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.06.01.md )
