@@ -11,8 +11,8 @@
 <jsp:useBean id="clubMem_DAO" class="clubMember.ClubMemberDAO" />
 <jsp:useBean id="club_DAO" class="club.ClubDAO" />
 
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/table.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/table.css?after">
 </head>
 <body>
 	<%
@@ -135,7 +135,13 @@
 		<%
 			}
 		%>
+		
 	</div>
+	<hr>
+		<div id="footer">
+			<jsp:include page="footer.jsp"></jsp:include>
+		</div>
+	<hr>
 
 	<script>
 		function numberWithCommas(x) {

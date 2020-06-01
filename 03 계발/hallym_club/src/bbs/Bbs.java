@@ -13,6 +13,7 @@ public class Bbs {
 	private int row_count;
 	private String start_date;
 	private String end_date;
+	private String BOARD_FIX;
 
 	public String getStart_date() {
 		return start_date;
@@ -108,6 +109,16 @@ public class Bbs {
 
 	public void setBbsAvailable(int bbsAvailable) {
 		this.bbsAvailable = bbsAvailable;
+	}
+	
+	public String getBOARD_FIX() {
+		if(BOARD_FIX == null)
+			this.setBOARD_FIX("N");
+		return BOARD_FIX;
+	}
+	
+	public void setBOARD_FIX(String BOARD_FIX) {
+		this.BOARD_FIX = BOARD_FIX;
 	}
 
 }

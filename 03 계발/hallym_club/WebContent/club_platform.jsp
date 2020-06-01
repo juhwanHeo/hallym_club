@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <jsp:useBean id="clubDAO" class="club.ClubDAO" />
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
 </head>
 <body>
 	<%
@@ -241,19 +241,15 @@
 			</ul>
 			<hr>
 		</div>
+		
 		<!-- 	</div> -->
 
 		<!-- <div class="main">
 				<img width="980" height="700" src="img/clubposter/prac1.jpg" alt="">
 			</div> -->
 
-		<hr>
-		<div id="footer">
-			<div class="copyright">
-				<address>Copyright 2019. 김정인, 김진섭. All Rights Reserved.</address>
-			</div>
-		</div>
 	</div>
+	
 	
 	
 	<%
@@ -263,5 +259,10 @@
 		} 
 	
 	%>
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 </body>
 </html>

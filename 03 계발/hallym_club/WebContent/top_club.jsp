@@ -16,9 +16,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/common.css">
-<link rel="stylesheet" type="text/css" href="css/search.css">
-<link rel="stylesheet" type="text/css" href="css/top.css">
+<link rel="stylesheet" type="text/css" href="css/common.css?after">
+<link rel="stylesheet" type="text/css" href="css/search.css?after">
+<link rel="stylesheet" type="text/css" href="css/top.css?after">
 
 
 </head>
@@ -55,11 +55,15 @@
 				System.out.println("검색 페이지 번호 오류");
 			}
 		}
+		if(club_at_cd.equals("")) club_at_cd = "002001";
 	%>
 
 	<%
 		String title = "";
-		switch(club_at_cd) {
+		if(club_at_cd.equals("002001")) title = "공연 동아리 TOP";
+		else title="비공연 동아리 TOP";
+		
+		/* switch(club_at_cd) {
 			case "001001":
 				title = "중앙 동아리 TOP5";
 				break;
@@ -89,8 +93,8 @@
 				break;
 			default:
 				title = "전체 동아리 TOP5";
-				break;
-		}
+				break; 
+		}*/
 	%>
 	<div id="wrap">
 		<div id="header">
@@ -102,26 +106,28 @@
 				<form method="get" action="top_club.jsp" id="frm">
 				    <h2><%=title%></h2>
 					<ul>
-						<li class="on"><a href="top_club.jsp?">전체</a></li>
+						<!-- <li class="on"><a href="top_club.jsp?">전체</a></li>
 						<li><a href="top_club.jsp?club_gb_cd=001001 ">중앙</a></li>
-						<li><a href="top_club.jsp?club_gb_cd=001002 ">과</a></li>
+						<li><a href="top_club.jsp?club_gb_cd=001002 ">과</a></li> -->
 						<li><a href="top_club.jsp?club_at_cd=002001 ">공연</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002002 ">학술</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002003 ">취미예술</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002002 ">비공연</a></li>
+						<!-- <li><a href="top_club.jsp?club_at_cd=002003 ">취미예술</a></li>
 						<li><a href="top_club.jsp?club_at_cd=002004 ">종교</a></li>
 						<li><a href="top_club.jsp?club_at_cd=002005 ">체육</a></li>
 						<li><a href="top_club.jsp?club_at_cd=002006 ">봉사</a></li>
-						<li><a href="top_club.jsp?club_at_cd=002007 ">기타</a></li>
+						<li><a href="top_club.jsp?club_at_cd=002007 ">기타</a></li> -->
 					</ul>
 				</form>
 			</div>
 			<jsp:useBean id="dao" class="club.ClubDAO" />
 			<%
-				ArrayList<ClubVO> gb_list = dao.getTopClub(club_gb_cd, club_at_cd);
-
+				// ArrayList<ClubVO> gb_list = dao.getTopClub(club_gb_cd, club_at_cd);
+				if(club_at_cd == null) club_at_cd = "002001";
+				ArrayList<ClubVO> gb_list = dao.getTopClub2("001001", club_at_cd);
 				int rank = 0;
 				for (ClubVO vo : gb_list) {
 					rank++;
+					// System.out.println("[topClub]: " + vo.getClub_nm());
 			%>
 
 			<%
@@ -129,8 +135,9 @@
 			%>
 			<div class="latest">
 				<div class="logo">
-					<span class="num_item"> <%=rank%>
-					</span> <img class="img" src="upload/club/<%=vo.getIntro_save_file_nm()%>"
+					<span class="num_item"> <%=rank%></span>
+					
+					<img class="img" src="upload/club/<%=vo.getIntro_save_file_nm()%>"
 						onerror="this.src='image/error.png'"></img>
 				</div>
 				<div class="tbl-info">

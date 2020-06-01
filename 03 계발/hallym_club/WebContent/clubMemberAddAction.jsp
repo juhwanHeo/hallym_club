@@ -28,7 +28,8 @@
 			out.println("alert('로그인을 하세요.')");
 			out.print("window.close();");
 			out.println("</script>");
-		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
+		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+				|| userId.equals("20152318") || userId.equals("20152335"))) {
 			out.println("<script>");
 			out.println("alert('관리자 권환이 필요헙니다.')");
 			out.print("window.close();");

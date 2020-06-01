@@ -69,7 +69,6 @@
 
 		} else {
 			if (request.getParameter("TITLE") == null || request.getParameter("CONTENTS") == null
-
 					|| request.getParameter("TITLE").equals("") || request.getParameter("CONTENTS").equals("")) {
 				PrintWriter script = response.getWriter();
 				script.println("<script>");

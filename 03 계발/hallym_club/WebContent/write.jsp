@@ -10,9 +10,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
-<link rel="stylesheet" type="text/css" href="css/common.css">
-<link rel="stylesheet" type="text/css" href="css/view.css?">
+
+<link rel="stylesheet" type="text/css" href="css/common.css?after">
+<link rel="stylesheet" type="text/css" href="css/view.css?after">
+
+<!-- 
+<link rel="stylesheet" type="text/css" href="css/ckeditor5.css?">
+	-->
 <title>한림대학교 동아리</title>
+
+<style>
+
+	.ck-editor__editable {
+		min-height: 400px;
+		max-height: 500px;
+	}
+	
+	.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+    	width: auto;
+	}
+	
+	.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    	width: auto;
+	}
+</style>
 </head>
 
 <body>
@@ -32,7 +53,8 @@
 			script.println("alert('로그인이 필요합니다.')");
 			script.println("location.href='login.jsp'");
 			script.println("</script>");
-		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
+		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+				|| userId.equals("20152318") || userId.equals("20152335"))) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('관리자 권환이 필요합니다.')");
@@ -88,23 +110,30 @@
 							</select> <input type="text" name="TITLE" style="width: 80%;"
 								autocomplete="off"></td>
 						</tr>
-
 						<tr>
-							<td>동아리명</td>
+							<td>고정 게시글</td>
+							<td>
+					           	<label>
+					           		<input type="checkbox" name="BOARD_FIX" value="Y">
+					           		고정글
+					           	</label>
+				           </td>
+				        </tr>
+						<tr>
+							<td>작성자</td>
 							<%
 								clubMember.ClubMemberDAO cm = new clubMember.ClubMemberDAO();
 							%>
 							<input type="hidden" name="club_id" value=<%=club_id%>>
 							<td><%=cm.getClubNMs(club_id)%></td>
 						</tr>
-
-						<tr>
-							<td>내용</td>
-							<td><textarea name="CONTENTS" id="bbsTitle" rows="20"
-									style="width: 100%; resize: none;"></textarea></td>
-						</tr>
 					</table>
-
+					<!-- 
+					<div>
+						<textarea name="CONTENTS" id="bbsTitle" class="editor" rows="20" style="width: 100%; resize: none;"></textarea>
+					</div>
+					-->
+					<textarea name="CONTENTS" id="bbsTitle" class="editor" style="width: 100%; resize: none;">내용을 입력해주세요</textarea>
 					<div class="write-btn">
 						<input type="submit" class="input-btn" name="작성" value="작성">
 						<input type="reset" class="input-btn" name="취소" value="취소"
@@ -113,15 +142,27 @@
 				</form>
 
 			</div>
-			<hr>
-
-
-			<div id="footer">
-				<jsp:include page="footer.jsp"></jsp:include>
-			</div>
-
+			
+		</div>
+		<hr>
+		<div id="footer2">
+			<jsp:include page="footer.jsp"></jsp:include>
 		</div>
 	</div>
+	
+	<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>
+	<script>
+	    ClassicEditor
+	        .create( document.querySelector( '.editor' ), {
+	        	
+	        })
+	        .then( editor => {
+	        	window.editor = editor;
+	        })
+	        .catch( error => {
+	            console.error( error );
+	        } );
+	</script>
 </body>
 
 </html>

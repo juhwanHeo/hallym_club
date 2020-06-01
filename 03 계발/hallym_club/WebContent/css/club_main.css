@@ -81,8 +81,8 @@ html, body {height:100%;}
 
 .latest input[type="button"] {cursor: pointer;}
 
-#footer {position:absolute; left:0; bottom:0; width:100%; height:2.5em; background:#666; color:#FFF; z-index:300;}
-#footer address {padding:0.5em 0 0; font-style:normal; text-align:center;}
+/* #footer {position:absolute; left:0; bottom:0; width:100%; height:2.5em; background:#666; color:#FFF; z-index:300;}
+#footer address {padding:0.5em 0 0; font-style:normal; text-align:center;} */
 
 /* myClub_Board */
 .btn {float: right; position: relative; top:20px; right:40px; display: inline-block; background: #4c4c4d; border: none; border-radius: 5px; color: #fff; font-size: 13px; padding: 0 15px; 

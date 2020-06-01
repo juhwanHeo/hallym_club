@@ -11,9 +11,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
-<link rel="stylesheet" type="text/css" href="css/common.css">
-<link rel="stylesheet" type="text/css" href="css/view.css?">
+
+<link rel="stylesheet" type="text/css" href="css/common.css?after">
+<link rel="stylesheet" type="text/css" href="css/view.css?after">
+
 <title>한림대학교 동아리</title>
+
+<style>
+
+	.ck-editor__editable {
+		min-height: 400px;
+		/*max-height: 500px;*/
+	}
+	
+	.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+    	width: auto;
+	}
+	
+	.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    	width: auto;
+	}
+	
+</style>
 </head>
 
 <body>
@@ -73,8 +92,10 @@
 					</div>
 				</div>
 
-				<div class="view-con"><%=bbs.getCONTENTS()%></div>
-
+				<!-- <div class="view-con"><%=bbs.getCONTENTS()%></div> -->
+				<div class="view-con">
+					<textarea class="editor"><%=bbs.getCONTENTS()%></textarea>
+				</div>
 				<div class="view-btn">
 					<a
 						href="update.jsp?BOARD_NO=<%=bbs.getBOARD_NO()%>&club_id=<%=club_id%>&board_cd=<%=board_cd%>"
@@ -84,13 +105,31 @@
 				</div>
 
 			</div>
-			<hr>
-			<div id="footer">
-				<jsp:include page="footer.jsp"></jsp:include>
-			</div>
 
 		</div>
+		<hr>
+		<div id="footer" style="position: static;">
+			<jsp:include page="footer.jsp"></jsp:include>
+		</div>
 	</div>
+
+	<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>
+	<script>
+	    ClassicEditor
+	        .create( document.querySelector( '.editor' ), {
+	        	toolbar: []
+	        })
+	        .then( editor => {
+				editor.isReadOnly = true;
+	        })
+	        .catch( error => {
+	            console.error( error );
+	        } );
+	</script>
+	<script>
+		var header = document.querySelector("h1");	//제거하고자 하는 엘리먼트
+		header.parentNode.removeChild(header);
+	</script>
 </body>
 
 </html>

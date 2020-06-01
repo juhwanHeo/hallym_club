@@ -14,9 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=1200">
 
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/table.css">
-<link rel="stylesheet" type="text/css" href="css/page.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/table.css?after">
+<link rel="stylesheet" type="text/css" href="css/page.css?after">
 <title>한림대학교 동아리</title>
 </head>
 <body>
@@ -292,6 +292,11 @@
 
 		</div>
 	</div>
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 
 </body>
 </html>

@@ -56,12 +56,13 @@
 		String parameter = (String) fileNames.nextElement();
 		String fileName = multipartRequest.getOriginalFileName(parameter);
 		String fileSaveName = multipartRequest.getFilesystemName(parameter);
+		int error_cd = 0;
 
 		if (fileName == null) {
 			CV.setPoster_file_nm(fileName);
 			CV.setPoster_save_file_nm(fileSaveName);
 		} else {
-			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
+			if (!fileName.toLowerCase().endsWith(".jpg") && !fileName.toLowerCase().endsWith(".png") && !fileName.toLowerCase().endsWith(".gif")
 					&& !fileName.endsWith(".bmp")) {
 				File file = new File(directory + fileSaveName);
 				file.delete();
@@ -69,6 +70,8 @@
 				out.write("alert('업로드할 수 없는 확장자입니다.');");
 				out.write("history.back();");
 				out.write("</script>");
+
+				error_cd +=1;
 			} else {
 				CV.setPoster_file_nm(fileName);
 				CV.setPoster_save_file_nm(fileSaveName);
@@ -83,7 +86,7 @@
 			CV.setIntro_file_nm(fileName);
 			CV.setIntro_save_file_nm(fileSaveName);
 		} else {
-			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
+			if (!fileName.toLowerCase().endsWith(".jpg") && !fileName.toLowerCase().endsWith(".png") && !fileName.toLowerCase().endsWith(".gif")
 					&& !fileName.endsWith(".bmp")) {
 				File file = new File(directory + fileSaveName);
 				file.delete();
@@ -91,27 +94,37 @@
 				out.write("alert('업로드할 수 없는 확장자입니다.');");
 				out.write("history.back();");
 				out.write("</script>");
+				
+				error_cd +=1;
 			} else {
 				CV.setIntro_file_nm(fileName);
 				CV.setIntro_save_file_nm(fileSaveName);
+				
+				
 			}
 		}
-
+		
 		try {
 			System.out.println("[clubCreateAction.jsp] getUser(): " + userDAO.getUser(student_id));
-			
-			int result = new ClubDAO().createClub(CV, student_id);
-			if (result == -1) {
-				out.print("<script>");
-				out.print("alert('등록이 정상적으로 완료되지 않았습니다.');");
-				out.print("history.back();");
-				out.print("</script>");
+			if(error_cd == 0) {
+				int result = new ClubDAO().createClub(CV, student_id);
+				if (result == -1) {
+					out.print("<script>");
+					out.print("alert('등록이 정상적으로 완료되지 않았습니다.');");
+					out.print("history.back();");
+					out.print("</script>");
+				} else {
+					out.print("<script>");
+					out.print("alert('등록을 완료했습니다.');");
+					out.println("location.href='index.jsp'");
+					out.print("</script>");
+				
+				}
 			} else {
 				out.print("<script>");
-				out.print("alert('등록을 완료했습니다.');");
+				out.print("alert(' Error ');");
 				out.println("location.href='index.jsp'");
 				out.print("</script>");
-			
 			}
 			
 			
@@ -121,6 +134,8 @@
 			out.print("history.back();");
 			out.print("</script>");
 		}
+
+		
 	%>
 
 </body>

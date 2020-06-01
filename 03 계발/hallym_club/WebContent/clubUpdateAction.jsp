@@ -20,7 +20,6 @@
 		request.setCharacterEncoding("UTF-8");
 
 		String directory = application.getRealPath("/upload/club/");
-		// String directory = application.getRealPath("C:/JSP/upload/"); 보안코딩 
 		int maxSize = 1024 * 1024 * 100;
 		String encoding = "UTF-8";
 
@@ -45,17 +44,19 @@
 		String student_id = multipartRequest.getParameter("student_id");
 
 		// 다중 업로드
-		Enumeration fileNames = multipartRequest.getFileNames();
+		/* Enumeration fileNames = multipartRequest.getFileNames();
 
 		String parameter = (String) fileNames.nextElement();
 		String fileName = multipartRequest.getOriginalFileName(parameter);
 		String fileSaveName = multipartRequest.getFilesystemName(parameter);
 
+		
+		
 		if (fileName == null) {
 			CV.setPoster_file_nm(fileName);
 			CV.setPoster_save_file_nm(fileSaveName);
 		} else {
-			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
+			if (!fileName.toLowerCase().endsWith(".jpg") && !fileName.toLowerCase().endsWith(".png") && !fileName.toLowerCase().endsWith(".gif")
 					&& !fileName.endsWith(".bmp")) {
 				File file = new File(directory + fileSaveName);
 				file.delete();
@@ -77,7 +78,7 @@
 			CV.setIntro_file_nm(fileName);
 			CV.setIntro_save_file_nm(fileSaveName);
 		} else {
-			if (!fileName.endsWith(".jpg") && !fileName.endsWith(".png") && !fileName.endsWith(".gif")
+			if (!fileName.toLowerCase().endsWith(".jpg") && !fileName.toLowerCase().endsWith(".png") && !fileName.toLowerCase().endsWith(".gif")
 					&& !fileName.endsWith(".bmp")) {
 				File file = new File(directory + fileSaveName);
 				file.delete();
@@ -90,7 +91,7 @@
 				CV.setIntro_save_file_nm(fileSaveName);
 			}
 		}
-
+ */
 		int result = new ClubDAO().updateClub(CV);
 		if (result == -1) {
 			out.print("<script>");

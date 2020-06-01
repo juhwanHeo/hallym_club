@@ -6,9 +6,12 @@ select {border: 1px solid #dddddd; height: 30px; background: #fff; margin-right:
 input[type="text"] {height: 30px; border: 1px solid #dddddd; width: 300px; padding-left: 10px; padding-right: 50px;}
 button{cursor: pointer;}
 /* layout */
-#content {padding-bottom:3em; z-index:200;}
+#content {padding-bottom:3em; z-index:200; -ms-overflow-style: none; overflow:auto;}
 
-.info_tit {width:900px; margin:20px auto; text-align:justify;}
+/* Scroll bar invisible */
+::-webkit-scrollbar { display: none;}
+
+.info_tit {width:900px; margin:10px auto; text-align:justify;}
 
 /* view */
 .view-lay {text-align:justify; width:900px; margin: 0 auto;}
@@ -19,7 +22,8 @@ button{cursor: pointer;}
 .view-info span {margin-right: 30px; border-left: 1px solid #ddd; padding-left: 10px;}
 .view-info strong {display: inline-block; padding: 0 10px 0 0;}
 
-.view-con { padding: 40px 40px; border-bottom: 1px solid #888; white-space:pre;}
+/*.view-con { padding: 40px 40px; border-bottom: 1px solid #888; white-space:pre;}*/
+.view-con { margin-block-start: -1px; border-bottom: 1px solid #888;}
 
 .view-btn {text-align: right; margin-top: 25px;}
 

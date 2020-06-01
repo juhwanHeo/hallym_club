@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
 <link href='js/packages/core/main.css' rel='stylesheet' />
 <link href='js/packages/daygrid/main.css' rel='stylesheet' />
 <script src='js/packages/core/main.js'></script>
@@ -124,5 +124,10 @@
 		</div>
 		<div id='calendar' style="max-width: 880px; margin: 0 auto;"></div>
 	</div>
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 </body>
 </html>

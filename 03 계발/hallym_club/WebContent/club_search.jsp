@@ -17,7 +17,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/common.css?after">
 <link rel="stylesheet" type="text/css" href="css/search.css?after">
 <link rel="stylesheet" type="text/css" href="css/page.css?after">
 </head>

@@ -93,7 +93,16 @@
 							for (int i = 0; i < board_list.size(); i++) {
 					%>
 					<tr>
-						<td><%=board_list.get(i).getBOARD_NO()%></td>
+						<td>
+							<%
+								String fix = board_list.get(i).getBOARD_FIX();
+								if(fix.equalsIgnoreCase("Y")) {
+							%>
+									<img src="image/ic_notice.gif" border="0" valign="middle" alt="고정글">
+							<% } else { %>
+									<%=board_list.get(i).getBOARD_NO()%>
+							<% } %>
+						</td>
 						<td><a
 							href="view.jsp?BOARD_NO=<%=board_list.get(i).getBOARD_NO()%>&club_id=<%=club_id%>&board_cd=<%=board_cd%>">
 								<%=board_list.get(i).getTITLE()%></a></td>
@@ -181,7 +190,8 @@
 								<button type="submit" class="category-btn">검색</button></li>
 							<li>
 							<%
-								if (userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")) {
+								if (userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+										 || userId.equals("20152318")  || userId.equals("20152335")) {
 							%>
 							<a href="write.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>"
 								class="write-btn">글쓰기</a>

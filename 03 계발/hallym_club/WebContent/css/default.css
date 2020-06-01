@@ -71,6 +71,6 @@ html, body {height:100%;}
 .club .tag {font-size:13px; color:#888;}
 
 .star-btn {background-color: white; border: none; float:right; margin-right:15px;}
-
-#footer {position:absolute; left:0; bottom:0; width:100%; height:8em; background:#666; color:#FFF; z-index:300;}
-#footer address {padding:3em 0 0; font-style:normal;}
+/* 
+#footer {position:absolute; left:0; bottom:0; width:100%; height:5em; background:#666; color:#FFF; z-index:300;}
+#footer address {padding:3em 0 0; font-style:normal;} */

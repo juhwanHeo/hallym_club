@@ -17,8 +17,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/page.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/page.css?after">
 <style>
 .main {
 	float: left;
@@ -78,10 +78,6 @@ table.type04 td {
 </style>
 </head>
 <body>
-
-<div id="header">
-		<jsp:include page="header.jsp"></jsp:include>
-</div>
 	<%
 		request.setCharacterEncoding("UTF-8");
 		
@@ -97,7 +93,8 @@ table.type04 td {
 			script.println("alert('로그인을 하세요.')");
 			script.println("location.href = 'login.jsp'");
 			script.println("</script>");
-		} else if(!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
+		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+				|| userId.equals("20152318") || userId.equals("20152335"))) {
 			out.println("<script>");
 			out.println("alert('관리자 권환이 필요헙니다.')");
 			out.println("location.href='index.jsp'");
@@ -122,288 +119,317 @@ table.type04 td {
 		}
 		
 	%>
+	<div id="wrap">
+		<div id="header">
+				<jsp:include page="header.jsp"></jsp:include>
+		</div>
 
-
-	<div class="main">
-		<div class="mainLeft" style="height: 700px;" >
-
-
-			<%
-				ClubDAO clubDAO = new ClubDAO();
-				ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
-				int totalcount = 0;
-
-				ArrayList<ClubVO> registeredClubList = clubDAO.getRegisteredClub();
-				ArrayList<ClubVO> notRegisteredClubList = clubDAO.getNotRegisteredClub();%>
-				
-				
-			<%--
-			try {
-				totalcount = member_list.get(0).getRow_count();
-				System.out.println("[manage_list.jsp] totalcount: "+totalcount);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			 if (totalcount == 0) {
-			
-			<p>검색 결과가 없습니다.</p>
-			<%
-				} else {
-			%>
-			<p>
-				검색 결과는
-				<%=totalcount%>개 입니다.
-			</p>
-			<%
-				}
-			%> --%>
-			<table id="myTable" class="type04" border="1"
-				style="table-layout: fixed;">
-				<th style="font-size: 25px; width: 200px;">등록요청한 동아리</th>
-				<tr>
-					<th style="font-size: 20px; width: 160px;">동아리 명</th>
-					<th style="font-size: 20px; width: 50px;">분야</th>
-					<th style="font-size: 20px; width: 250px;">목적</th>
-					<th style="font-size: 20px; width: 130px;">활동</th>
-					<th style="font-size: 20px; width: 140px;">개설년도</th>
-					<th style="font-size: 20px; width: 70px;">동아리방</th>
-					<th style="font-size: 20px; width: 110px;">회장 이름</th>
-					<th style="font-size: 20px; width: 110px;">회장 학번</th>
-					<th style="font-size: 20px; width: 125px;">기타</th>
-				</tr>
-				<%
-					//for (clubMember.ClubMemberVo cvo : member_list) {
-						
-						if(notRegisteredClubList != null) {
-							for(ClubVO vo :notRegisteredClubList) {
-							
+		<div id="content">
+			<div class="main">
+				<div class="mainLeft" style="height: 700px;" >
+		
+		
+					<%
+						ClubDAO clubDAO = new ClubDAO();
+						ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
+						int totalcount = 0;
+		
+						ArrayList<ClubVO> registeredClubList = clubDAO.getRegisteredClub();
+						ArrayList<ClubVO> notRegisteredClubList = clubDAO.getNotRegisteredClub();%>
 						
 						
-				%>
-			<form name="form" method="post" action="register_cd_update.jsp">
-				<tr>
-						<%
-						String title = "";
-							switch(vo.getClub_at_cd() ) {
-							case "002001":
-								title = "공연";
-								break;
-							case "002002":
-								title = "학술";
-								break;
-							case "002003":
-								title = "취미예술";
-								break;
-							case "002004":
-								title = "종교";
-								break;
-							case "002005":
-								title = "체육";
-								break;
-							case "002006":
-								title = "봉사";
-								break;
-							case "002007":
-								title = "기타";
-								break;
-							
-							}
-							
-							%>
-						<td><%=vo.getClub_nm() %></td>
-						<td><%=title%></td>
-						<td><%=vo.getClub_aim() %></td>
-						<td><%=vo.getClub_active() %></td>
-						<td><%=vo.getOpen_dt() %></td>
-						<td><%=vo.getClub_room() %></td>
-						<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
-						<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
-						
-						<input type="hidden" name="club_id" value=<%=vo.getClub_id()%>>
-
-						<td>
-						<input type="submit" value="수락" name="submit" class="manage-btn"
-						onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 수락하시겠습니까?');">
-						
-						<input type="submit" value="거절" name="submit" class="manage-btn"
-						onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 거절하시겠습니까?');"></td>
-					</tr>
-				</form>
-				<%
-							}
+					<%--
+					try {
+						totalcount = member_list.get(0).getRow_count();
+						System.out.println("[manage_list.jsp] totalcount: "+totalcount);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				%>
-
-			</table>
-
-			<table id="myTable" class="type04" border="1" style="table-layout: fixed;">
-				<th style="font-size: 25px; width: 200px;">등록된 동아리</th>
-				<tr>
-				
-				
-				
-					<th style="font-size: 20px; width: 160px;">동아리 명</th>
-					<th style="font-size: 20px; width: 50px;">분야</th>
-					<th style="font-size: 20px; width: 550px;">목적</th>
-					<th style="font-size: 20px; width: 130px;">활동</th>
-					<th style="font-size: 20px; width: 140px;">개설년도</th>
-					<th style="font-size: 20px; width: 70px;">동아리방</th>
-					<th style="font-size: 20px; width: 110px;">회장 이름</th>
-					<th style="font-size: 20px; width: 110px;">회장 학번</th>
-					<th style="font-size: 20px; width: 125px;">기타</th>
-				</tr>
-				<%
-					//for (clubMember.ClubMemberVo cvo : member_list) {
-						
-						for(ClubVO vo :registeredClubList) {
-							
-						
-						
-				%>
-			
-				<tr>
-				
-						<%
-						String title = "";
-							switch(vo.getClub_at_cd() ) {
-							case "002001":
-								title = "공연";
-								break;
-							case "002002":
-								title = "학술";
-								break;
-							case "002003":
-								title = "취미예술";
-								break;
-							case "002004":
-								title = "종교";
-								break;
-							case "002005":
-								title = "체육";
-								break;
-							case "002006":
-								title = "봉사";
-								break;
-							case "002007":
-								title = "기타";
-								break;
-								
-								
-								
-								
-							}
-							
-							%>
-					<form name="form" method="post" action="club_info.jsp">
-						<td class="club_manage" onclick="popup(<%=vo.getClub_id()%>)"><%=vo.getClub_nm() %></td>
-						<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
-					</form>
-						<td><%=title%></td>
-						<td><%=vo.getClub_aim() %></td>
-						<td><%=vo.getClub_active() %></td>
-						<td><%=vo.getOpen_dt() %></td>
-						<td><%=vo.getClub_room() %></td>
-						<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
-						<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
-						
-					<form name="form" method="post" action="clubDeleteAction.jsp">
-						<td>
-							<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
-							<input type="submit" value="삭제" name="submit" class="manage-btn"
-							onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 삭제하겠습니까?');"> 
-						</td>
-					</form>
-					</tr>
-				
-				<%
-					}
-				%>
-
-			</table>
-			
-			
-			
-			
-			<!-- <p>
-			<button id="export" onclick="data_export();">Excel다운</button>
-				오류
-			</p> -->
-			<div class="page_wrap">
-				<div class="page_nation">
-					<%
-						int countList = 10;
-						int countPage = 5;
-						int totalPage = totalcount / countList;
-						if (totalcount > countList * totalPage) {
-							totalPage++;
-						}
-						//현재 페이지가 총 페이지 번호보다 클 경우 
-						if (totalPage < pageNumber) {
-							pageNumber = totalPage;
-						}
-						int startPage = ((pageNumber - 1) / countPage) * countPage + 1; //페이지 번호  시작
-						int endPage = startPage + countPage - 1; //페이지 번호 끝
-						if (endPage > totalPage) {
-							endPage = totalPage;
-						}
-
-						if (startPage > 1) {
-					%>
-					<a class="arrow pprev"
-						href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=1%>">처음</a>
-					<%
-						}
-						if (pageNumber > 1) {
-					%>
-					<a class="arrow prev"
-						href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=pageNumber - 1%>">이전</a>
-					<%
-						}
-						for (int i = startPage; i <= endPage; i++) {
-							if (i == pageNumber) {
-					%>
-					<a class="active"
-						href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=i%>"><%=i%></a>
+					
+					 if (totalcount == 0) {
+					
+					<p>검색 결과가 없습니다.</p>
 					<%
 						} else {
 					%>
-					<a
-						href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=i%>"><%=i%></a>
+					<p>
+						검색 결과는
+						<%=totalcount%>개 입니다.
+					</p>
 					<%
 						}
-						}
-					%>
+					%> --%>
+					<table id="myTable" class="type04" border="1"
+						style="table-layout: fixed;">
+						<th style="font-size: 25px; width: 200px;">등록요청한 동아리</th>
+						<tr>
+							<th style="font-size: 20px; width: 160px;">동아리 명</th>
+							<th style="font-size: 20px; width: 50px;">분야</th>
+							<th style="font-size: 20px; width: 250px;">목적</th>
+							<th style="font-size: 20px; width: 130px;">활동</th>
+							<th style="font-size: 20px; width: 140px;">개설년도</th>
+							<th style="font-size: 20px; width: 70px;">동아리방</th>
+							
+							<th style="font-size: 20px; width: 140px;">프로필</th>
+							<th style="font-size: 20px; width: 70px;">포스터</th>
+							
+							<th style="font-size: 20px; width: 110px;">회장 이름</th>
+							<th style="font-size: 20px; width: 110px;">회장 학번</th>
+							<th style="font-size: 20px; width: 125px;">기타</th>
+						</tr>
+						<%
+							//for (clubMember.ClubMemberVo cvo : member_list) {
+								
+								if(notRegisteredClubList != null) {
+									for(ClubVO vo :notRegisteredClubList) {
+									
+								
+								
+						%>
+					<form name="form" method="post" action="register_cd_update.jsp">
+						<tr>
+								<%
+								String title = "";
+									switch(vo.getClub_at_cd() ) {
+									case "002001":
+										title = "공연";
+										break;
+									case "002002":
+										title = "학술";
+										break;
+									case "002003":
+										title = "취미예술";
+										break;
+									case "002004":
+										title = "종교";
+										break;
+									case "002005":
+										title = "체육";
+										break;
+									case "002006":
+										title = "봉사";
+										break;
+									case "002007":
+										title = "기타";
+										break;
+									
+									}
+									
+									%>
+								<td><%=vo.getClub_nm() %></td>
+								<td><%=title%></td>
+								<td><%=vo.getClub_aim() %></td>
+								<td><%=vo.getClub_active() %></td>
+								<td><%=vo.getOpen_dt() %></td>
+								<td><%=vo.getClub_room() %></td>
+								
+								<td onclick="window.open('upload/club/<%=vo.getIntro_save_file_nm() %>','new img', 'width=750,height=850')">클릭</td>
+								<td onclick="window.open('upload/club/<%=vo.getPoster_save_file_nm() %>','new img', 'width=750,height=850')">클릭</td>
+								
+								<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
+								<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
+								
+								<input type="hidden" name="club_id" value=<%=vo.getClub_id()%>>
+		
+								<td>
+								<input type="submit" value="수락" name="submit" class="manage-btn"
+								onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 수락하시겠습니까?');">
+								
+								<input type="submit" value="거절" name="submit" class="manage-btn"
+								onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 거절하시겠습니까?');"></td>
+							</tr>
+						</form>
+						<%
+									}
+							}
+						%>
+		
+					</table>
+		
+					<table id="myTable" class="type04" border="1" style="table-layout: fixed;">
+						<th style="font-size: 25px; width: 200px;">등록된 동아리</th>
+						<tr>
+						
+						
+						
+							<th style="font-size: 20px; width: 160px;">동아리 명</th>
+							<th style="font-size: 20px; width: 50px;">분야</th>
+							<th style="font-size: 20px; width: 550px;">목적</th>
+							<th style="font-size: 20px; width: 130px;">활동</th>
+							<th style="font-size: 20px; width: 140px;">개설년도</th>
+							<th style="font-size: 20px; width: 70px;">동아리방</th>
+							<th style="font-size: 20px; width: 110px;">회장 이름</th>
+							<th style="font-size: 20px; width: 110px;">회장 학번</th>
+							<th style="font-size: 20px; width: 125px;">기타</th>
+						</tr>
+						<%
+							//for (clubMember.ClubMemberVo cvo : member_list) {
+								
+								for(ClubVO vo :registeredClubList) {
+									
+								
+								
+						%>
+					
+						<tr>
+						
+								<%
+								String title = "";
+									switch(vo.getClub_at_cd() ) {
+									case "002001":
+										title = "공연";
+										break;
+									case "002002":
+										title = "학술";
+										break;
+									case "002003":
+										title = "취미예술";
+										break;
+									case "002004":
 
-					<%
-						if (pageNumber < totalPage) {
-					%>
-					<a class="arrow next"
-						href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=pageNumber + 1%>">다음</a>
-					<%
-						}
-					%>
-
-					<%
-						if (endPage < totalPage) {
-					%>
-					<a class="arrow nnext"
-						href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=totalPage%>">끝</a>
-					<%
-						}
-					%>
+										title = "종교";
+										break;
+									case "002005":
+										title = "체육";
+										break;
+									case "002006":
+										title = "봉사";
+										break;
+									case "002007":
+										title = "기타";
+										break;
+										
+										
+										
+									}
+									
+									%>
+							<form name="form" method="post" action="club_info.jsp">
+								<td class="club_manage" onclick="popup(<%=vo.getClub_id()%>)"><%=vo.getClub_nm() %></td>
+								<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
+							</form>
+								<td><%=title%></td>
+								<td><%=vo.getClub_aim() %></td>
+								<td><%=vo.getClub_active() %></td>
+								<td><%=vo.getOpen_dt() %></td>
+								<td><%=vo.getClub_room() %></td>
+								<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
+								<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
+								<td>
+								<form name="form" method="post" action="clubDeleteAction.jsp">
+						
+									<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
+									<input type="submit" value="삭제" name="submit" class="manage-btn"
+									onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 삭제하겠습니까?');"> 
+								
+								</form>
+								<form name="form" method="post" action="topClubAction.jsp">
+									
+									<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
+									<input type="hidden" name="at_cd" value=<%=vo.getClub_at_cd() %>>
+									<input type="hidden" name="gb_cd" value=<%=vo.getClub_gb_cd() %>>
+									<input type="submit" value="top in" name="submit" class="manage-btn"
+									onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 우수 동아리로 등록 하겠습니까?');">
+									<input type="submit" value="top out" name="submit" class="manage-btn"
+									onclick="return confirm('<%=vo.getClub_nm()%>(<%=vo.getClub_id()%>) 우수 동아리를 헤지 하겠습니까?');">
+								</form>
+							
+								</td>
+							</tr>
+						
+						<%
+							}
+						%>
+		
+					</table>
+					
+					
+					
+					
+					<!-- <p>
+					<button id="export" onclick="data_export();">Excel다운</button>
+						오류
+					</p> -->
+					<div class="page_wrap">
+						<div class="page_nation">
+							<%
+								int countList = 10;
+								int countPage = 5;
+								int totalPage = totalcount / countList;
+								if (totalcount > countList * totalPage) {
+									totalPage++;
+								}
+								//현재 페이지가 총 페이지 번호보다 클 경우 
+								if (totalPage < pageNumber) {
+									pageNumber = totalPage;
+								}
+								int startPage = ((pageNumber - 1) / countPage) * countPage + 1; //페이지 번호  시작
+								int endPage = startPage + countPage - 1; //페이지 번호 끝
+								if (endPage > totalPage) {
+									endPage = totalPage;
+								}
+		
+								if (startPage > 1) {
+							%>
+							<a class="arrow pprev"
+								href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=1%>">처음</a>
+							<%
+								}
+								if (pageNumber > 1) {
+							%>
+							<a class="arrow prev"
+								href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=pageNumber - 1%>">이전</a>
+							<%
+								}
+								for (int i = startPage; i <= endPage; i++) {
+									if (i == pageNumber) {
+							%>
+							<a class="active"
+								href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=i%>"><%=i%></a>
+							<%
+								} else {
+							%>
+							<a
+								href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=i%>"><%=i%></a>
+							<%
+								}
+								}
+							%>
+		
+							<%
+								if (pageNumber < totalPage) {
+							%>
+							<a class="arrow next"
+								href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=pageNumber + 1%>">다음</a>
+							<%
+								}
+							%>
+		
+							<%
+								if (endPage < totalPage) {
+							%>
+							<a class="arrow nnext"
+								href="club_manage.jsp?&category=<%=category%>&search=<%=search%>&pageNumber=<%=totalPage%>">끝</a>
+							<%
+								}
+							%>
+						</div>
+					</div>
+					
 				</div>
 			</div>
-			
+		</div>
+		<div id="footer">
+			<jsp:include page="footer.jsp"></jsp:include>
 		</div>
 	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
 	<script>
 		function popup(frm) {
 			var url = "club_info.jsp?club_id="+frm;
 			var title = "testpop";
-			var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=950, height=500, top=50,left=20";
+			var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=1200, height=500, top=50,left=20";
 			window.open(url, title, status); 
 			//window.open(url,title,status); window.open 함수에 url을 앞에와 같이
 			//인수로  넣어도 동작에는 지장이 없으나 form.action에서 적용하므로 생략
@@ -415,8 +441,5 @@ table.type04 td {
 		}
 	</script>
 
-	<div id="footer">
-			<jsp:include page="footer.jsp"></jsp:include>
-	</div>
 </body>
 </html>

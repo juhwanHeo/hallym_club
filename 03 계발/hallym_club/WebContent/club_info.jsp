@@ -14,8 +14,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>club_info</title>
 </head>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/page.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/page.css?after">
 <style>
 table.type04 {
 	border-collapse: collapse;
@@ -92,7 +92,8 @@ table.type04 td {
 			out.println("alert('로그인을 하세요.')");
 			out.print("window.close();");
 			out.println("</script>");
-		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
+		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+				|| userId.equals("20152318") || userId.equals("20152335"))) {
 			out.println("<script>");
 			out.println("alert('관리자 권환이 필요헙니다.')");
 			out.print("window.close();");
@@ -104,12 +105,66 @@ table.type04 td {
 			ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 			ClubDAO clubDAO = new ClubDAO();
 			String club_NM = clubDAO.getClubNMs(club_id);
+			String club_poster = clubDAO.getSavePosterName(club_id);
+			String club_intro = clubDAO.getSaveIntroName(club_id);
 			ArrayList<ClubMemberVo> clubMemberlist = clubMemberDAO.allMember(club_id);
 	%>
 
 				
 	<div class="main">
 		<div class="mainLeft" style="height: 700px;">
+		
+			<table id="myTable" class="type04" border="1"
+					style="table-layout: fixed;">
+					<%
+					if(clubDAO.getTopClub_YN(club_id).equals("Y")) {
+					
+					%>
+					<th style="font-size: 25px; width: 200px;">우수 동아리 순위</th>
+					
+						<tr>
+						<th>현재 순위</th>
+						<td><%=clubDAO.getTopClubRank(club_id)%></td>
+						</tr>
+	
+						<form method="post" action="topClubRankAction.jsp" >
+							<input type="hidden" name="club_id" value=<%=club_id%>>
+							<tr>
+							<th>순위 수정</th>
+							<td><input style="width: 99%; height: 99%; resize: none" name="rank"></td>
+							<td><input name="update" type="submit" value="수정"></td>
+							</tr>
+							
+						</form>
+			</table>
+			<%} %>
+				
+			<table id="myTable" class="type04" border="1"
+				style="table-layout: fixed;">
+
+				<th style="font-size: 25px; width: 200px;">프로필 및 포스터</th>
+				
+
+					<form method="post" action="clubPhotoChangeAction.jsp" enctype="multipart/form-data" >
+						<input type="hidden" name="club_id" value=<%=club_id%>>
+						
+							<tr>
+							<th onclick="window.open('upload/club/<%=club_intro %>','new img', 'width=750,height=850')">프로필</th>
+							<td><input type="file" name="file1"></td>
+							<td><input name="delete" type="submit" value="프로필 삭제"></td>
+							</tr>
+						
+							<tr>
+							<th onclick="window.open('upload/club/<%=club_poster %>','new img', 'width=750,height=850')">홍보 포스터</th>
+							<td><input type="file" name="file2"></td>
+							<td><input name="delete" type="submit" value="포스터 삭제"></td>
+							</tr>
+						
+						<th><input name="update" type="submit" value="업로드"></th>
+							
+							
+					</form>
+			</table>
 
 			<table id="myTable" class="type04" border="1"
 				style="table-layout: fixed;">
@@ -122,7 +177,7 @@ table.type04 td {
 						<th style="font-size: 20px; width: 130px;">학번</th>
 						<td><input style="width: 99%; height: 99%; resize: none"
 							name="student_id">
-						</textarea>
+						
 						</td>
 
 						<td>

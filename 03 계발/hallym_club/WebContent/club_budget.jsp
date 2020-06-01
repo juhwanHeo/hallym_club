@@ -10,8 +10,8 @@
 <title>한림대학교 동아리</title>
 <jsp:useBean id="clubMem_DAO" class="clubMember.ClubMemberDAO" />
 
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/budget.css?">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/budget.css?after">
 <style>
 </style>
 </head>
@@ -228,6 +228,11 @@
 		</div>
 	</div>
 
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 
 	<%
 		} else {

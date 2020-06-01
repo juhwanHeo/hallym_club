@@ -16,7 +16,7 @@
 <title>한림대학교 동아리</title>
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
 <style>
 
 /*datepicker에서 사용한 이미지 버튼 style적용*/
@@ -275,6 +275,11 @@ img.ui-datepicker-trigger {
 
 		</div>
 	</div>
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 	<script>
 		function check_form() {
 			var start = document.getElementById("fromDate").value;

@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
 
 
 <style>
@@ -141,7 +141,7 @@ table.type03 td {
 				</tr>
 
 
-
+				<!-- 
 				<tr>
 					<th>프로필</th>
 					<td style="text-align: justify;"><input type="file" name="file1"></td>
@@ -150,7 +150,7 @@ table.type03 td {
 				<tr>
 					<th>홍보 포스터</th>
 					<td style="text-align: justify;"><input type="file" name="file2"></td>
-				</tr>
+				</tr> -->
 
 			</table>
 
@@ -159,6 +159,11 @@ table.type03 td {
 
 		</form>
 	</div>
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

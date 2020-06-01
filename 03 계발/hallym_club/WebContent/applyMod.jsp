@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
 <jsp:useBean id="club_DAO" class="club.ClubDAO" />
 
 <style>

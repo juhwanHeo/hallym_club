@@ -18,12 +18,12 @@ public class BbsDAO {
 	private ResultSet rs = null;
 
 	public int write(Bbs bbs, String INPUT_ID) {
-		String sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_ip,input_date) "
-				+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'))";
+		String sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_ip,input_date,board_fix) "
+				+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'),?)";
 		if (bbs.getStart_date() != null || bbs.getEnd_date() != null) {
-			sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_ip,input_date,start_date,end_date)"
-					+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'), "
-					+ " TO_DATE(?,'yyyy-mm-dd'), TO_DATE(?,'yyyy-mm-dd'))";
+			sql = "insert into board(club_id,board_no,board_cd,title,contents,input_id,input_ip,input_date,board_fix,start_date,end_date)"
+					+ "values(?,(select nvl(max(board_no),0)+1 from board),?,?,?,?,?,TO_DATE(?,'yyyy-mm-dd hh24:mi:ss'),?,"
+					+ "TO_DATE(?,'yyyy-mm-dd'), TO_DATE(?,'yyyy-mm-dd'))";
 		}
 		java.util.Date dt = new java.util.Date();
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -39,9 +39,10 @@ public class BbsDAO {
 			pstmt.setString(5, INPUT_ID);
 			pstmt.setString(6, Inet4Address.getLocalHost().getHostAddress());
 			pstmt.setString(7, today);
+			pstmt.setString(8, bbs.getBOARD_FIX());
 			if (bbs.getStart_date() != null || bbs.getEnd_date() != null) {
-				pstmt.setString(8, bbs.getStart_date());
-				pstmt.setString(9, bbs.getEnd_date());
+				pstmt.setString(9, bbs.getStart_date());
+				pstmt.setString(10, bbs.getEnd_date());
 				System.out.println("[BbsDAO]write():" + bbs.getStart_date());
 				System.out.println("[BbsDAO]write():" + bbs.getEnd_date());
 			}
@@ -100,9 +101,12 @@ public class BbsDAO {
 	}
 
 	public ArrayList<Bbs> getclub_search(int club_id, String board_cd, int pageNumber, String condition) {
+		/*
 		String sql = "SELECT * FROM (SELECT * FROM (SELECT ROWNUM RNUM, BOARD.* FROM BOARD "
 				+ "WHERE BBSAVAILABLE = 1 AND TITLE LIKE ? AND CLUB_ID = ? AND BOARD_CD = ? ORDER BY BOARD_NO DESC)BOARD WHERE RNUM <= ?) "
 				+ "WHERE RNUM > ?";
+		*/
+		String sql = "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY BOARD_FIX DESC, BOARD_NO DESC) RNUM, BOARD.* FROM BOARD WHERE BBSAVAILABLE = '1' AND TITLE LIKE ? AND CLUB_ID = ? AND BOARD_CD = ?) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM ASC";
 		ArrayList<Bbs> list = new ArrayList<>();
 		try {
 			conn = JDBCUtil.getConnection();
@@ -111,9 +115,10 @@ public class BbsDAO {
 			pstmt.setString(1, "%" + condition + "%");
 			pstmt.setInt(2, club_id);
 			pstmt.setString(3, board_cd);
-			pstmt.setInt(4, pageNumber * 10);
-			pstmt.setInt(5, (pageNumber - 1) * 10);
+			pstmt.setInt(4, (pageNumber - 1) * 10);
+			pstmt.setInt(5, pageNumber * 10);
 			rs = pstmt.executeQuery();
+
 			while (rs.next()) {
 				Bbs bbs = new Bbs();
 				int hit = rs.getInt("OPEN_CNT");
@@ -126,9 +131,11 @@ public class BbsDAO {
 				bbs.setINPUT_ID(rs.getString("INPUT_ID"));
 				bbs.setINPUT_DATE(rs.getString("INPUT_DATE"));
 				bbs.setBbsAvailable(rs.getInt("BBSAVAILABLE"));
+				bbs.setBOARD_FIX(rs.getString("BOARD_FIX"));
 				list.add(bbs);
 				hit++;
 			}
+
 			if (!list.isEmpty()) {
 				list.get(0).setRow_count(getTotal(club_id, board_cd, condition));
 			}
@@ -137,6 +144,7 @@ public class BbsDAO {
 		} finally {
 			JDBCUtil.closeResource(rs, pstmt, conn);
 		}
+
 		return list;
 	}
 
@@ -178,6 +186,7 @@ public class BbsDAO {
 				bbs.setINPUT_ID(rs.getString("INPUT_ID"));
 				bbs.setINPUT_DATE(rs.getString("INPUT_DATE"));
 				bbs.setBbsAvailable(rs.getInt("BBSAVAILABLE"));
+				bbs.setBOARD_FIX(rs.getString("BOARD_FIX"));
 				bbs.setStart_date(rs.getString("START_DATE"));
 				bbs.setEnd_date(rs.getString("END_DATE"));
 				return bbs;
@@ -192,9 +201,9 @@ public class BbsDAO {
 	}
 
 	public int update(Bbs bbs) {
-		String SQL = "UPDATE board SET TITLE = ?, CONTENTS = ? WHERE BOARD_NO = ?";
+		String SQL = "UPDATE board SET TITLE = ?, CONTENTS = ?, BOARD_FIX = ? WHERE BOARD_NO = ?";
 		if (bbs.getStart_date() != null || bbs.getEnd_date() != null) {
-			SQL = "UPDATE board SET TITLE = ?, CONTENTS = ?, START_DATE = '" + bbs.getStart_date() + "', END_DATE = '"
+			SQL = "UPDATE board SET TITLE = ?, CONTENTS = ?, BOARD_FIX = ?, START_DATE = '" + bbs.getStart_date() + "', END_DATE = '"
 					+ bbs.getEnd_date() + "' WHERE BOARD_NO = ?";
 		}
 		try {
@@ -202,7 +211,8 @@ public class BbsDAO {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, bbs.getTITLE());
 			pstmt.setString(2, bbs.getCONTENTS());
-			pstmt.setInt(3, bbs.getBOARD_NO());
+			pstmt.setString(3, bbs.getBOARD_FIX());
+			pstmt.setInt(4, bbs.getBOARD_NO());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -229,13 +239,19 @@ public class BbsDAO {
 
 	// 추가 , 메인화면 공지사항 가져오기
 	public ArrayList<Bbs> get_intro(int club_id, String board_cd) {
-		String SQL = "SELECT * FROM (SELECT TITLE, BOARD_NO, INPUT_DATE FROM BOARD WHERE CLUB_ID = 1 AND BOARD_CD = ? "
+		/*
+		String SQL = "SELECT * FROM (SELECT TITLE, BOARD_NO, INPUT_DATE, BOARD_FIX FROM BOARD WHERE CLUB_ID = 1 AND BOARD_CD = ? "
 				+ " AND BBSAVAILABLE = 1 ORDER BY BOARD_NO DESC)X WHERE ROWNUM <= 6";
+		*/
+		String SQL = "SELECT * FROM (SELECT ROW_NUMBER() OVER (ORDER BY BOARD_FIX DESC, BOARD_NO DESC) RNUM, BOARD.* "
+				+ "FROM BOARD WHERE BBSAVAILABLE = 1 AND CLUB_ID = ? AND BOARD_CD = ?) WHERE RNUM BETWEEN 1 AND 6 ORDER BY RNUM ASC";
+		
 		ArrayList<Bbs> list = null;
 		try {
 			conn = JDBCUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, board_cd);
+			pstmt.setInt(1, club_id);
+			pstmt.setString(2, board_cd);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Bbs>();
 			while (rs.next()) {
@@ -243,6 +259,7 @@ public class BbsDAO {
 				vo.setTITLE(rs.getString("TITLE"));
 				vo.setBOARD_NO(rs.getInt("BOARD_NO"));
 				vo.setINPUT_DATE(rs.getString("INPUT_DATE").substring(0, 10));
+				vo.setBOARD_FIX(rs.getString("BOARD_FIX"));
 				list.add(vo);
 			}
 		} catch (Exception e) {

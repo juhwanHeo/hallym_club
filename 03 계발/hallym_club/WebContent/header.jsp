@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/common.css">
+<link rel="stylesheet" type="text/css" href="css/common.css?after">
 </head>
 
 <style>
@@ -53,10 +53,17 @@
 			username = userVO.getName();
 		}
 	%>
-
+	
+	
+	<div id="index_logo">
+		<a href="index.jsp"><img src="image/logo.gif" alt="한림대학교 동아리"></a>
+	</div>
+	
+	<!-- 
 	<h1>
 		<a href="index.jsp"><img src="image/logo.gif" alt="한림대학교 동아리"></a>
 	</h1>
+	-->
 	<a href="#content" class="skip">본문 바로가기</a>
 
 	<%
@@ -75,7 +82,8 @@
 		<li><span class="txt" onclick="location.href='myPage.jsp'" style="cursor:pointer;"><%out.print(username + " 님 환영합니다.");%></span></li>
 		<li><a href='logoutAction.jsp'>로그아웃</a></li>
 		<%
-			if (userId.equals("20185289") || userId.equals("20185304") || userId.equals("20185280") || userId.equals("20765")) {
+			if (userId.equals("20185289") || userId.equals("20185304") || userId.equals("20185280") 
+					|| userId.equals("20765") || userId.equals("20152318") || userId.equals("20152335")) {
 		%>
 		<li><a href="club_manage.jsp">동아리 관리</a></li>
 		<%

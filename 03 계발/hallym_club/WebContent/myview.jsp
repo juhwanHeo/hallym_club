@@ -19,7 +19,7 @@
 
 <!-- 스타일시트 참조  -->
 
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
 <title>한림대학교 동아리</title>
 
 </head>
@@ -247,6 +247,11 @@
 			</div>
 		</div>
 	</div>
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 </body>
 
 </html>

@@ -17,8 +17,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/page.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/page.css?after">
 <style>
 .main {
 	float: left; 
@@ -79,10 +79,6 @@ table.type04 td {
 </style>
 </head>
 <body>
-
-<div id="header">
-		<jsp:include page="header.jsp"></jsp:include>
-</div>
 	<%
 		request.setCharacterEncoding("UTF-8");
 		
@@ -109,151 +105,162 @@ table.type04 td {
 		
 		
 	%>
+	<div id="wrap">
+		<div id="header">
+				<jsp:include page="header.jsp"></jsp:include>
+		</div>
 
-
-	<div class="main">
-		<div class="mainLeft" style="height: 700px;" >
-
-
-			<%
-				ClubDAO clubDAO = new ClubDAO();
-				ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
-				
-				ArrayList<ClubVO> waitMyClub = clubDAO.getMyWaitClubList(userId);
-				ArrayList<ClubVO> waitRegisteredMyClub = clubDAO.getMyWaitRegisteredClubList(userId);
-				
-			%>
-				
-			<table id="myTable" class="type04" border="1"
-				style="table-layout: fixed;">
-				<th style="font-size: 25px; width: 500px;">가입 승인 중인 동아리</th>
-				<tr>
-					<th style="font-size: 20px; width: 500px;">동아리 명</th>
-					<th style="font-size: 20px; width: 125px;">기타</th>
-				</tr>
-				<%
+		<div id="content">
+			<div class="main">
+				<div class="mainLeft" style="height: 700px;" >
+		
+		
+					<%
+						ClubDAO clubDAO = new ClubDAO();
+						ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 						
-						if(waitMyClub != null) {
-							for(ClubVO clubVO :waitMyClub) {
-							
+						ArrayList<ClubVO> waitMyClub = clubDAO.getMyWaitClubList(userId);
+						ArrayList<ClubVO> waitRegisteredMyClub = clubDAO.getMyWaitRegisteredClubList(userId);
 						
+					%>
 						
-				%>
-				<form method="post" action="applyDeleteAction.jsp">
-					<tr>
-						
-						<td><%=clubVO.getClub_nm() %></td>
-						
-						<input type="hidden" name="club_id" value=<%=clubVO.getClub_id()%>>
-						<input type="hidden" name="clubNM" value=<%=clubVO.getClub_nm()%>>
-
-						<td>
-						<input type="submit" value="신청 취소" name="submit" class="manage-btn"
-						onclick="return confirm('<%=clubVO.getClub_nm()%> 가입 신청을 취소하시겠습니까?');">
-					</tr>
-				</form>
-				<%
-							}
-					} else {
-				%>
-				<p> 없음 </p>
-				
-				<% } %>
-				
-				
-				
-
-			</table>
-			
-			
-			
-
-			<table id="myTable" class="type04" border="1" style="table-layout: fixed;">
-				<th style="font-size: 25px; width: 200px;">동아리 등록 현황</th>
-				<tr>
-				
-				
-				
-					<th style="font-size: 20px; width: 160px;">동아리 명</th>
-					<th style="font-size: 20px; width: 50px;">분야</th>
-					<th style="font-size: 20px; width: 550px;">목적</th>
-					<th style="font-size: 20px; width: 130px;">활동</th>
-					<th style="font-size: 20px; width: 140px;">개설년도</th>
-					<th style="font-size: 20px; width: 70px;">동아리방</th>
-					<th style="font-size: 20px; width: 110px;">회장 이름</th>
-					<th style="font-size: 20px; width: 110px;">회장 학번</th>
-					<th style="font-size: 20px; width: 125px;">기타</th>
-				</tr>
-				<%
-					//for (clubMember.ClubMemberVo cvo : member_list) {
-						
-						for(ClubVO vo :waitRegisteredMyClub) {
-							
-				%>
-			
-				<tr>
-				
+					<table id="myTable" class="type04" border="1"
+						style="table-layout: fixed;">
+						<th style="font-size: 25px; width: 500px;">가입 승인 중인 동아리</th>
+						<tr>
+							<th style="font-size: 20px; width: 500px;">동아리 명</th>
+							<th style="font-size: 20px; width: 125px;">기타</th>
+						</tr>
 						<%
-						String title = "";
-							switch(vo.getClub_at_cd() ) {
-							case "002001":
-								title = "공연";
-								break;
-							case "002002":
-								title = "학술";
-								break;
-							case "002003":
-								title = "취미예술";
-								break;
-							case "002004":
-								title = "종교";
-								break;
-							case "002005":
-								title = "체육";
-								break;
-							case "002006":
-								title = "봉사";
-								break;
-							case "002007":
-								title = "기타";
-								break;
+								
+								if(waitMyClub != null) {
+									for(ClubVO clubVO :waitMyClub) {
+									
 								
 								
+						%>
+						<form method="post" action="applyDeleteAction.jsp">
+							<tr>
 								
+								<td><%=clubVO.getClub_nm() %></td>
 								
-							}
-							
-							%>
-					
-						<td><%=vo.getClub_nm() %></td>
-						<td><%=title%></td>
-						<td><%=vo.getClub_aim() %></td>
-						<td><%=vo.getClub_active() %></td>
-						<td><%=vo.getOpen_dt() %></td>
-						<td><%=vo.getClub_room() %></td>
-						<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
-						<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
+								<input type="hidden" name="club_id" value=<%=clubVO.getClub_id()%>>
+								<input type="hidden" name="clubNM" value=<%=clubVO.getClub_nm()%>>
+		
+								<td>
+								<input type="submit" value="신청 취소" name="submit" class="manage-btn"
+								onclick="return confirm('<%=clubVO.getClub_nm()%> 가입 신청을 취소하시겠습니까?');">
+							</tr>
+						</form>
+						<%
+									}
+							} else {
+						%>
+						<p> 없음 </p>
 						
-					<form name="form" method="post" action="applyClubRegisterDeleteAction.jsp">
-						<td>
-							<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
-							<input type="hidden" name="clubNM" value=<%=vo.getClub_nm() %>>
-							<input type="submit" value="신청 취소" name="submit" class="manage-btn"
-							onclick="return confirm('<%=vo.getClub_nm()%> 동아리 등록을 취소하시겠습니까?');"> 
-						</td>
-					</form>
-					</tr>
-				
-				<%
-					}
-				%>
+						<% } %>
+						
+						
+						
+		
+					</table>
+					
+					
+					
+		
+					<table id="myTable" class="type04" border="1" style="table-layout: fixed;">
+						<th style="font-size: 25px; width: 200px;">동아리 등록 현황</th>
+						<tr>
+						
+						
+						
+							<th style="font-size: 20px; width: 160px;">동아리 명</th>
+							<th style="font-size: 20px; width: 50px;">분야</th>
+							<th style="font-size: 20px; width: 550px;">목적</th>
+							<th style="font-size: 20px; width: 130px;">활동</th>
+							<th style="font-size: 20px; width: 140px;">개설년도</th>
+							<th style="font-size: 20px; width: 70px;">동아리방</th>
+							<th style="font-size: 20px; width: 110px;">회장 이름</th>
+							<th style="font-size: 20px; width: 110px;">회장 학번</th>
+							<th style="font-size: 20px; width: 125px;">기타</th>
+						</tr>
+						<%
+							//for (clubMember.ClubMemberVo cvo : member_list) {
+								
+								for(ClubVO vo :waitRegisteredMyClub) {
+									
+						%>
+					
+						<tr>
+						
+								<%
+								String title = "";
+									switch(vo.getClub_at_cd() ) {
+									case "002001":
+										title = "공연";
+										break;
+									case "002002":
+										title = "학술";
+										break;
+									case "002003":
+										title = "취미예술";
+										break;
+									case "002004":
+										title = "종교";
+										break;
+									case "002005":
+										title = "체육";
+										break;
+									case "002006":
+										title = "봉사";
+										break;
+									case "002007":
+										title = "기타";
+										break;
+										
+										
+										
+										
+									}
+									
+									%>
+							
+								<td><%=vo.getClub_nm() %></td>
+								<td><%=title%></td>
+								<td><%=vo.getClub_aim() %></td>
+								<td><%=vo.getClub_active() %></td>
+								<td><%=vo.getOpen_dt() %></td>
+								<td><%=vo.getClub_room() %></td>
+								<td><%=clubMemberDAO.getNm(vo.getClub_id())%></td>
+								<td><%=clubMemberDAO.getStudent_id(vo.getClub_id())%></td>
+								
+							<form name="form" method="post" action="applyClubRegisterDeleteAction.jsp">
+								<td>
+									<input type="hidden" name="club_id" value=<%=vo.getClub_id() %>>
+									<input type="hidden" name="clubNM" value=<%=vo.getClub_nm() %>>
+									<input type="submit" value="신청 취소" name="submit" class="manage-btn"
+									onclick="return confirm('<%=vo.getClub_nm()%> 동아리 등록을 취소하시겠습니까?');"> 
+								</td>
+							</form>
+							</tr>
+						
+						<%
+							}
+						%>
+		
+					</table>
+					
+					
+					
+				</div>
+			</div>
+		</div>
 
-			</table>
-			
-			
-			
+		<div id="footer">
+				<jsp:include page="footer.jsp"></jsp:include>
 		</div>
 	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 	<script>
@@ -272,8 +279,5 @@ table.type04 td {
 		}
 	</script>
 
-	<div id="footer">
-			<jsp:include page="footer.jsp"></jsp:include>
-	</div>
 </body>
 </html>

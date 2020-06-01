@@ -12,7 +12,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=1200">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/default.css?">
+<link rel="stylesheet" type="text/css" href="css/default.css?after">
 
 </head>
 
@@ -59,11 +59,18 @@
 							if (bbs != null) {
 								for (Bbs vo : bbs) {
 						%>
-						<li><a
-							href="view.jsp?BOARD_NO=<%=vo.getBOARD_NO()%>&club_id=1&board_cd=007001"><%=vo.getTITLE()%></a>
+						<li>
+								<%
+									String fix = vo.getBOARD_FIX();
+									if(fix.equalsIgnoreCase("Y")) {
+								%>
+							<img src="image/ic_notice.gif" border="0" valign="middle" alt="고정글">
+								<% 	} %>
+							
+							<a href="view.jsp?BOARD_NO=<%=vo.getBOARD_NO()%>&club_id=1&board_cd=007001"><%=vo.getTITLE()%> </a>
 							<span class="date"><%=vo.getINPUT_DATE()%></span></li>
 						<%
-							}
+								}
 							}
 						%>
 					</ul>

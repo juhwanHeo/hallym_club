@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>한림대학교 동아리 등록</title>
-<link rel ="stylesheet" type ="text/css" href ="css/default.css ?">
+<link rel ="stylesheet" type ="text/css" href ="css/default.css?after">
 <style>
 
 .main {
@@ -72,87 +72,93 @@ table.type03 td {
 		}
 	%>
 
-
-	<div id="header">
-			<jsp:include page="header.jsp"></jsp:include>
+	<div id="wrap">
+		<div id="header">
+				<jsp:include page="header.jsp"></jsp:include>
+		</div>
+		
+		<div id="content">
+			<jsp:useBean id="CV_dao" class="club.ClubDAO"/>
+			<div class="main">
+				<h2>신규 동아리 등록</h2>
+				<form method="post" action="clubCreateAction.jsp" enctype="multipart/form-data" onsubmit="return check_form();">
+					<table class="type03">
+					
+					<tr>
+					<th>동아리명</th>
+					<td style="color: #153d73; font-weight: bold;"><input type="text" id="club_nm" name="club_nm" style="font-size:20px; margin-right:30px;"> 
+					</tr>
+					
+					<tr>
+					<th>구분</th>
+					<td>
+						<input type="radio" name="club_gb_cd" value="001001" checked="checked" /> 중앙동아리
+						<input type="radio" name="club_gb_cd" value="001002"/> 과동아리
+					</td>
+					</tr>
+					
+					<tr>
+					<th>분야</th>
+				    <td>
+					    <input type="radio" name="club_at_cd" value="002001" checked="checked" /> 공연
+						<input type="radio" name="club_at_cd" value="002002"/> 학술
+						<input type="radio" name="club_at_cd" value="002003"/> 취미예술
+						<input type="radio" name="club_at_cd" value="002004"/> 종교
+						<input type="radio" name="club_at_cd" value="002005"/> 체육
+						<input type="radio" name="club_at_cd" value="002006"/> 봉사
+						<input type="radio" name="club_at_cd" value="002007"/> 기타
+					</td>
+					</tr>
+						
+					<tr>
+					<th>목적</th>
+					<td colspan="2" height="60px"><textarea style="width:99%; height:99%; resize: none" name="club_aim"></textarea></td>
+					</tr>
+					
+					<tr>
+					<th>활동</th>
+					<td colspan="2" height="60px"><textarea style="width:99%; height:99%; resize: none" name="club_active"></textarea></td>
+					</tr>
+					
+					<tr>
+					<th>동아리 정보</th>
+					<td style="text-align:left">
+					개설년도<input type="text" name="open_dt" style="font-size:20px; margin-left:20px;" size="6" maxlength="8">
+					동아리방<input type="text" name="club_room" style="font-size:20px; margin-left:20px;" >
+					</td></tr>
+					
+					
+					
+					<tr>
+					<th>프로필</th>
+					<td><input type="file" name="file1"></td>
+					</tr>
+					
+					<tr>
+					<th>홍보 포스터</th>
+					<td><input type="file" name="file2"></td>
+					</tr>
+					
+					<tr>
+					<th>회장 학번</th>
+					<td><input type="text" id="student_nm" name="student_id" value=<%=userId%>  style="font-size:20px">
+						
+					</td>
+					</table>
+					
+					<!-- <input type="reset" value="취소" class="manage-btn" onclick="self.close();" style="margin-right:40px;"> -->
+					<input type="submit" value="등록" class="manage-btn" style="margin-right:45%;">
+					
+				</form>
+			</div>
+		</div>
+		<hr>
+			<div id="footer">
+				<jsp:include page="footer.jsp"></jsp:include>
+			</div>
+		<hr>
 	</div>
 	
-	<jsp:useBean id="CV_dao" class="club.ClubDAO"/>
-	<div class="main">
-		<h2>신규 동아리 등록</h2>
-		<form method="post" action="clubCreateAction.jsp" enctype="multipart/form-data" onsubmit="return check_form();">
-			<table class="type03">
-			
-			<tr>
-			<th>동아리명</th>
-			<td style="color: #153d73; font-weight: bold;"><input type="text" id="club_nm" name="club_nm" style="font-size:20px; margin-right:30px;"> 
-			</tr>
-			
-			<tr>
-			<th>구분</th>
-			<td>
-				<input type="radio" name="club_gb_cd" value="001001" checked="checked" /> 중앙동아리
-				<input type="radio" name="club_gb_cd" value="001002"/> 과동아리
-			</td>
-			</tr>
-			
-			<tr>
-			<th>분야</th>
-		    <td>
-			    <input type="radio" name="club_at_cd" value="002001" checked="checked" /> 공연
-				<input type="radio" name="club_at_cd" value="002002"/> 학술
-				<input type="radio" name="club_at_cd" value="002003"/> 취미예술
-				<input type="radio" name="club_at_cd" value="002004"/> 종교
-				<input type="radio" name="club_at_cd" value="002005"/> 체육
-				<input type="radio" name="club_at_cd" value="002006"/> 봉사
-				<input type="radio" name="club_at_cd" value="002007"/> 기타
-			</td>
-			</tr>
-				
-			<tr>
-			<th>목적</th>
-			<td colspan="2" height="60px"><textarea style="width:99%; height:99%; resize: none" name="club_aim"></textarea></td>
-			</tr>
-			
-			<tr>
-			<th>활동</th>
-			<td colspan="2" height="60px"><textarea style="width:99%; height:99%; resize: none" name="club_active"></textarea></td>
-			</tr>
-			
-			<tr>
-			<th>동아리 정보</th>
-			<td style="text-align:left">
-			개설년도<input type="text" name="open_dt" style="font-size:20px; margin-left:20px;" size="6" maxlength="8">
-			동아리방<input type="text" name="club_room" style="font-size:20px; margin-left:20px;" >
-			</td></tr>
-			
-			
-			
-			<tr>
-			<th>프로필</th>
-			<td><input type="file" name="file1"></td>
-			</tr>
-			
-			<tr>
-			<th>홍보 포스터</th>
-			<td><input type="file" name="file2"></td>
-			</tr>
-			
-			<tr>
-			<th>회장 학번</th>
-			<td><input type="text" id="student_nm" name="student_id" value=<%=userId%>  style="font-size:20px">
-				
-			</td>
-			</table>
-			
-			<!-- <input type="reset" value="취소" class="manage-btn" onclick="self.close();" style="margin-right:40px;"> -->
-			<input type="submit" value="등록" class="manage-btn" style="margin-right:45%;">
-			
-		</form>
-	</div>
-
-	
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script>
 	function check_form(){
@@ -171,9 +177,6 @@ table.type03 td {
 		}
 	}
 	</script>
-	<div id="footer">
-			<jsp:include page="footer.jsp"></jsp:include>
-	</div>
 
 </body>
 </html>

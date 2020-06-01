@@ -19,6 +19,117 @@ public class ClubDAO {
 	private Connection conn;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
+	
+	public String getSavePosterName(int club_id) {
+
+		
+		String sql = "SELECT poster_save_file_nm FROM club WHERE club_id=?";
+		String savePosterName = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, club_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				savePosterName = rs.getString(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return savePosterName;
+	}
+	public String getSaveIntroName(int club_id) {
+		
+		String sql = "SELECT intro_save_file_nm FROM club WHERE club_id=?";
+		String saveIntroName = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, club_id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				saveIntroName = rs.getString(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return saveIntroName;
+	}
+	
+	public int setPosterName(int club_id, ClubVO vo) {
+		String sql = "UPDATE club SET poster_file_nm=?, poster_save_file_nm=? WHERE club_id=?";
+		System.out.println("[setPosterName] vo.vo.getPoster_file_nm(): " + vo.getPoster_file_nm());
+		System.out.println("[setPosterName] vo.vo.getPoster_save_file_nm(): " + vo.getPoster_save_file_nm());
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getPoster_file_nm());
+			pstmt.setString(2, vo.getPoster_save_file_nm());
+			pstmt.setInt(3, club_id);			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return -1;
+	}
+	
+	public int setIntroName(int club_id, ClubVO vo) {
+		String sql = "UPDATE club SET intro_file_nm = ?, intro_save_file_nm= ? WHERE club_id=?";
+		System.out.println("[setIntroName] vo.getIntro_file_nm()"+vo.getIntro_file_nm());
+		System.out.println("[setIntroName] vo.getIntro_save_file_nm()"+vo.getIntro_save_file_nm());
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getIntro_file_nm());
+			pstmt.setString(2, vo.getIntro_save_file_nm());
+			pstmt.setInt(3, club_id);			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return -1;
+	}
+	
+	
+	public int setPosterNameNull(int club_id) {
+		String sql = "UPDATE club SET poster_file_nm=null, poster_save_file_nm=null WHERE club_id=?";
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, club_id);			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return -1;
+	}
+	
+	public int setIntroNameNull(int club_id) {
+		String sql = "UPDATE club SET intro_file_nm=null, intro_save_file_nm=null WHERE club_id=?";
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, club_id);			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return -1;
+	}
+	
+	
 
 	public int getTotal(String gb_cd, String search, String at_cd) {
 		String sql = "SELECT COUNT(*) FROM CLUB WHERE CLUB_ID <> 1 AND CLUB_GB_CD LIKE ? AND CLUB_NM LIKE ? AND CLUB_AT_CD LIKE ? AND REGISTER_CD='008001'";
@@ -113,6 +224,121 @@ public class ClubDAO {
 	 * 관리자가 Top 클럽을 정한다.
 	 *   - 관리자 페이지에 Top 클럽을 정할수 있도록 해주는 페이지 필요
 	 */
+	
+	public String getTopClub_YN(int club_id) {
+		String sql = "SELECT topclub_yn FROM club WHERE club_id=?";
+		String topClub_yn = null;
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, club_id);	
+			rs = pstmt.executeQuery();
+			while(rs.next())
+				topClub_yn = rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return topClub_yn;
+	}
+	public int getTopClubRank(int club_id) {
+		String sql = "SELECT topclub_rank FROM club WHERE club_id=?";
+		int rank= -1;
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, club_id);			
+			rs = pstmt.executeQuery();
+			while(rs.next())
+				rank = rs.getInt(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return rank;
+		
+	}
+	
+	public int setTopClubRank(int club_id, int rank) {
+		String sql = "UPDATE club SET topclub_rank=? WHERE club_id=?";
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rank);
+			pstmt.setInt(2, club_id);			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return -1;
+		
+	}
+	public int setTopClub(int club_id, String topClub_YN) {
+		String sql = "UPDATE club SET topclub_yn=? WHERE club_id=?";
+		try {
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, topClub_YN);
+			pstmt.setInt(2, club_id);			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}
+		return -1;
+	}
+	public ArrayList<ClubVO> getTopClub2(String gb_cd, String at_cd) {
+		ArrayList<ClubVO> list = new ArrayList<ClubVO>();
+		String sql  = "";
+		if (at_cd.equals("002001")) {
+			sql = "SELECT * FROM club WHERE club_gb_cd=? AND club_at_cd ='002001' AND topclub_yn='Y' ORDER BY topclub_rank ASC";
+		} else {
+			sql = "SELECT * FROM club WHERE club_gb_cd=? AND club_at_cd !='002001' AND topclub_yn='Y' ORDER BY topclub_rank ASC";
+		}
+		
+		try {
+			
+			conn = JDBCUtil.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, gb_cd);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ClubVO vo = new ClubVO();
+				vo.setClub_id(rs.getInt("CLUB_ID"));
+				vo.setClub_nm(rs.getString("CLUB_NM"));
+				vo.setClub_gb_cd(rs.getString("CLUB_GB_CD"));
+				vo.setClub_at_cd(rs.getString("CLUB_AT_CD"));
+				vo.setCnt(rs.getInt("CLUB_CNT"));
+				vo.setClub_aim(rs.getString("CLUB_AIM"));
+				vo.setClub_active(rs.getString("CLUB_ACTIVE"));
+				vo.setClub_room(rs.getString("CLUB_ROOM"));
+				vo.setOpen_dt(rs.getString("OPEN_DT"));
+				vo.setIntro_file_nm(rs.getString("INTRO_FILE_NM"));
+				vo.setIntro_save_file_nm(rs.getString("INTRO_SAVE_FILE_NM"));
+				vo.setPoster_file_nm(rs.getString("POSTER_FILE_NM"));
+				vo.setPoster_save_file_nm(rs.getString("POSTER_SAVE_FILE_NM"));
+				vo.setInput_id(rs.getString("INPUT_ID"));
+				vo.setInput_ip(rs.getString("INPUT_IP"));
+				vo.setInput_date(rs.getString("INPUT_DATE"));
+//				vo.setStaff_nm(rs.getString("NM"));
+//				vo.setStaff_phone(rs.getString("PHONE_NO"));
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.closeResource(rs, pstmt, conn);
+		}		
+		
+		return list;
+	}
 	public ArrayList<ClubVO> getTopClub(String gb_cd, String at_cd) {
 
 		ArrayList<ClubVO> list = new ArrayList<ClubVO>();

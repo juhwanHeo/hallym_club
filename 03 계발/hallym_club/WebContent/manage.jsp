@@ -16,8 +16,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>한림대학교 동아리</title>
-<link rel="stylesheet" type="text/css" href="css/club_main.css">
-<link rel="stylesheet" type="text/css" href="css/table.css">
+<link rel="stylesheet" type="text/css" href="css/club_main.css?after">
+<link rel="stylesheet" type="text/css" href="css/table.css?after">
 
 <style>
 html, body {
@@ -167,12 +167,12 @@ a:hover {
 			script.println("alert('권환이 없습니다.')");
 			script.println("location.href='index.jsp'");
 			script.println("</script>");
-		}else {
+		} else {
 	%>
 
 	<jsp:include page="club_platform.jsp?club_id=<%=club_id%>"></jsp:include>
 
-
+	<div>
 	<div class="main">
 		<div class="mainLeft">
 			<input type="hidden" name="row_index" id="row_index"
@@ -292,10 +292,16 @@ a:hover {
 				%>
 			</form>
 		</div>
+		
 	</div>
 	
 	
+	
 	<%} %>
+	
+	
+	</div>
+	
 	<script>
 	
 	var a = document.getElementById("club_table").parentNode;
@@ -317,8 +323,13 @@ a:hover {
 		document.getElementById("row_index").value = x.rowIndex-1;
 		location.href="manage.jsp?club_id=<%=club_id%>
 		&row_index=" + idx;
-		}
+	}
 	</script>
 
+	<hr>
+	<div id="footer">
+		<jsp:include page="footer.jsp"></jsp:include>
+	</div>
+	<hr>
 </body>
 </html>
