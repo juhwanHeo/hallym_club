@@ -96,12 +96,6 @@ table.type04 td {
 			out.println("</script>");
 		} 
 		
-/* 		else if(!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765"))) {
-			out.println("<script>");
-			out.println("alert('관리자 권환이 필요헙니다.')");
-			out.println("location.href='index.jsp'");
-			out.println("</script>");
-		} */
 		
 		
 	%>

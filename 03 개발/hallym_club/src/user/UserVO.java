@@ -18,11 +18,25 @@ public class UserVO {
 	private String phoneNumber;
 	private String e_mail;
 	private String birthday;
+	private String admin_cd;
 
+
+
+
+	
 	@Override
 	public String toString() {
 		return "UserVO [id=" + id + ", name=" + name + ", major=" + major + ", grade=" + grade + ", gender=" + gender
-				+ ", phoneNumber=" + phoneNumber + ", e_mail=" + e_mail + ", birthday=" + birthday + "]";
+				+ ", phoneNumber=" + phoneNumber + ", e_mail=" + e_mail + ", birthday=" + birthday + ", admin_cd="
+				+ admin_cd + "]";
+	}
+
+	public String getAdmin_cd() {
+		return admin_cd;
+	}
+
+	public void setAdmin_cd(String admin_cd) {
+		this.admin_cd = admin_cd;
 	}
 	
 	public String getId() {

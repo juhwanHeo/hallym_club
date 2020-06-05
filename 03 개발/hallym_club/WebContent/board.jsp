@@ -25,7 +25,7 @@
 		request.setCharacterEncoding("UTF-8");
 
 		
-		UserVO userVO = null;
+		UserVO userVO = new UserVO();
 		String userId = null;
 		if (session.getAttribute("userVO") != null) {
 			userVO = ((UserVO) session.getAttribute("userVO"));
@@ -190,8 +190,9 @@
 								<button type="submit" class="category-btn">검색</button></li>
 							<li>
 							<%
-								if (userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
-										 || userId.equals("20152318")  || userId.equals("20152335")) {
+								/* if (userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+										 || userId.equals("20152318")  || userId.equals("20152335")) { */
+								if (userVO.getAdmin_cd().equals("010001")) {
 							%>
 							<a href="write.jsp?club_id=<%=club_id%>&board_cd=<%=board_cd%>"
 								class="write-btn">글쓰기</a>

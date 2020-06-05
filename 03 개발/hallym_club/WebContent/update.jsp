@@ -18,21 +18,7 @@
 
 <title>한림대학교 동아리</title>
 
-<style>
 
-	.ck-editor__editable {
-		min-height: 400px;
-		max-height: 500px;
-	}
-	
-	.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
-    	width: auto;
-	}
-	
-	.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
-    	width: auto;
-	}
-</style>
 </head>
 
 <body>
@@ -174,24 +160,13 @@
 
 		</div>
 		<hr>
-		<div id="footer2">
+		<div id="footer">
 			<jsp:include page="footer.jsp"></jsp:include>
 		</div>
 	</div>
 	
-	<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>
-	<script>
-	    ClassicEditor
-	        .create( document.querySelector( '.editor' ), {
-	        	
-	        })
-	        .then( editor => {
-	        	window.editor = editor;
-	        })
-	        .catch( error => {
-	            console.error( error );
-	        } );
-	</script>
+	
+	
 	
 </body>
 

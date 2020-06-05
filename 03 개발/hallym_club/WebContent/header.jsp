@@ -44,7 +44,7 @@
 <body>
 
 	<%
-		UserVO userVO = null;
+		UserVO userVO = new UserVO();
 		String userId = null;
 		String username = null;
 		if (session.getAttribute("userVO") != null) {
@@ -82,8 +82,10 @@
 		<li><span class="txt" onclick="location.href='myPage.jsp'" style="cursor:pointer;"><%out.print(username + " 님 환영합니다.");%></span></li>
 		<li><a href='logoutAction.jsp'>로그아웃</a></li>
 		<%
-			if (userId.equals("20185289") || userId.equals("20185304") || userId.equals("20185280") 
-					|| userId.equals("20765") || userId.equals("20152318") || userId.equals("20152335")) {
+			/* if (userId.equals("20185289") || userId.equals("20185304") || userId.equals("20185280") 
+					|| userId.equals("20765") || userId.equals("20152318") || userId.equals("20152335")) { */
+			if(userVO.getAdmin_cd().equals("010001")) {
+				
 		%>
 		<li><a href="club_manage.jsp">동아리 관리</a></li>
 		<%

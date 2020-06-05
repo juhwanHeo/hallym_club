@@ -16,7 +16,7 @@
 
 	<%
 		request.setCharacterEncoding("UTF-8");
-		UserVO userVO = null;
+		UserVO userVO = new UserVO();
 		String userId = null;
 
 		if (session.getAttribute("userVO") != null) {
@@ -28,8 +28,10 @@
 			out.println("alert('로그인을 하세요.')");
 			out.print("window.close();");
 			out.println("</script>");
-		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
-				|| userId.equals("20152318") || userId.equals("20152335"))) {
+		} 
+		/* else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+		|| userId.equals("20152318") || userId.equals("20152335"))) { */
+		else if (! userVO.getAdmin_cd().equals("010001")) {
 			out.println("<script>");
 			out.println("alert('관리자 권환이 필요헙니다.')");
 			out.print("window.close();");

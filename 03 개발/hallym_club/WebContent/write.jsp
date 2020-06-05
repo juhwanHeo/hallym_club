@@ -19,28 +19,14 @@
 	-->
 <title>한림대학교 동아리</title>
 
-<style>
 
-	.ck-editor__editable {
-		min-height: 400px;
-		max-height: 500px;
-	}
-	
-	.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
-    	width: auto;
-	}
-	
-	.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
-    	width: auto;
-	}
-</style>
 </head>
 
 <body>
 	<%
 		request.setCharacterEncoding("UTF-8");
 
-		UserVO userVO = null;
+		UserVO userVO = new UserVO();
 		String userId = null;
 		if (session.getAttribute("userVO") != null) {
 			userVO = ((UserVO) session.getAttribute("userVO"));
@@ -53,8 +39,10 @@
 			script.println("alert('로그인이 필요합니다.')");
 			script.println("location.href='login.jsp'");
 			script.println("</script>");
-		} else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
-				|| userId.equals("20152318") || userId.equals("20152335"))) {
+		} 
+		/* else if (!(userId.equals("20185280") || userId.equals("20185304") || userId.equals("20765")
+		|| userId.equals("20152318") || userId.equals("20152335"))) { */
+		else if (! userVO.getAdmin_cd().equals("010001")) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('관리자 권환이 필요합니다.')");
@@ -133,7 +121,7 @@
 						<textarea name="CONTENTS" id="bbsTitle" class="editor" rows="20" style="width: 100%; resize: none;"></textarea>
 					</div>
 					-->
-					<textarea name="CONTENTS" id="bbsTitle" class="editor" style="width: 100%; resize: none;">내용을 입력해주세요</textarea>
+					<textarea name="CONTENTS" id="bbsTitle" rows="20" style="width: 100%; resize: none;">내용을 입력해주세요</textarea>
 					<div class="write-btn">
 						<input type="submit" class="input-btn" name="작성" value="작성">
 						<input type="reset" class="input-btn" name="취소" value="취소"
@@ -145,24 +133,12 @@
 			
 		</div>
 		<hr>
-		<div id="footer2">
+		<div id="footer">
 			<jsp:include page="footer.jsp"></jsp:include>
 		</div>
 	</div>
 	
-	<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/classic/ckeditor.js"></script>
-	<script>
-	    ClassicEditor
-	        .create( document.querySelector( '.editor' ), {
-	        	
-	        })
-	        .then( editor => {
-	        	window.editor = editor;
-	        })
-	        .catch( error => {
-	            console.error( error );
-	        } );
-	</script>
+	
 </body>
 
 </html>
