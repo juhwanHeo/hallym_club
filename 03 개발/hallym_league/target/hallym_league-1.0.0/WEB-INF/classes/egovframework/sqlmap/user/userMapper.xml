@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.league.user.dao.UserDAO">
+    
+    <resultMap id="UserVOResult" type="hallym.league.user.vo.UserVO">
+		 <result property="id" column="IDNO" />
+		 <result property="name" column="NAME" />
+		 <result property="major" column="MAJORNAME" />
+		 <result property="grade" column="GRADE" />
+		 <result property="gender" column="GENDER" />
+		 <result property="phoneNumber" column="PHONENUMBER" />
+		 <result property="e_mail" column="E_MAIL" />
+	 </resultMap>
+
+     <select id="checkLogin" parameterType="map" resultType="String">
+	 	
+		SELECT NF_USER_LOGIN(#{GBN}, #{ID}, #{PASSWORD}) vRESULT FROM DUAL
+		
+		<!-- Service Only -->
+		<!--
+		SELECT ilban.nf_user_login(#{GBN}, #{ID}, #{PASSWORD}) V_RESULT FROM DUAL
+		-->
+     </select>
+     
+      <select id="getUserVO" parameterType="map" resultMap="UserVOResult">
+     	    
+        SELECT
+        	IDNO, NAME, MAJORNAME, GRADE, GENDER, PHONENUMBER, E_MAIL, RESIDENTNO 
+        FROM
+        	V_ISSUE_MASTER
+        WHERE
+        	IDNO=#{ID}
+         
+     </select>
+      
+     
+     
+</mapper>

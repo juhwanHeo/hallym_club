@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.league.board.dao.BoardDAO">
+    
+	<!-- BoardVO -->
+	<resultMap type="hallym.league.board.vo.BoardVO" id="boardVOResult">
+    	<result property="BOARD_CD" column="BOARD_CD" />
+       	<result property="SEQ_NO" column="SEQ_NO" />
+       	<result property="UP_SEQ_NO" column="UP_SEQ_NO" />
+       	<result property="TITLE" column="TITLE" />
+       	<result property="CONTENTS" column="CONTENTS" />
+       	<result property="OPEN_CNT" column="OPEN_CNT" />
+       	<result property="BBSAVAILABLE" column="BBSAVAILABLE" />
+       	<result property="FIX_YN" column="FIX_YN" />
+       	<result property="ATTACH_YN" column="ATTACH_YN" />
+       	<result property="START_DATE" column="START_DATE" />
+       	<result property="END_DATE" column="END_DATE" />
+       	<result property="INPUT_ID" column="INPUT_ID" />
+       	<result property="INPUT_IP" column="INPUT_IP" />
+       	<result property="INPUT_DATE" column="INPUT_DATE" />
+       	<result property="UPDATE_ID" column="UPDATE_ID" />
+       	<result property="UPDATE_IP" column="UPDATE_IP" />
+       	<result property="UPDATE_DATE" column="UPDATE_DATE" />
+    </resultMap>
+    
+	<!-- 게시글 목록 가져오기 -->
+	<select id="getBoardList" parameterType="map" resultType="java.util.LinkedHashMap">
+		SELECT
+			*
+		FROM (
+			SELECT
+				ROW_NUMBER()
+				OVER (ORDER BY FIX_YN DESC, SEQ_NO DESC)
+				RNUM, LEAGUE_BOARD.*
+			FROM
+				LEAGUE_BOARD
+			WHERE
+				BBSAVAILABLE = #{available}
+				AND BOARD_CD = #{board_cd}
+				
+			<if test="opt2 == 1"> <!-- 기간 제한 검색 -->
+			    <!-- <, >와 같은 기호를 사용하려면 CDATA로 감싸주어야 함 -->
+			    <![CDATA[
+				AND SYSDATE >= TO_DATE(START_DATE,'yyyy-mm-dd')
+				AND SYSDATE <= TO_DATE(END_DATE,'yyyy-mm-dd')
+				]]>
+			</if>
+			<if test="opt == 1"> <!-- 제목으로 검색 -->
+				AND TITLE LIKE '%' || #{condition} || '%'
+			</if>
+			<if test="opt == 2"> <!-- 작성자(ID)로 검색 -->
+				AND UPDATE_ID LIKE '%' || #{condition} || '%'
+			</if>
+			
+		)
+		WHERE
+			RNUM BETWEEN #{startNum} AND #{endNum}
+			ORDER BY RNUM ASC
+		
+     </select>
+     
+	<!-- 게시글 총 페이지 수 구하기 -->
+     <select id="getTotalPageCnt" parameterType="map" resultType="int">
+
+		SELECT
+			distinct CEIL(
+				(
+					SELECT
+						NVL(COUNT(SEQ_NO), 0)
+					FROM (
+						SELECT SEQ_NO
+						FROM LEAGUE_BOARD
+						WHERE
+							BBSAVAILABLE = #{available}
+							AND BOARD_CD = #{board_cd}
+						
+						<if test="opt == 1"> <!-- 제목으로 검색 -->
+							AND TITLE LIKE '%' || #{condition} || '%'
+						</if>
+						<if test="opt == 2"> <!-- 작성자(ID)로 검색 -->
+							AND UPDATE_ID LIKE '%' || #{condition} || '%'
+						</if>
+					)
+				)
+			/ #{limit} ) as page
+		FROM
+			LEAGUE_BOARD
+         
+     </select>
+     
+     <!-- 게시글 가져오기 -->
+     <select id="getBoard" parameterType="map" resultMap="boardVOResult">
+		
+         SELECT
+         	*
+         FROM (
+         	SELECT
+         		ROW_NUMBER()
+         		OVER(ORDER BY SEQ_NO DESC) RNUM,
+         		LEAGUE_BOARD.*
+         	FROM
+         		LEAGUE_BOARD
+         	WHERE
+         		BOARD_CD = #{board_cd}
+         	<if test="opt != 1">
+         	    AND SEQ_NO = #{seq_no}
+         	</if>
+         )
+         WHERE 1=1
+         <if test="opt == 1">
+         	AND RNUM = 1
+         </if>
+
+     </select>
+     
+     <select id="getBoardListCnt" parameterType="map" resultType="int">
+     	
+		SELECT
+			COUNT(SEQ_NO)
+		FROM
+			LEAGUE_BOARD
+		WHERE
+			BBSAVAILABLE = #{available}
+			AND BOARD_CD = #{board_cd}
+		<if test="opt2 == 1"> <!-- 기간 제한 검색 -->
+		    <!-- <, >와 같은 기호를 사용하려면 CDATA로 감싸주어야 함 -->
+		    <![CDATA[
+				AND SYSDATE >= TO_DATE(START_DATE,'yyyy-mm-dd')
+				AND SYSDATE <= TO_DATE(END_DATE,'yyyy-mm-dd')
+			]]>
+		</if>
+		<if test="opt == 1"> <!-- 제목으로 검색 -->
+			AND TITLE LIKE '%' || #{condition} || '%'
+		</if>
+		<if test="opt == 2"> <!-- 작성자(ID)로 검색 -->
+			AND UPDATE_ID LIKE '%' || #{condition} || '%'
+		</if>
+         
+     </select>
+     
+     <!-- 게시글 작성 -->
+     <insert id="addBoard" parameterType="map">
+
+        INSERT INTO
+        	LEAGUE_BOARD(
+        		BOARD_CD,
+				SEQ_NO,
+				UP_SEQ_NO,
+				TITLE,
+				CONTENTS,
+				FIX_YN,
+				ATTACH_YN,
+				START_DATE,
+				END_DATE,
+				INPUT_ID,
+				INPUT_IP,
+				INPUT_DATE
+        	)
+         	
+         	VALUES(
+         		#{board_cd},
+         		(SELECT NVL( MAX(SEQ_NO), 0) + 1 FROM LEAGUE_BOARD WHERE BOARD_CD = #{board_cd}),
+         		#{up_seq_no},
+         		#{title},
+         		#{contents},
+         		#{fix_yn},
+         		#{attach_yn},
+         		TO_DATE(#{start_date},'yyyy-mm-dd hh24:mi:ss'),
+         		TO_DATE(#{end_date},'yyyy-mm-dd hh24:mi:ss'),
+         		#{input_id},
+         		#{input_ip},
+         		SYSDATE
+         	)
+         	<!-- 
+         	<selectKey keyProperty="seq_no" resultType="int" order="AFTER">
+         	    
+         		SELECT
+		         	NVL(SEQ_NO, 0)
+		         FROM
+		         	LEAGUE_BOARD
+		         WHERE
+		         	BOARD_CD = #{board_cd}
+		         	AND UP_SEQ_NO = #{up_seq_no},
+					AND TITLE = #{title},
+					AND CONTENTS = #{contents},
+					AND FIX_YN = #{fix_yn},
+					AND START_DATE = TO_DATE(#{start_date},'yyyy-mm-dd hh24:mi:ss'),
+					AND END_DATE = TO_DATE(#{end_date},'yyyy-mm-dd hh24:mi:ss'),
+					AND INPUT_ID = #{input_id},
+					AND INPUT_IP = #{input_ip}
+			
+			</selectKey>
+		         -->
+     </insert>
+     
+     <!-- 게시글 삭제(원본 백업됨) -->
+     <update id="deleteBoard" parameterType="map">
+     	
+     	UPDATE
+     		LEAGUE_BOARD
+     	SET
+     		BBSAVAILABLE = 0
+     	WHERE
+     		BOARD_CD = #{board_cd}
+     		AND SEQ_NO = #{seq_no}
+     	
+     </update>
+     
+     <!-- 게시글 삭제(영구) -->
+     <delete id="deleteBoardReal" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			LEAGUE_BOARD
+   		WHERE
+   			BOARD_CD = #{board_cd}
+   			AND SEQ_NO = #{seq_no}
+     	
+     </delete>
+     
+     <!-- 게시글 수정 -->
+     <update id="updateBoard" parameterType="map">
+					
+		UPDATE
+			LEAGUE_BOARD
+		SET
+			TITLE = #{title},
+			CONTENTS = #{contents},
+			FIX_YN = #{fix_yn},
+			ATTACH_YN = #{attach_yn},
+			START_DATE = TO_DATE(#{start_date},'yyyy-mm-dd hh24:mi:ss'),
+			END_DATE = TO_DATE(#{end_date},'yyyy-mm-dd hh24:mi:ss'),
+			UPDATE_ID = #{update_id},
+			UPDATE_IP = #{update_ip},
+			UPDATE_DATE = SYSDATE
+		WHERE
+			BOARD_CD = #{board_cd}
+			AND SEQ_NO = #{seq_no}
+			      
+     </update>
+     
+     <!-- 게시글 조회수 증가 -->
+     <update id="increaseOpenCnt" parameterType="map">
+     		
+	 	UPDATE
+	 		LEAGUE_BOARD
+	 	SET
+	 		OPEN_CNT = NVL(OPEN_CNT, 0) + 1
+	 	WHERE
+	 		BOARD_CD = #{board_cd}
+	 		AND SEQ_NO = #{seq_no}
+      
+     </update>
+     
+</mapper>

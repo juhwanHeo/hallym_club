@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+.hallym-table {
+	width: 100%;
+	table-layout: fixed;
+	border-top: 2px solid #071f4b;
+}
+
+.hallym-table thead th {
+	padding: 12px 10px 13px;
+	border-right: 1px solid #dedede;
+	border-bottom: 1px solid #dedede;
+	background-color: #f4f8fc;
+	font-weight: 500;
+	font-size: 16px;
+	color: #000;
+	line-height: 24px;
+	text-align: center;
+	letter-spacing: -0.5px;
+	word-wrap: break-word;
+}
+
+.hallym-table thead th.th-left {
+	text-align: left !important;
+}
+
+.hallym-table thead th.no-right {
+	border-right: none !important
+}
+
+.hallym-table tbody th {
+	padding: 12px 10px 13px;
+	border-right: 1px solid #dedede;
+	border-bottom: 1px solid #dedede;
+	font-weight: 500;
+	font-size: 16px;
+	color: #000;
+	line-height: 24px;
+	text-align: center;
+	letter-spacing: -0.5px;
+	word-wrap: break-word;
+}
+
+.hallym-table tbody th.th-bg {
+	background-color: #f4f8fc;
+}
+
+.hallym-table tbody th.bo-right {
+	border-right: 1px solid #dedede !important;
+}
+
+.hallym-table tbody th.th-left {
+	text-align: left !important;
+}
+
+.hallym-table tbody th.no-right {
+	border-right: none !important;
+}
+
+.hallym-table tbody td {
+	padding: 12px 10px 13px;
+	border-bottom: 1px solid #dedede;
+	border-right: 1px solid #dedede;
+	font-size: 16px;
+	color: #333;
+	line-height: 24px;
+	word-wrap: break-word;
+	text-align: center;
+	letter-spacing: -0.5px;
+}
+
+.hallym-table tbody td.td-left {
+	text-align: left !important;
+}
+
+.hallym-table tbody td.no-bottom {
+	border-bottom: none !important;
+}
+
+.hallym-table thead th.bo-right {
+	border-right: 1px solid #dedede !important;
+}
+
+.hallym-table thead th.bo-bottom {
+	border-bottom: 1px solid #dedede !important;
+}
+
+.hallym-table tbody td.bo-right {
+	border-right: 1px solid #dedede !important;
+}
+
+.hallym-table tbody td.bo-bottom {
+	border-right: 1px solid #dedede !important;
+}
+
+.hallym-table tbody td.no-right {
+	border-right: none !important;
+}
+
+/* scrollbox */
+.msg-touch-help {
+	display: none;
+}
+
+@media screen and (max-width:768px) {
+	.hallym-table thead th {
+		padding: 7px 0;
+		font-size: 14px;
+		line-height: 22px;
+	}
+	.hallym-table tbody th {
+		padding: 7px;
+		font-size: 14px;
+		line-height: 22px;
+	}
+	.hallym-table tbody td {
+		padding: 7px;
+		font-size: 14px;
+		line-height: 22px;
+	}
+	.hallym-table tbody td.td-left {
+		padding-left: 7px;
+	}
+	.scrollbox .hallym-table {
+		width: 800px;
+	}
+
+	/* scrollbox */
+	.scrollbox .hallym-table {
+		width: 800px;
+	}
+	.msg-touch-help {
+		display: block;
+		position: absolute;
+		top: 50px;
+		left: 50%;
+		z-index: 10;
+		margin: 0 0 0 -35px;
+		width: 70px;
+		height: 70px;
+	}
+	.msg-touch-help img {
+		width: 100%;
+	}
+	.scrollbox {
+		position: relative;
+		width: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
+}

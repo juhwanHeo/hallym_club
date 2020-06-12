@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+/* 노토 산스 */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Noto Sans KR'),
+  	   url(../font/NotoSansKR-Light.otf) format('woff2'),
+       url(/_common/font/notosans/NotoSansKR-Light.woff) format('woff'),
+       url(../font/NotoSansKR-Light.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Noto Sans KR'),
+  	   url(/_common/font/notosans/NotoSansKR-DemiLight.woff2) format('woff2'),
+       url(/_common/font/notosans/NotoSansKR-DemiLight.woff) format('woff'),
+       url(../font/NotoSansKR-DemiLight.otf) format('opentype');
+}
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 400;
+   src: local('Noto Sans KR'),
+   		url(/_common/font/notosans/NotoSansKR-Regular.woff2) format('woff2'),
+        url(/_common/font/notosans/NotoSansKR-Regular.woff) format('woff'),
+        url(../font/NotoSansKR-Regular.otf) format('opentype');
+}
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 500;
+   src: local('Noto Sans KR'),
+   		url(/_common/font/notosans/NotoSansKR-Medium.woff2) format('woff2'),
+        url(/_common/font/notosans/NotoSansKR-Medium.woff) format('woff'),
+        url(../font/NotoSansKR-Medium.otf) format('opentype');
+}
+@font-face {
+   font-family: 'Noto Sans KR';
+   font-style: normal;
+   font-weight: 700;
+   src: local('Noto Sans KR'),
+   		url(/_common/font/notosans/NotoSansKR-Bold.woff2) format('woff2'),
+        url(/_common/font/notosans/NotoSansKR-Bold.woff) format('woff'),
+        url(../font/NotoSansKR-Bold.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 900;
+   src: local('Noto Sans KR'),
+  	   url(/_common/font/notosans/NotoSansKR-Black.woff2) format('woff2'),
+       url(/_common/font/notosans/NotoSansKR-Black.woff) format('woff'),
+       url(../font/NotoSansKR-Black.otf) format('opentype');
+}
+
+/* 나눔 고딕 */
+@font-face {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: 400;
+    src:local('NanumGothic'), 
+    	url(/_common/font/nanum/NanumGothic-Regular.woff2) format('woff2'),
+        url(/_common/font/nanum/NanumGothic-Regular.woff) format('woff'),
+        url(../font/NanumGothic-Regular.eot) format('embedded-opentype');
+}
+@font-face {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: 700;
+	src:local('NanumGothic'),  
+		url(/_common/font/nanum/NanumGothic-Bold.woff2) format('woff2'),
+        url(/_common/font/nanum/NanumGothic-Bold.woff) format('woff'),
+        url(../font/NanumGothic-Bold.eot) format('embedded-opentype');
+}
+
+@font-face {
+    font-family: 'NanumGothic';
+    font-style: normal;
+    font-weight: 900;
+	src:local('NanumGothic'),  
+    		url(/_common/font/nanum/NanumGothic-ExtraBold.woff2) format('woff2'),
+        url(/_common/font/nanum/NanumGothic-ExtraBold.woff) format('woff'),
+        url(../font/NanumGothic-ExtraBold.eot) format('embedded-opentype');
+}
+
+
+
+/* 나눔 명조 */
+/* Nanum Nyeongjo */
+@font-face {
+  font-family: 'NanumMyeongjo';
+  font-style: normal;
+  font-weight: 400;
+  src:local('NanumMyeongjo'),   
+  	   url(/_common/font/nanum/NanumMyeongjoR.woff2) format('woff2'),
+       url(/_common/font/nanum/NanumMyeongjoR.woff) format('woff'),
+       url(../font/NanumMyeongjoR.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NanumMyeongjo';
+  font-style: normal;
+  font-weight: 700;
+  src:local('NanumMyeongjo'),   
+  	   url(/_common/font/nanum/NanumMyeongjoB.woff2) format('woff2'),
+       url(/_common/font/nanum/NanumMyeongjoB.woff) format('woff'),
+       url(../font/NanumMyeongjoB.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'NanumMyeongjo';
+  font-style: normal;
+  font-weight: 900;
+  src:local('NanumMyeongjo'),   
+  	   url(/_common/font/nanum/NanumMyeongjoEB.woff2) format('woff2'),
+       url(/_common/font/nanum/NanumMyeongjoEB.woff) format('woff'),
+       url(../font/NanumMyeongjoEB.otf) format('opentype');
+}
+

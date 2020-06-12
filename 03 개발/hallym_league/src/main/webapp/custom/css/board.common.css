@@ -1,0 +1,95 @@
+@charset "UTF-8";
+
+.mg-b5{margin-bottom:5px;}
+.mg-b10{margin-bottom:10px;}
+.mg-tb5{margin:5px 0;}
+.mg-t10-b5{margin:10px 0 5px 0;}
+.mg-l30{margin-left:30px;}
+.pd-t10{padding-top:10px;}
+.b-right{border-right: 1px solid #d8d8d8; }
+
+.board .deleted, .board .deleted * { text-decoration: line-through !important; color: #999999 !important;}
+input.dark { background-color: #eeeeee !important; }
+
+.file-icon { background: url("../img/file_icon.png") no-repeat; padding-left: 30px; }  
+.file-icon.bmp { background: url("../img/attach_bmp.gif") no-repeat 0 2px;  }  
+.file-icon.doc { background: url("../img/attach_doc.gif") no-repeat 0 2px;  }  
+.file-icon.docx { background: url("../img/attach_docx.gif") no-repeat 0 2px;  }  
+.file-icon.gif { background: url("../img/attach_gif.gif") no-repeat 0 2px;  }  
+.file-icon.hwp { background: url("../img/attach_hwp.gif") no-repeat 0 2px;  }  
+.file-icon.jpg { background: url("../img/attach_jpg.gif") no-repeat 2px;  }  
+.file-icon.pdf { background: url("../img/attach_pdf.gif") no-repeat 0 2px;  }  
+.file-icon.png { background: url("../img/attach_png.gif") no-repeat 0 2px;  }  
+.file-icon.ppt { background: url("../img/attach_ppt.gif") no-repeat 0 2px;  }  
+.file-icon.pptx { background: url("../img/attach_pptx.gif") no-repeat 0 2px;  }  
+.file-icon.txt { background: url("../img/attach_txt.gif") no-repeat 0 2px;  }  
+.file-icon.xls { background: url("../img/attach_xls.gif") no-repeat 0 2px;  }  
+.file-icon.xlsx { background: url("../img/attach_xlsx.gif") no-repeat 0 2px;  }  
+.file-icon.zip { background: url("../img/attach_zip.gif") no-repeat 0 2px;  }  
+
+.captcha.captchaRefresh {background: url("../img/captcha_refresh.png") no-repeat ;width: 16px; height: 16px; display: inline-block;} 
+.captcha.captchaSound {background: url("../img/captcha_volume.png") no-repeat ;width: 16px; height: 16px; display: inline-block;}
+
+.board .depth-1 {margin-left: 20px;}
+.board .depth-2 {margin-left: 40px;}
+.board .depth-3 {margin-left: 80px;}
+.board .depth-4 {margin-left: 100px;}
+.board .depth-5 {margin-left: 120px;}
+
+pre  {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+/* write - 게시글 복사 */
+.alert, .alert h4 {
+    color: #c09853;
+}
+.alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.alert .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    line-height: 20px;
+}
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+
+.bn-history01.type01 .adm-chk {
+    float: left;
+    margin: 0 0 10px 0;
+    color: #222;
+    font-weight: 600;
+}
+
+.bn-write-common01.type01 .b-input.wp-80 { width : 80%; }
+
+.b-confirm { background : #000; color: #fff; padding : 5px }
+

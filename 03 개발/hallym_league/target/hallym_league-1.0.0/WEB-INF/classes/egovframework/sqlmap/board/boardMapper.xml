@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.league.board.dao.BoardDAO">
+       
+	<resultMap type="hallym.league.board.vo.BoardVO" id="boardVOResult">
+       <result property="BOARD_NUM" column="BOARD_NUM" />
+       <result property="BOARD_ID" column="BOARD_ID" />
+       <result property="BOARD_SUBJECT" column="BOARD_SUBJECT" />
+       <result property="BOARD_CONTENT" column="BOARD_CONTENT" />
+       <result property="BOARD_FILE" column="BOARD_FILE" />
+       <result property="BOARD_RE_REF" column="BOARD_RE_REF" />
+       <result property="BOARD_RE_LEV" column="BOARD_RE_LEV" />
+       <result property="BOARD_RE_SEQ" column="BOARD_RE_SEQ" />
+       <result property="BOARD_COUNT" column="BOARD_COUNT" />
+       <result property="BOARD_DATE" column="BOARD_DATE" />
+       <result property="BOARD_FIX" column="BOARD_FIX" />
+    </resultMap>
+    
+	<select id="getBoardList" parameterType="map" resultType="java.util.LinkedHashMap">
+
+		SELECT
+		    BOARD_NUM,
+		    BOARD_ID,
+		    BOARD_SUBJECT,
+		    BOARD_CONTENT,
+		    BOARD_FILE,
+		    BOARD_RE_REF,
+		    BOARD_RE_LEV,
+		    BOARD_RE_SEQ,
+		    BOARD_COUNT,
+		    BOARD_DATE,
+		    BOARD_FIX,
+		    CEIL((SELECT COUNT(BOARD_NUM) FROM LEAGUE_BOARD)/10) as page,
+		    RNUM 
+		FROM (
+		    SELECT
+		        ROW_NUMBER() OVER (ORDER BY BOARD_FIX DESC, BOARD_NUM DESC) RNUM,
+		        BOARD_NUM,
+		        BOARD_ID,
+		        BOARD_SUBJECT,
+		        BOARD_CONTENT,
+		        BOARD_FILE,
+		        BOARD_RE_REF,
+		        BOARD_RE_LEV,
+		        BOARD_RE_SEQ,
+		        BOARD_COUNT,
+		        BOARD_DATE,
+		        BOARD_FIX
+		    FROM
+		        LEAGUE_BOARD
+		     )
+		WHERE
+		    RNUM BETWEEN #{startNum} AND #{endNum}
+		    ORDER BY RNUM ASC
+	
+     </select>
+     
+     <select id="getBoardListCount" resultType="int">
+
+		SELECT COUNT(BOARD_NUM) FROM LEAGUE_BOARD
+         
+     </select>
+     
+     <select id="getBoardTotalPage" parameterType="int" resultType="int">
+
+		SELECT distinct CEIL((SELECT COUNT(BOARD_NUM) FROM LEAGUE_BOARD)/#{limit}) as page FROM LEAGUE_BOARD
+         
+     </select>
+     
+     <select id="searchBoardList" parameterType="map" resultType="java.util.LinkedHashMap">
+       
+          SELECT
+              *
+          FROM
+              LEAGUE_BOARD
+          WHERE 1=1
+             <if test="opt == 0"> <!-- 제목으로 검색 -->
+                AND BOARD_SUBJECT LIKE '%' || #{condition} || '%'
+             </if>
+             <if test="opt == 1"> <!-- 작성자(ID)로 검색 -->
+                AND BOARD_ID LIKE '%' || #{condition} || '%'
+             </if>
+			
+          ORDER BY CASE WHEN BOARD_FIX IN('Y') THEN 0 ELSE 1 END, BOARD_NUM DESC
+          
+     </select>
+          
+     <select id="searchBoard" parameterType="String" resultMap="boardVOResult">
+		
+         SELECT
+         	*
+         FROM
+         	LEAGUE_BOARD
+         WHERE
+         	BOARD_NUM = #{board_num}
+
+     </select>
+     
+     <insert id="addBoard" parameterType="map">
+       
+      INSERT
+      	INTO
+      		LEAGUE_BOARD(BOARD_NUM,
+	      				BOARD_ID,
+	      				BOARD_SUBJECT,
+	      				BOARD_CONTENT,
+	      				BOARD_FILE,
+	      				BOARD_COUNT,
+	      				BOARD_DATE,
+	      				BOARD_FIX)
+      	VALUES(
+      		(SELECT MAX(BOARD_NUM) FROM LEAGUE_BOARD)+1,
+      		#{board_id},
+      		#{board_subject},
+      		#{board_content},
+      		#{board_fill_name},
+      		#{board_count},
+      		sysdate,
+      		#{board_fix})
+
+     </insert>
+     
+     <delete id="deleteBoard" parameterType="map">
+       
+      DELETE FROM LEAGUE_BOARD WHERE BOARD_NUM = #{board_num}
+      
+     </delete>
+     
+     <update id="updateBoard" parameterType="map">
+       
+      UPDATE 
+          LEAGUE_BOARD 
+      SET 
+          BOARD_ID = #{board_id},
+          BOARD_SUBJECT = #{board_subject},
+          BOARD_CONTENT = #{board_content},
+          BOARD_FIX = #{board_fix} 
+      WHERE
+          BOARD_NUM = #{board_num}
+      
+     </update>
+     
+     <update id="viewCountBoard" parameterType="map">
+       
+      UPDATE 
+          LEAGUE_BOARD 
+      SET 
+          BOARD_COUNT = nvl(BOARD_COUNT, 0) + 1
+      WHERE
+          BOARD_NUM = #{board_num}
+      
+     </update>
+     
+</mapper>

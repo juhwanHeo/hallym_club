@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.league.file.dao.FileDAO">
+    
+	<!-- FileVO -->
+	<resultMap type="hallym.league.file.vo.FileVO" id="fileVOResult">
+    	<result property="FILE_NO" column="FILE_NO" />
+       	<result property="BOARD_CD" column="BOARD_CD" />
+       	<result property="SEQ_NO" column="SEQ_NO" />
+       	<result property="FILE_NM" column="FILE_NM" />
+       	<result property="FILE_SAVE_NM" column="FILE_SAVE_NM" />
+       	<result property="FILE_PATH" column="FILE_PATH" />
+       	<result property="ENCLUDE_YN" column="ENCLUDE_YN" />
+       	<result property="INPUT_ID" column="INPUT_ID" />
+       	<result property="INPUT_IP" column="INPUT_IP" />
+       	<result property="INPUT_DATE" column="INPUT_DATE" />
+       	<result property="UPDATE_ID" column="UPDATE_ID" />
+       	<result property="UPDATE_IP" column="UPDATE_IP" />
+       	<result property="UPDATE_DATE" column="UPDATE_DATE" />
+    </resultMap>
+	
+	<!-- 파일 목록 가져오기 -->
+	<select id="getFileList" parameterType="map" resultMap="fileVOResult">
+
+		SELECT
+			*
+		FROM
+			LEAGUE_FILE
+		WHERE 1=1
+		<choose>
+		    <when test="opt == 1"> <!-- 게시판 파일 조회 -->
+				AND BOARD_CD = #{board_cd}
+		    </when>
+		    <when test="opt == 2"> <!-- 게시글 파일 조회 -->
+				AND BOARD_CD = #{board_cd}
+		        AND SEQ_NO = #{seq_no}
+		    </when>
+		    <otherwise></otherwise> <!-- 전체 파일 조회 -->
+		</choose>
+			
+     </select>
+     
+	<!-- 파일 개수 가져오기 -->
+     <select id="getFileListCnt" parameterType="map" resultType="int">
+     	
+		SELECT
+			COUNT(FILE_NO)
+		FROM
+			LEAGUE_FILE
+		WHERE 1=1
+	<choose>
+	    <when test="opt == 1"> <!-- 게시판 파일 조회 -->
+			AND BOARD_CD = #{board_cd}
+	    </when>
+	    <when test="opt == 2"> <!-- 게시글 파일 조회 -->
+			AND BOARD_CD = #{board_cd}
+	        AND SEQ_NO = #{seq_no}
+	    </when>
+	    <otherwise></otherwise> <!-- 전체 파일 조회 -->
+	</choose>
+     </select>
+     
+     <!-- 파일 가져오기 -->
+     <select id="getFile" parameterType="map" resultMap="fileVOResult">
+       	
+       	SELECT
+         	*
+         FROM (
+         	SELECT
+         		ROW_NUMBER()
+         		OVER(ORDER BY FILE_NO DESC) RNUM,
+         		LEAGUE_FILE.*
+         	FROM
+         		LEAGUE_FILE
+         	WHERE
+         		BOARD_CD = #{board_cd}
+	       	    AND SEQ_NO = #{seq_no}
+       	    <if test="opt != 1">
+         		AND FILE_NO = #{file_no}
+         	</if>
+         )
+         WHERE 1=1
+         <if test="opt == 1">
+         	AND RNUM = 1
+         </if>
+
+     </select>
+     
+     <!-- 파일 업로드 -->
+     <insert id="addFile" parameterType="map">
+
+        INSERT INTO
+        	LEAGUE_FILE(
+        		FILE_NO,
+        		BOARD_CD,
+				SEQ_NO,
+				FILE_NM,
+				FILE_SAVE_NM,
+				FILE_PATH,
+				ENCLUDE_YN,
+				INPUT_ID,
+				INPUT_IP,
+				INPUT_DATE
+        	)
+         	
+         	VALUES(
+         		(SELECT NVL( MAX(FILE_NO), 0) + 1 FROM LEAGUE_FILE),
+         		#{board_cd},
+         		#{seq_no},
+         		#{file_nm},
+         		#{file_save_nm},
+         		#{file_path},
+         		#{enclude_yn},
+         		#{input_id},
+         		#{input_ip},
+         		SYSDATE
+         	)
+         <!-- 
+       	<selectKey keyProperty="file_no" resultType="int" order="AFTER">
+       	    SELECT
+       	    	NVL(FILE_NO, 0)
+       	    FROM
+       	    	LEAGUE_FILE
+         	WHERE
+        		BOARD_CD = #{board_cd},
+				AND SEQ_NO = #{seq_no},
+				AND FILE_NM = #{file_nm},
+				AND FILE_SAVE_NM = #{file_save_nm},
+				AND FILE_PATH = #{file_path},
+				AND ENCLUDE_YN = #{enclude_yn},
+				AND INPUT_ID = #{input_id},
+				AND INPUT_IP = #{input_ip}
+       	</selectKey>
+         	    -->
+     </insert>
+     
+     <!-- 파일 수정 -->
+     <update id="updateFile" parameterType="map">
+     		
+	 	UPDATE
+	 		LEAGUE_FILE
+	 	SET
+	 		FILE_NM = #{file_nm},
+			FILE_SAVE_NM = #{file_save_nm},
+			FILE_PATH = #{file_path},
+			ENCLUDE_YN = #{enclude_yn},
+			UPDATE_ID = #{update_id},
+			UPDATE_IP = #{update_ip},
+			UPDATE_DATE = TO_DATE(#{update_date},'yyyy-mm-dd hh24:mi:ss')
+	 	WHERE
+	 		BOARD_CD = #{board_cd}
+	 		AND SEQ_NO = #{seq_no}
+	 		AND FILE_NO = #{file_no}
+      
+     </update>
+     
+     <!-- 파일 수정 -->
+     <update id="attachFile" parameterType="map">
+     		
+	 	UPDATE
+	 		LEAGUE_FILE
+	 	SET
+	 		SEQ_NO = #{seq_no}
+	 	WHERE
+	 		BOARD_CD = #{board_cd}
+	 		AND SEQ_NO = 0
+	 		AND FILE_NO = #{file_no}
+      
+     </update>
+
+     <!-- 파일 삭제(영구) -->
+     <delete id="deleteFile" parameterType="map">
+     	
+   		DELETE
+   		FROM
+   			LEAGUE_FILE
+   		WHERE 1=1
+	<choose>
+	    <when test="opt == 1"> <!-- 게시판 파일 일괄 삭제 -->
+			AND BOARD_CD = #{board_cd}
+	    </when>
+	    <when test="opt == 2"> <!-- 게시글 파일 일괄 삭제 -->
+			AND BOARD_CD = #{board_cd}
+	        AND SEQ_NO = #{seq_no}
+	    </when>
+	    <otherwise> <!-- 단일 파일 삭제 -->
+	        AND FILE_NO = #{file_no}
+	    </otherwise>
+	</choose>
+     	
+     </delete>
+          
+</mapper>

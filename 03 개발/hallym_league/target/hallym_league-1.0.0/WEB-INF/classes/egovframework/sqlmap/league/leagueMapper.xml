@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hallym.league.dao.LeagueDAO">
+	
+    	 
+	<!--  <select id="checkLogin" parameterType="map" resultType="String">
+
+		SELECT NF_USER_LOGIN('S','20185304','1') vRESULT FROM DUAL
+		
+     </select> -->
+     
+     <select id="searchList" parameterType="map" resultType="java.util.LinkedHashMap">
+	 	
+		SELECT
+			BOARD_NUM,
+			BOARD_ID,
+			BOARD_SUBJECT,
+			BOARD_CONTENT,
+			BOARD_FILE,
+			BOARD_RE_REF,
+			BOARD_RE_LEV,
+			BOARD_RE_SEQ,
+			BOARD_COUNT,
+			BOARD_DATE,
+		    CEIL((SELECT COUNT(BOARD_NUM) FROM LEAGUE_BOARD)/10) as page
+		FROM
+		    LEAGUE_BOARD 
+    	ORDER BY BOARD_NUM DESC
+
+     </select>
+     
+     <select id="searchBoardList" parameterType="map" resultType="java.util.LinkedHashMap">
+	 	
+            SELECT
+                *
+		    FROM
+		        LEAGUE_BOARD
+		    WHERE 1=1
+		    	<if test="opt == 0">
+		    		AND BOARD_ID LIKE '%' || #{condition} || '%'
+		    	</if>
+		    	<if test="opt == 1">
+		    		AND BOARD_SUBJECT LIKE '%' || #{condition} || '%'
+		    	</if>
+
+     </select>
+     
+     <select id="boardAdd" parameterType="map" resultType="String">
+	 	
+		INSERT INTO LEAGUE_BOARD(BOARD_NUM, BOARD_ID, BOARD_SUBJECT, BOARD_CONTENT, BOARD_FILE, BOARD_COUNT, BOARD_DATE) VALUES ((SELECT MAX(BOARD_NUM) FROM LEAGUE_BOARD)+1, #{board_id}, #{board_subject}, #{board_content}, #{board_fill_name}, #{board_count}, sysdate)
+
+     </select>
+     
+     <delete id="boardDelete" parameterType="map">
+	 	
+		DELETE FROM LEAGUE_BOARD WHERE BOARD_NUM = #{board_id}
+		
+     </delete>
+     
+     <select id="searchBoard" parameterType="map" resultType="map">
+	 	
+		SELECT * FROM LEAGUE_BOARD WHERE BOARD_NUM = #{board_id}
+
+     </select>
+     
+     <update id="searchBoardUpdate" parameterType="map">
+	 	
+		UPDATE 
+		    LEAGUE_BOARD 
+		SET 
+		    BOARD_ID = #{board_id},
+		    BOARD_SUBJECT = #{board_subject},
+		    BOARD_CONTENT = #{board_content}
+		WHERE
+		    BOARD_NUM = #{board_num}
+		
+     </update>
+     
+     <update id="count" parameterType="map">
+	 	
+		UPDATE 
+		    LEAGUE_BOARD 
+		SET 
+		    BOARD_COUNT = (SELECT BOARD_COUNT FROM LEAGUE_BOARD WHERE BOARD_NUM = #{board_id})+1
+		WHERE
+		    BOARD_NUM = #{board_id}
+		
+     </update>
+</mapper>
