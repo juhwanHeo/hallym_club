@@ -34,3 +34,4 @@
  * [2020-05-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.05.11.md ) 
  * [2020-06-01]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.06.01.md )
  * [2020-06-05]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.06.05.md )
+ * [2020-06-12(리그)]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.06.12.md )
