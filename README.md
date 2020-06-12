@@ -24,6 +24,8 @@
 ## 사용한 오픈 소스
  * [CKEditor 4]( https://github.com/ckeditor/ )
    - [GPL-2, LGPL-2.1, MPL-1.1, Commercial License](https://github.com/ckeditor/ckeditor4)
+ * ~[CKEditor 5]( https://github.com/ckeditor/ )~
+   - ~[GPL-2, Commercial License](https://github.com/ckeditor/ckeditor5)~
 ## 패치 노트
  * [2020-03-11]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.03.11.md )  
  * [2020-03-18]( https://github.com/juhwanHeo/hallym_club/blob/master/00%20%EA%B4%80%EB%A6%AC/changeLog/2020.03.18.md )  
